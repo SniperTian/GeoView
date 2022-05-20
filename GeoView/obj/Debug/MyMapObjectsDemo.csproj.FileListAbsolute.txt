@@ -1,0 +1,14 @@
+E:\Code\C#Code\MyMapObjectsDemo\bin\Debug\MyMapObjectsDemo.exe.config
+E:\Code\C#Code\MyMapObjectsDemo\bin\Debug\MyMapObjectsDemo.exe
+E:\Code\C#Code\MyMapObjectsDemo\bin\Debug\MyMapObjectsDemo.pdb
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.csproj.AssemblyReference.cache
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.csproj.SuggestedBindingRedirects.cache
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.csproj.GenerateResource.cache
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.csproj.CoreCompileInputs.cache
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.exe
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.pdb
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.frmMain.resources
+E:\Code\C#Code\MyMapObjectsDemo\bin\Debug\MyMapObjects.dll
+E:\Code\C#Code\MyMapObjectsDemo\bin\Debug\MyMapObjects.pdb
+E:\Code\C#Code\MyMapObjectsDemo\obj\Debug\MyMapObjectsDemo.csproj.CopyComplete

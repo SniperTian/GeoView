@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoView", "GeoView.csproj", "{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMapObjects", "MyMapObjects\MyMapObjects.csproj", "{5951B784-FB07-482D-A3FF-EC59E1BFB316}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5951B784-FB07-482D-A3FF-EC59E1BFB316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5951B784-FB07-482D-A3FF-EC59E1BFB316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5951B784-FB07-482D-A3FF-EC59E1BFB316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5951B784-FB07-482D-A3FF-EC59E1BFB316}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D1384E6-D717-4597-9193-D73C58B39416}
+	EndGlobalSection
+EndGlobal

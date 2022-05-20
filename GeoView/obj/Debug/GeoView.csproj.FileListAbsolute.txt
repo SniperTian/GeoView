@@ -1,0 +1,17 @@
+E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.AssemblyReference.cache
+E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.SuggestedBindingRedirects.cache
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.AttributeTable.resources
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.Main.resources
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.Renderer.resources
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.Research.resources
+E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.GenerateResource.cache
+E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.exe
+E:\Code\C#Code\Test\obj\Debug\MyMapObjectsDemo.pdb
+E:\Code\C#Code\Test\bin\Debug\MyMapObjectsDemo.exe.config
+E:\Code\C#Code\Test\bin\Debug\MyMapObjectsDemo.exe
+E:\Code\C#Code\Test\bin\Debug\MyMapObjectsDemo.pdb
+E:\Code\C#Code\Test\bin\Debug\MyMapObjects.dll
+E:\Code\C#Code\Test\bin\Debug\MyMapObjects.pdb
+E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.CopyComplete
