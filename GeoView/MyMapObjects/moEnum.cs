@@ -51,7 +51,8 @@ namespace MyMapObjects
     {
         Point = 0,
         MultiPolyline = 1,
-        MultiPolygon = 2
+        MultiPolygon = 2,
+        MultiPoint = 3
     }
 
     /// <summary>

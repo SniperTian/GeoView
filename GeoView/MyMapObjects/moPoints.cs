@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyMapObjects
 {
-    public class moPoints
+    public class moPoints:moGeometry
     {
         #region 字段
 

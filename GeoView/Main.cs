@@ -44,6 +44,10 @@ namespace MyMapObjectsDemo
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
         private List<MyMapObjects.moPoints> mSketchingShape;    //正在描绘的图形，用一个多点集合存储；
 
+        //(3)与文件操作相关的变量
+        private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
+        private List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
+
         #endregion
         public Main()
         {
@@ -117,10 +121,38 @@ namespace MyMapObjectsDemo
 
             try
             {
-                FileStream sStream = new FileStream(sFileName, FileMode.Open);
-                BinaryReader sr = new BinaryReader(sStream);
-                MyMapObjects.moMapLayer sLayer = DataIOTools.LoadMapLayer(sr);
-                moMap.Layers.Add(sLayer);
+                //下面以读取shp为例展示文件读取的过程
+                string shpFilePath = sFileName;
+                string dbfFilePath = shpFilePath.Substring(0, shpFilePath.IndexOf(".shp")) + ".dbf";
+                //(1)读取shp文件，并以gvshp文件进行管理
+                DataIOTools.shpFileReader sShpFileReader = new DataIOTools.shpFileReader(shpFilePath);
+                MyMapObjects.moGeometryTypeConstant sGeometryType = sShpFileReader.ShapeType;
+                List<MyMapObjects.moGeometry> sGeometries = sShpFileReader.Geometries;
+                DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
+                sGvShpFileManager.UpdateGeometries(sGeometries);
+                mGvShapeFiles.Add(sGvShpFileManager);   //添加至要素文件管理列表
+                //(2)读取dbf文件
+                DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager(dbfFilePath);
+                MyMapObjects.moFields sFields = sDbfFileManager.Fields;
+                List<MyMapObjects.moAttributes> sAttributes = sDbfFileManager.AttributesList;
+                mDbfFiles.Add(sDbfFileManager); //添加至属性文件管理列表
+                //(3)判断要素数与属性数是否一致
+                if (sGeometries.Count != sAttributes.Count)
+                {
+                    string errorMsg = "要素数与属性数不一致!";
+                    throw new Exception(errorMsg);
+                }
+                //(4)添加至图层并加载
+                MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer("", sGeometryType, sFields);
+                //加载要素
+                MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+                for(Int32 i = 0; i < sGeometries.Count; ++i)
+                {
+                    MyMapObjects.moFeature sFeature = new MyMapObjects.moFeature(sGeometryType, sGeometries[i], sAttributes[i]);
+                    sFeatures.Add(sFeature);
+                }
+                sMapLayer.Features = sFeatures;
+                moMap.Layers.Add(sMapLayer);
                 if (moMap.Layers.Count == 1)
                 {
                     moMap.FullExtent();
@@ -129,8 +161,6 @@ namespace MyMapObjectsDemo
                 {
                     moMap.RedrawMap();
                 }
-                sr.Dispose();
-                sStream.Dispose();
             }
             catch (Exception error)
             {
