@@ -233,5 +233,14 @@ namespace MyMapObjectsDemo
         }
 
         #endregion
+
+        private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AttributeTable datafram_windows = new AttributeTable();
+            datafram_windows.layer_show = moMap.Layers.GetItem(0);
+            datafram_windows.Load_frame();
+            datafram_windows.Show();
+
+        }
     }
 }

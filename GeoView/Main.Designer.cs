@@ -78,6 +78,7 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.打开属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -160,7 +161,8 @@
             this.编辑ToolStripMenuItem,
             this.视图ToolStripMenuItem,
             this.选择ToolStripMenuItem,
-            this.帮助ToolStripMenuItem});
+            this.帮助ToolStripMenuItem,
+            this.打开属性表ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1034, 25);
@@ -494,6 +496,13 @@
             this.treeView1.Size = new System.Drawing.Size(290, 593);
             this.treeView1.TabIndex = 5;
             // 
+            // 打开属性表ToolStripMenuItem
+            // 
+            this.打开属性表ToolStripMenuItem.Name = "打开属性表ToolStripMenuItem";
+            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(80, 21);
+            this.打开属性表ToolStripMenuItem.Text = "打开属性表";
+            this.打开属性表ToolStripMenuItem.Click += new System.EventHandler(this.打开属性表ToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -571,5 +580,6 @@
         private System.Windows.Forms.ToolStripMenuItem 保存编辑内容ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripMenuItem 打开属性表ToolStripMenuItem;
     }
 }

@@ -46,3 +46,19 @@ F:\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
 F:\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
 F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.exe
 F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.exe.config
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjects.dll
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjects.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.AttributeTable.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Main.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Renderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Research.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.pdb
