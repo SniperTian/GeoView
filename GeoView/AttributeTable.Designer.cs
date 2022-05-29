@@ -38,9 +38,9 @@
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tssMapScale = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tssStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
@@ -134,20 +134,20 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.tssStatus,
+            this.tssMapScale});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel2
+            // tssMapScale
             // 
-            this.toolStripStatusLabel2.AutoSize = false;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(90, 17);
-            this.toolStripStatusLabel2.Text = "0/0已选择";
+            this.tssMapScale.AutoSize = false;
+            this.tssMapScale.Name = "tssMapScale";
+            this.tssMapScale.Size = new System.Drawing.Size(90, 17);
+            this.tssMapScale.Text = "0/0已选择";
             // 
             // dataGridView1
             // 
@@ -160,11 +160,11 @@
             this.dataGridView1.Size = new System.Drawing.Size(800, 403);
             this.dataGridView1.TabIndex = 2;
             // 
-            // toolStripStatusLabel1
+            // tssStatus
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(40, 17);
-            this.toolStripStatusLabel1.Text = "name";
+            this.tssStatus.Name = "tssStatus";
+            this.tssStatus.Size = new System.Drawing.Size(40, 17);
+            this.tssStatus.Text = "name";
             // 
             // toolStripSeparator1
             // 
@@ -220,11 +220,11 @@
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel tssMapScale;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel tssStatus;
         private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

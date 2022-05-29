@@ -16,3 +16,12 @@ E:\Code\C#Code\Test\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.
 E:\Code\C#Code\Test\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
 E:\Code\C#Code\Test\MyMapObjects\obj\Debug\MyMapObjects.dll
 E:\Code\C#Code\Test\MyMapObjects\obj\Debug\MyMapObjects.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.dll
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.AssemblyReference.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.moMapControl.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.Properties.Resources.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
