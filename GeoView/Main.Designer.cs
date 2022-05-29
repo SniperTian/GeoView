@@ -1,4 +1,4 @@
-﻿namespace MyMapObjectsDemo
+﻿namespace GeoView
 {
     partial class Main
     {

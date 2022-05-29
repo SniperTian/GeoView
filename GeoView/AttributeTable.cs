@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyMapObjectsDemo
+namespace GeoView
 {
     public partial class AttributeTable : Form
     {

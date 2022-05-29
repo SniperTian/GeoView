@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     //要求1：moEnum-moGeometryTypeConstant新增MultiPoint = 3
     //要求2：moPoints:moGeometry

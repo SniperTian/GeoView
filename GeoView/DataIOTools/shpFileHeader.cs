@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     public class shpFileHeader
     {

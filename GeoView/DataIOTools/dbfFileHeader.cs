@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     //备注：注意检查记录数与要素数是否相等
     public class dbfFileHeader

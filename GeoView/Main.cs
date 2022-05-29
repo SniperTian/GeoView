@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace MyMapObjectsDemo
+namespace GeoView
 {
     public partial class Main : Form
     {
