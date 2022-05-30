@@ -173,28 +173,7 @@ namespace GeoView
             }
             else
             {
-                try
-                {
-                    FileStream sStream = new FileStream(sFileName, FileMode.Open);
-                    BinaryReader sr = new BinaryReader(sStream);
-                    MyMapObjects.moMapLayer sLayer = DataIOTools.IOTools.LoadMapLayer(sr);
-                    moMap.Layers.Add(sLayer);
-                    if (moMap.Layers.Count == 1)
-                    {
-                        moMap.FullExtent();
-                    }
-                    else
-                    {
-                        moMap.RedrawMap();
-                    }
-                    sr.Dispose();
-                    sStream.Dispose();
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show(error.ToString());
-                    return;
-                }
+                
             }
         }
 
