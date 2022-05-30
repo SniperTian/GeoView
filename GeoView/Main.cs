@@ -107,7 +107,7 @@ namespace GeoView
         private void 打开地图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog sDialog = new OpenFileDialog();
-            sDialog.Filter = "图层文件|*.shp;*.gvshp;*.lay";
+            sDialog.Filter = "图层文件|*.shp;*.gvshp";
             string sFileName = "";
             if (sDialog.ShowDialog(this) == DialogResult.OK)
             {
