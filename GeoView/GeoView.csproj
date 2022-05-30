@@ -58,6 +58,7 @@
     <Compile Include="DataIOTools\fileEnum.cs" />
     <Compile Include="DataIOTools\gvProjFileManager.cs" />
     <Compile Include="DataIOTools\gvShpFileManager.cs" />
+    <Compile Include="DataIOTools\IOTools.cs" />
     <Compile Include="DataIOTools\shpFileHeader.cs" />
     <Compile Include="DataIOTools\shpFileReader.cs" />
     <Compile Include="DataIOTools\shxFile.cs" />
