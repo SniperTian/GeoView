@@ -134,18 +134,18 @@ namespace GeoView
                     List<MyMapObjects.moGeometry> sGeometries = sShpFileReader.Geometries;
                     DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
                     sGvShpFileManager.UpdateGeometries(sGeometries);
-                    mGvShapeFiles.Add(sGvShpFileManager);   //添加至要素文件管理列表
-                                                            //(2)读取dbf文件
+                    //(2)读取dbf文件
                     DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager(dbfFilePath);
                     MyMapObjects.moFields sFields = sDbfFileManager.Fields;
                     List<MyMapObjects.moAttributes> sAttributes = sDbfFileManager.AttributesList;
-                    mDbfFiles.Add(sDbfFileManager); //添加至属性文件管理列表
-                                                    //(3)判断要素数与属性数是否一致
+                    //(3)判断要素数与属性数是否一致
                     if (sGeometries.Count != sAttributes.Count)
                     {
                         string errorMsg = "要素数与属性数不一致!";
                         throw new Exception(errorMsg);
                     }
+                    mGvShapeFiles.Add(sGvShpFileManager);   //添加至要素文件管理列表
+                    mDbfFiles.Add(sDbfFileManager); //添加至属性文件管理列表
                     //(4)添加至图层并加载
                     string shpName = Path.GetFileNameWithoutExtension(shpFilePath);
                     MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(shpName, sGeometryType, sFields);
