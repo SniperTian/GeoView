@@ -77,7 +77,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.layersTree = new System.Windows.Forms.TreeView();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -486,20 +486,20 @@
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
-            // treeView1
+            // layersTree
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.treeView1.Location = new System.Drawing.Point(0, 50);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(290, 593);
-            this.treeView1.TabIndex = 5;
+            this.layersTree.Dock = System.Windows.Forms.DockStyle.Left;
+            this.layersTree.Location = new System.Drawing.Point(0, 50);
+            this.layersTree.Name = "layersTree";
+            this.layersTree.Size = new System.Drawing.Size(290, 593);
+            this.layersTree.TabIndex = 5;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 665);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.layersTree);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.moMap);
             this.Controls.Add(this.toolStrip1);
@@ -564,7 +564,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView layersTree;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 停止编辑ToolStripMenuItem;

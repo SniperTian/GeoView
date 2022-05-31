@@ -52,6 +52,7 @@ namespace GeoView
         public Main()
         {
             InitializeComponent();
+            layersTree.CheckBoxes = true;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -146,7 +147,8 @@ namespace GeoView
                         throw new Exception(errorMsg);
                     }
                     //(4)添加至图层并加载
-                    MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer("", sGeometryType, sFields);
+                    string shpName = Path.GetFileNameWithoutExtension(shpFilePath);
+                    MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(shpName, sGeometryType, sFields);
                     //加载要素
                     MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
                     for (Int32 i = 0; i < sGeometries.Count; ++i)
@@ -155,7 +157,9 @@ namespace GeoView
                         sFeatures.Add(sFeature);
                     }
                     sMapLayer.Features = sFeatures;
+
                     moMap.Layers.Add(sMapLayer);
+                    refreshLayersTree();    //刷新图层列表
                     if (moMap.Layers.Count == 1)
                     {
                         moMap.FullExtent();
@@ -238,6 +242,20 @@ namespace GeoView
         private void ShowMapScale()
         {
             tssMapScale.Text = "1:" + moMap.MapScale.ToString("0.00");
+        }
+
+        //图层列表刷新
+        private void refreshLayersTree()
+        {
+            layersTree.Nodes.Clear();
+            for(Int32 i = 0; i < moMap.Layers.Count; i++)
+            {
+                TreeNode layerNode = new TreeNode();
+                layerNode.Text = moMap.Layers.GetItem(i).Name;
+                layerNode.Checked = moMap.Layers.GetItem(i).Visible;
+                layersTree.Nodes.Add(layerNode);
+            }
+            layersTree.Refresh();
         }
 
         #endregion
