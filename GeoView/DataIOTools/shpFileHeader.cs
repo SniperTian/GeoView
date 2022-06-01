@@ -59,31 +59,49 @@ namespace GeoView.DataIOTools
 
         #region 属性
 
+        /// <summary>
+        /// 获取文件码
+        /// </summary>
         public Int32 FileCode
         {
             get { return _FileCode; }
         }
 
+        /// <summary>
+        /// 获取shp约定的要素几何类型
+        /// </summary>
         public ShapeTypeConstant ShapeType
         {
             get { return _ShapeType; }
         }
 
+        /// <summary>
+        /// 获取最小外包矩形的MinX
+        /// </summary>
         public double MinX
         {
             get { return _MinX; }
         }
 
+        /// <summary>
+        /// 获取最小外包矩形的MaxX
+        /// </summary>
         public double MaxX
         {
             get { return _MaxX; }
         }
 
+        /// <summary>
+        /// 获取最小外包矩形的MinY
+        /// </summary>
         public double MinY
         {
             get { return _MinY; }
         }
 
+        /// <summary>
+        /// 获取最小外包矩形的MaxY
+        /// </summary>
         public double MaxY
         {
             get { return _MaxY; }

@@ -49,12 +49,18 @@ namespace GeoView.DataIOTools
 
         #region 属性
 
+        /// <summary>
+        /// 获取或设置字段名称
+        /// </summary>
         public string FieldName
         {
             set { _FieldName = value; }
             get { return _FieldName; }
         }
 
+        /// <summary>
+        /// 获取或设置dbf约定的字段类型
+        /// </summary>
         public byte FieldType
         {
             set { _FieldType = value; }
@@ -67,6 +73,9 @@ namespace GeoView.DataIOTools
             get { return _ReservedField1; }
         }
 
+        /// <summary>
+        /// 获取或设置字段长度
+        /// </summary>
         public byte FieldLength
         {
             set { _FieldLength = value; }

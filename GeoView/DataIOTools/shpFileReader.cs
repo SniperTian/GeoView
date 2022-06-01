@@ -61,19 +61,25 @@ namespace GeoView.DataIOTools
 
         #region 属性
 
-        //获取要素数目
+        /// <summary>
+        /// 获取要素数目
+        /// </summary>
         public Int32 Count
         {
             get { return _Geometries.Count; }
         }
 
-        //获取要素类型
+        /// <summary>
+        /// 获取要素类型
+        /// </summary>
         public MyMapObjects.moGeometryTypeConstant ShapeType
         {
             get { return _ShapeType; }
         }
 
-        //获取要素
+        /// <summary>
+        /// 获取要素
+        /// </summary>
         public List<MyMapObjects.moGeometry> Geometries
         {
             get { return _Geometries; }

@@ -69,28 +69,43 @@ namespace GeoView.DataIOTools
 
         #region 属性
 
+        /// <summary>
+        /// 获取文件类型
+        /// </summary>
         public byte FileType
         {
             get { return _FileType; }
         }
 
+        /// <summary>
+        /// 获取最后一次编辑日期
+        /// </summary>
         public byte[] LastModifyDate
         {
             get { return _LastModifyDate; }
         }
 
+        /// <summary>
+        /// 获取或设置记录数
+        /// </summary>
         public UInt32 RecordNum
         {
             set { _RecordNum = value; }
             get { return _RecordNum; }
         }
 
+        /// <summary>
+        /// 获取或设置文件头的字节长度
+        /// </summary>
         public UInt16 HeaderLength
         {
             set { _HeaderLength = value; }
             get { return _HeaderLength; }
         }
 
+        /// <summary>
+        /// 获取或设置一条记录中的字节长度
+        /// </summary>
         public UInt16 RecordLength
         {
             set { _RecordLength = value; }
@@ -132,6 +147,9 @@ namespace GeoView.DataIOTools
             get { return _Reserved2; }
         }
 
+        /// <summary>
+        /// 获取字段列表
+        /// </summary>
         public List<dbfField> dbfFields
         {
             get { return _dbfFields; }
