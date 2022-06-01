@@ -419,6 +419,26 @@ namespace MyMapObjects
             }
         }
 
+        /// <summary>
+        /// 根据指定选择盒与选择方法执行选择，限于指定图层
+        /// </summary>
+        /// <param name="selectingBox"></param>
+        /// <param name="tolerance"></param>
+        /// <param name="selectMethod"></param>
+        public void SelectLayerByBox(moRectangle selectingBox, double tolerance, Int32 index)
+        {
+            moMapLayer sLayer = _Layers.GetItem(index);
+            if (sLayer.Visible == true && sLayer.Selectable == true)
+            {
+                moFeatures sFeatures = sLayer.SearchByBox(selectingBox, tolerance);
+                sLayer.ExecuteSelect(sFeatures, 0);
+            }
+            else
+            {
+                sLayer.SelectedFeatures.Clear();
+            }
+        }
+
         #endregion
 
         #region 事件

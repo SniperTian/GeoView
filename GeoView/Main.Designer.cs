@@ -88,6 +88,7 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssStatus,
             this.tssMapScale,
@@ -141,6 +142,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.编辑ToolStripMenuItem,
@@ -317,6 +319,7 @@
             // 
             // toolsBar
             // 
+            this.toolsBar.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolsBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
@@ -336,7 +339,7 @@
             this.toolStripButton3});
             this.toolsBar.Location = new System.Drawing.Point(0, 25);
             this.toolsBar.Name = "toolsBar";
-            this.toolsBar.Size = new System.Drawing.Size(1034, 25);
+            this.toolsBar.Size = new System.Drawing.Size(1034, 31);
             this.toolsBar.TabIndex = 3;
             this.toolsBar.Text = "工具栏";
             // 
@@ -346,7 +349,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton1.Text = "toolStripButton1";
             // 
             // toolStripButton2
@@ -355,13 +358,13 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton2.Text = "toolStripButton2";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton6
             // 
@@ -369,7 +372,7 @@
             this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton6.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton6.Text = "toolStripButton6";
             // 
             // toolStripButton7
@@ -378,7 +381,7 @@
             this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton7.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton7.Text = "toolStripButton7";
             // 
             // toolStripButton8
@@ -387,13 +390,13 @@
             this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton8.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton8.Text = "toolStripButton8";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton4
             // 
@@ -401,7 +404,7 @@
             this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
             // toolStripButton5
@@ -410,13 +413,13 @@
             this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton5.Text = "toolStripButton5";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // EditSpBtn
             // 
@@ -428,7 +431,7 @@
             this.EditSpBtn.Image = ((System.Drawing.Image)(resources.GetObject("EditSpBtn.Image")));
             this.EditSpBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EditSpBtn.Name = "EditSpBtn";
-            this.EditSpBtn.Size = new System.Drawing.Size(60, 22);
+            this.EditSpBtn.Size = new System.Drawing.Size(60, 28);
             this.EditSpBtn.Text = "编辑器";
             this.EditSpBtn.Click += new System.EventHandler(this.EditSpBtn_Click);
             // 
@@ -463,7 +466,7 @@
             this.MoveFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("MoveFeatureBtn.Image")));
             this.MoveFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MoveFeatureBtn.Name = "MoveFeatureBtn";
-            this.MoveFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.MoveFeatureBtn.Size = new System.Drawing.Size(28, 28);
             this.MoveFeatureBtn.Text = "选中并移动要素";
             this.MoveFeatureBtn.Click += new System.EventHandler(this.MoveFeatureBtn_Click);
             // 
@@ -474,21 +477,23 @@
             this.CreateFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFeatureBtn.Image")));
             this.CreateFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CreateFeatureBtn.Name = "CreateFeatureBtn";
-            this.CreateFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.CreateFeatureBtn.Size = new System.Drawing.Size(28, 28);
             this.CreateFeatureBtn.Text = "创建要素";
             this.CreateFeatureBtn.Click += new System.EventHandler(this.CreateFeatureBtn_Click);
             // 
             // SelectLayer
             // 
             this.SelectLayer.Enabled = false;
+            this.SelectLayer.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.SelectLayer.Name = "SelectLayer";
-            this.SelectLayer.Size = new System.Drawing.Size(121, 25);
+            this.SelectLayer.Size = new System.Drawing.Size(121, 31);
             this.SelectLayer.Text = "请选择图层";
+            this.SelectLayer.SelectedIndexChanged += new System.EventHandler(this.SelectLayer_SelectedIndexChanged);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton3
             // 
@@ -496,15 +501,15 @@
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton3.Text = "toolStripButton3";
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(296, 50);
+            this.splitter1.Location = new System.Drawing.Point(296, 56);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(8, 593);
+            this.splitter1.Size = new System.Drawing.Size(8, 587);
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
@@ -512,9 +517,9 @@
             // 
             this.layersTree.CheckBoxes = true;
             this.layersTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.layersTree.Location = new System.Drawing.Point(0, 50);
+            this.layersTree.Location = new System.Drawing.Point(0, 56);
             this.layersTree.Name = "layersTree";
-            this.layersTree.Size = new System.Drawing.Size(290, 593);
+            this.layersTree.Size = new System.Drawing.Size(290, 587);
             this.layersTree.TabIndex = 5;
             // 
             // moMap
@@ -523,10 +528,10 @@
             this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.moMap.Dock = System.Windows.Forms.DockStyle.Right;
             this.moMap.FlashColor = System.Drawing.Color.Green;
-            this.moMap.Location = new System.Drawing.Point(304, 50);
+            this.moMap.Location = new System.Drawing.Point(304, 56);
             this.moMap.Name = "moMap";
             this.moMap.SelectionColor = System.Drawing.Color.Cyan;
-            this.moMap.Size = new System.Drawing.Size(730, 593);
+            this.moMap.Size = new System.Drawing.Size(730, 587);
             this.moMap.TabIndex = 0;
             this.moMap.Click += new System.EventHandler(this.moMap_Click);
             this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
