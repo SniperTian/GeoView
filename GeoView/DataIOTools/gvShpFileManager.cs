@@ -18,6 +18,8 @@ namespace GeoView.DataIOTools
         private MyMapObjects.moGeometryTypeConstant _GeometryType;  //几何类型常数
         private Int32 _FeatureCount;    //要素数目
         private List<MyMapObjects.moGeometry> _Geometries = new List<MyMapObjects.moGeometry>();    //要素列表
+        private string _SourceFileType; //数据源文件类型：shp/gvshp
+        private string _DefaultFilePath;    //默认文件路径
 
         #endregion
 
@@ -44,6 +46,49 @@ namespace GeoView.DataIOTools
         #endregion
 
         #region 属性
+
+        /// <summary>
+        /// 获取要素几何类型常数
+        /// </summary>
+        public MyMapObjects.moGeometryTypeConstant GeometryType
+        {
+            get { return _GeometryType; }
+        }
+
+        /// <summary>
+        /// 获取要素数目要素数目
+        /// </summary>
+        public Int32 Count
+        {
+            get { return _FeatureCount; }
+        }
+
+        /// <summary>
+        /// 获取要素列表
+        /// </summary>
+        public List<MyMapObjects.moGeometry> Geometries
+        {
+            get { return _Geometries; }
+        }
+
+        /// <summary>
+        /// 获取或设置数据源文件类型
+        /// </summary>
+        public string SourceFileType
+        {
+            set { _SourceFileType = value; }
+            get { return _SourceFileType; }
+        }
+
+        /// <summary>
+        /// 获取或设置默认存储路径
+        /// </summary>
+        public string DefaultFilePath
+        {
+            set { _DefaultFilePath = value; }
+            get { return _DefaultFilePath; }
+        }
+
         #endregion
 
         #region 方法
@@ -57,7 +102,7 @@ namespace GeoView.DataIOTools
             _FeatureCount = Geometries.Count;
             _Geometries = Geometries;
         }
-        
+
         /// <summary>
         /// 在制定路径创建要素信息文件
         /// </summary>
@@ -114,7 +159,7 @@ namespace GeoView.DataIOTools
         //读取Point数据
         private void ReadPoint(BinaryReader sr)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 Int32 sPartCount = sr.ReadInt32(); //对于Point而言,部件数为默认为1
                 Int32 sPointCount = sr.ReadInt32(); //对于Point而言,每一部件的点数默认为1
@@ -128,15 +173,15 @@ namespace GeoView.DataIOTools
         //读取MultiPolyline数据
         private void ReadMultiPolyline(BinaryReader sr)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 Int32 sPartCount = sr.ReadInt32();
                 MyMapObjects.moMultiPolyline sMultiPolyline = new MyMapObjects.moMultiPolyline();
-                for(Int32 j = 0; j < sPartCount; ++j)
+                for (Int32 j = 0; j < sPartCount; ++j)
                 {
                     Int32 sPointCount = sr.ReadInt32();
                     MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
-                    for(Int32 k = 0; k < sPointCount; ++k)
+                    for (Int32 k = 0; k < sPointCount; ++k)
                     {
                         double sX = sr.ReadDouble();
                         double sY = sr.ReadDouble();
@@ -153,15 +198,15 @@ namespace GeoView.DataIOTools
         //读取MultiPolygon数据
         private void ReadMultiPolygon(BinaryReader sr)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 Int32 sPartCount = sr.ReadInt32();
                 MyMapObjects.moMultiPolygon sMultiPolygon = new MyMapObjects.moMultiPolygon();
-                for(Int32 j = 0; j < sPartCount; ++j)
+                for (Int32 j = 0; j < sPartCount; ++j)
                 {
                     Int32 sPointCount = sr.ReadInt32();
                     MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
-                    for(Int32 k = 0; k < sPointCount; ++k)
+                    for (Int32 k = 0; k < sPointCount; ++k)
                     {
                         double sX = sr.ReadDouble();
                         double sY = sr.ReadDouble();
@@ -178,12 +223,12 @@ namespace GeoView.DataIOTools
         //读取MultiPoint数据
         private void ReadMultiPoint(BinaryReader sr)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 Int32 sPartCount = sr.ReadInt32();  //对于MultiPoint而言，部件数默认为1
                 Int32 sPointCount = sr.ReadInt32();
                 MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
-                for(Int32 k = 0; k < sPointCount; ++k)
+                for (Int32 k = 0; k < sPointCount; ++k)
                 {
                     double sX = sr.ReadDouble();
                     double sY = sr.ReadDouble();
@@ -228,7 +273,7 @@ namespace GeoView.DataIOTools
         //记录Point数据
         private void RecordPoint(BinaryWriter sw)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 sw.Write(1);
                 sw.Write(1);
@@ -241,7 +286,7 @@ namespace GeoView.DataIOTools
         //记录MultiPolyline数据
         private void RecordMultiPolyline(BinaryWriter sw)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)_Geometries[i];
                 sw.Write(sMultiPolyline.Parts.Count);
@@ -249,7 +294,7 @@ namespace GeoView.DataIOTools
                 {
                     MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(j);
                     sw.Write(sPoints.Count);
-                    for(int k = 0; k < sPoints.Count; ++k)
+                    for (int k = 0; k < sPoints.Count; ++k)
                     {
                         sw.Write(sPoints.GetItem(k).X);
                         sw.Write(sPoints.GetItem(k).Y);
@@ -261,15 +306,15 @@ namespace GeoView.DataIOTools
         //记录MultiPolygon数据
         private void RecordMultiPolygon(BinaryWriter sw)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)_Geometries[i];
                 sw.Write(sMultiPolygon.Parts.Count);
-                for(int j = 0; j < sMultiPolygon.Parts.Count; ++j)
+                for (int j = 0; j < sMultiPolygon.Parts.Count; ++j)
                 {
                     MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(j);
                     sw.Write(sPoints.Count);
-                    for(int k = 0; k < sPoints.Count; ++k)
+                    for (int k = 0; k < sPoints.Count; ++k)
                     {
                         sw.Write(sPoints.GetItem(k).X);
                         sw.Write(sPoints.GetItem(k).Y);
@@ -281,12 +326,12 @@ namespace GeoView.DataIOTools
         //记录MultiPoint数据
         private void RecordMultiPoint(BinaryWriter sw)
         {
-            for(Int32 i = 0; i < _FeatureCount; ++i)
+            for (Int32 i = 0; i < _FeatureCount; ++i)
             {
                 MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)_Geometries[i];
                 sw.Write(1);
                 sw.Write(sPoints.Count);
-                for(Int32 j = 0; j < sPoints.Count; ++j)
+                for (Int32 j = 0; j < sPoints.Count; ++j)
                 {
                     sw.Write(sPoints.GetItem(j).X);
                     sw.Write(sPoints.GetItem(j).Y);

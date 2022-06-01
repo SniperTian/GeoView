@@ -10,7 +10,7 @@ namespace GeoView.DataIOTools
     {
         #region 字段
 
-        private string _FilePath;   //文件路径
+        private string _DefaultFilePath;   //文件路径
         private dbfFileHeader _dbfFileHeader;
         private MyMapObjects.moFields _Fields = new MyMapObjects.moFields();  //字段集合通过头文件读取，因此应当同时维护头文件和_Fields
         private List<MyMapObjects.moAttributes> _AttributesList = new List<MyMapObjects.moAttributes>();
@@ -20,7 +20,7 @@ namespace GeoView.DataIOTools
 
         public dbfFileManager(string filePath)
         {
-            _FilePath = filePath;
+            _DefaultFilePath = filePath;
             FileStream sStream = new FileStream(filePath, FileMode.Open);
             BinaryReader sr = new BinaryReader(sStream);
             _dbfFileHeader = new dbfFileHeader(sr); //读取文件头
@@ -58,7 +58,7 @@ namespace GeoView.DataIOTools
         {
 
         }
-        
+
         //更新记录(文件头也要作出修改)
         public void UpdateAttributesList(List<MyMapObjects.moAttributes> newAttributesList)
         {
@@ -79,7 +79,7 @@ namespace GeoView.DataIOTools
         //保存至dbf文件，路径为原文件的路径(覆盖原文件内容)
         public void SaveToFile()
         {
-            
+
         }
         #endregion
 
@@ -88,7 +88,7 @@ namespace GeoView.DataIOTools
         //根据头文件读取字段
         private void CreateFieldsFromHeader()
         {
-            for(Int32 i = 0; i < _dbfFileHeader.dbfFields.Count; ++i)
+            for (Int32 i = 0; i < _dbfFileHeader.dbfFields.Count; ++i)
             {
                 string sName = _dbfFileHeader.dbfFields[i].FieldName;
                 char sdbfFieldType = (char)_dbfFileHeader.dbfFields[i].FieldType;
@@ -118,7 +118,7 @@ namespace GeoView.DataIOTools
         {
             sr.BaseStream.Seek(_dbfFileHeader.HeaderLength, SeekOrigin.Begin);
             UInt16 sRecordLength = _dbfFileHeader.RecordLength;
-            for(Int32 i = 0; i < _dbfFileHeader.RecordNum; ++i)
+            for (Int32 i = 0; i < _dbfFileHeader.RecordNum; ++i)
             {
                 byte[] sRecordContent = sr.ReadBytes(sRecordLength);
                 MyMapObjects.moAttributes sAttributes = new MyMapObjects.moAttributes();
@@ -196,7 +196,7 @@ namespace GeoView.DataIOTools
             {
                 sw.Write((byte)0x20);   //每一行第一个字节默认为0x20
                 object[] sAttributes = _AttributesList[i].ToArray();
-                for(Int32 j = 0; j < sAttributes.Length; ++j)
+                for (Int32 j = 0; j < sAttributes.Length; ++j)
                 {
                     object sTempValue = sAttributes[j];
                     if (sTempValue != null)

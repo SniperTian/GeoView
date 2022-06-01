@@ -33,3 +33,4 @@ F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.c
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
+F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csprojAssemblyReference.cache

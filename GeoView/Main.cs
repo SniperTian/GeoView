@@ -152,7 +152,7 @@ namespace GeoView
             {
                 try
                 {
-                    //下面以读取shp为例展示文件读取的过程
+                    //读取shp文件
                     string shpFilePath = sFileName;
                     string dbfFilePath = shpFilePath.Substring(0, shpFilePath.IndexOf(".shp")) + ".dbf";
                     //(1)读取shp文件，并以gvshp文件进行管理
@@ -160,6 +160,7 @@ namespace GeoView
                     MyMapObjects.moGeometryTypeConstant sGeometryType = sShpFileReader.ShapeType;
                     List<MyMapObjects.moGeometry> sGeometries = sShpFileReader.Geometries;
                     DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
+                    sGvShpFileManager.SourceFileType = "shp";   //设置文件源
                     sGvShpFileManager.UpdateGeometries(sGeometries);
                     //(2)读取dbf文件
                     DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager(dbfFilePath);
@@ -204,7 +205,57 @@ namespace GeoView
             }
             else
             {
-                
+                try
+                {
+                    //读取gvshp文件
+                    string gvshpFilePath = sFileName;
+                    string dbfFilePath = gvshpFilePath.Substring(0, gvshpFilePath.IndexOf(".gvshp")) + ".dbf";
+                    //(1)读取gvshp文件
+                    DataIOTools.gvShpFileManager sGvshpFileManager = new DataIOTools.gvShpFileManager(gvshpFilePath);
+                    sGvshpFileManager.SourceFileType = "gvshp";
+                    sGvshpFileManager.DefaultFilePath = gvshpFilePath;
+                    List<MyMapObjects.moGeometry> sGeometries = sGvshpFileManager.Geometries;
+                    MyMapObjects.moGeometryTypeConstant sGeometryType = sGvshpFileManager.GeometryType;
+                    //(2)读取dbf文件
+                    DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager(dbfFilePath);
+                    MyMapObjects.moFields sFields = sDbfFileManager.Fields;
+                    List<MyMapObjects.moAttributes> sAttributes = sDbfFileManager.AttributesList;
+                    //(3)判断要素数与属性数是否一致
+                    if (sGeometries.Count != sAttributes.Count)
+                    {
+                        string errorMsg = "要素数与属性数不一致!";
+                        throw new Exception(errorMsg);
+                    }
+                    mGvShapeFiles.Add(sGvshpFileManager);   //添加至要素文件管理列表
+                    mDbfFiles.Add(sDbfFileManager); //添加至属性文件管理列表
+                    //(4)添加至图层并加载
+                    string gvshpName = Path.GetFileNameWithoutExtension(gvshpFilePath);
+                    MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(gvshpName, sGeometryType, sFields);
+                    //加载要素
+                    MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+                    for (Int32 i = 0; i < sGeometries.Count; ++i)
+                    {
+                        MyMapObjects.moFeature sFeature = new MyMapObjects.moFeature(sGeometryType, sGeometries[i], sAttributes[i]);
+                        sFeatures.Add(sFeature);
+                    }
+                    sMapLayer.Features = sFeatures;
+
+                    moMap.Layers.Add(sMapLayer);
+                    RefreshLayersTree();    //刷新图层列表
+                    if (moMap.Layers.Count == 1)
+                    {
+                        moMap.FullExtent();
+                    }
+                    else
+                    {
+                        moMap.RedrawMap();
+                    }
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.ToString());
+                    return;
+                }
             }
         }
 
