@@ -78,7 +78,6 @@
             this.SelectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.layersTree = new System.Windows.Forms.TreeView();
             this.moMap = new MyMapObjects.moMapControl();
             this.statusStrip1.SuspendLayout();
@@ -436,7 +435,7 @@
             // 
             this.BeginEditItem.Enabled = false;
             this.BeginEditItem.Name = "BeginEditItem";
-            this.BeginEditItem.Size = new System.Drawing.Size(180, 22);
+            this.BeginEditItem.Size = new System.Drawing.Size(148, 22);
             this.BeginEditItem.Text = "开始编辑";
             this.BeginEditItem.Click += new System.EventHandler(this.BeginEditItem_Click);
             // 
@@ -444,7 +443,7 @@
             // 
             this.EndEditItem.Enabled = false;
             this.EndEditItem.Name = "EndEditItem";
-            this.EndEditItem.Size = new System.Drawing.Size(180, 22);
+            this.EndEditItem.Size = new System.Drawing.Size(148, 22);
             this.EndEditItem.Text = "停止编辑";
             this.EndEditItem.Click += new System.EventHandler(this.EndEditItem_Click);
             // 
@@ -452,7 +451,7 @@
             // 
             this.SaveEditItem.Enabled = false;
             this.SaveEditItem.Name = "SaveEditItem";
-            this.SaveEditItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveEditItem.Size = new System.Drawing.Size(148, 22);
             this.SaveEditItem.Text = "保存编辑内容";
             this.SaveEditItem.Click += new System.EventHandler(this.SaveEditItem_Click);
             // 
@@ -499,35 +498,30 @@
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton3.Text = "toolStripButton3";
             // 
-            // splitter1
-            // 
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(296, 50);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(8, 593);
-            this.splitter1.TabIndex = 4;
-            this.splitter1.TabStop = false;
-            // 
             // layersTree
             // 
+            this.layersTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.layersTree.CheckBoxes = true;
-            this.layersTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.layersTree.Location = new System.Drawing.Point(0, 50);
+            this.layersTree.Location = new System.Drawing.Point(9, 50);
             this.layersTree.Name = "layersTree";
             this.layersTree.Size = new System.Drawing.Size(290, 593);
             this.layersTree.TabIndex = 5;
             // 
             // moMap
             // 
-            this.moMap.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.moMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.moMap.BackColor = System.Drawing.Color.White;
             this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.moMap.Dock = System.Windows.Forms.DockStyle.Right;
             this.moMap.FlashColor = System.Drawing.Color.Green;
             this.moMap.Location = new System.Drawing.Point(304, 50);
             this.moMap.Name = "moMap";
             this.moMap.SelectionColor = System.Drawing.Color.Cyan;
             this.moMap.Size = new System.Drawing.Size(730, 593);
-            this.moMap.TabIndex = 0;
+            this.moMap.TabIndex = 1;
+            this.moMap.Load += new System.EventHandler(this.moMap_Load);
             this.moMap.Click += new System.EventHandler(this.moMap_Click);
             this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
             this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
@@ -536,11 +530,9 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1034, 665);
             this.Controls.Add(this.layersTree);
-            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.moMap);
             this.Controls.Add(this.toolsBar);
             this.Controls.Add(this.statusStrip1);
@@ -603,7 +595,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TreeView layersTree;
         private System.Windows.Forms.ToolStripSplitButton EditSpBtn;
         private System.Windows.Forms.ToolStripMenuItem BeginEditItem;

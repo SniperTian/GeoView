@@ -338,5 +338,10 @@ namespace GeoView
 
 
         #endregion
+
+        private void moMap_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

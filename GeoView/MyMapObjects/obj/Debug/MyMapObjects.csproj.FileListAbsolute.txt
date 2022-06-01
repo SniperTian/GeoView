@@ -34,3 +34,12 @@ F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csprojAssemblyReference.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.AssemblyReference.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.moMapControl.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.Properties.Resources.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
