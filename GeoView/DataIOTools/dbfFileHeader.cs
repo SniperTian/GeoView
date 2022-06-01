@@ -45,7 +45,7 @@ namespace GeoView.DataIOTools
                 _TableFlags = sr.ReadByte();
                 _LanguageDriver = sr.ReadByte();
                 _Reserved2 = sr.ReadUInt16();
-                while(sr.PeekChar() != 0x0D)
+                while (sr.PeekChar() != 0x0D)
                 {
                     dbfField sdbfField = new dbfField();
                     sdbfField.FieldName = Encoding.UTF8.GetString(sr.ReadBytes(11), 0, 11).Replace("\0", "").ToLower();
@@ -81,16 +81,19 @@ namespace GeoView.DataIOTools
 
         public UInt32 RecordNum
         {
+            set { _RecordNum = value; }
             get { return _RecordNum; }
         }
 
         public UInt16 HeaderLength
         {
+            set { _HeaderLength = value; }
             get { return _HeaderLength; }
         }
 
         public UInt16 RecordLength
         {
+            set { _RecordLength = value; }
             get { return _RecordLength; }
         }
 
