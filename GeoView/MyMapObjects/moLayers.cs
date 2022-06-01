@@ -54,6 +54,11 @@ namespace MyMapObjects
             _Layers.Add(mapLayer);
         }
 
+        public void Insert(Int32 index, moMapLayer mapLayer)
+        {
+            _Layers.Insert(index, mapLayer);
+        }
+
         /// <summary>
         /// 移除指定图层
         /// </summary>

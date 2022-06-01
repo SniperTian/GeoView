@@ -69,18 +69,18 @@
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.编辑ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.停止编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.保存编辑内容ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditSpBtn = new System.Windows.Forms.ToolStripSplitButton();
+            this.BeginEditItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EndEditItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveEditItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveFeatureBtn = new System.Windows.Forms.ToolStripButton();
+            this.CreateFeatureBtn = new System.Windows.Forms.ToolStripButton();
+            this.SelectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.layersTree = new System.Windows.Forms.TreeView();
             this.moMap = new MyMapObjects.moMapControl();
-            this.MoveFeatureBtn = new System.Windows.Forms.ToolStripButton();
-            this.CreateFeatureBtn = new System.Windows.Forms.ToolStripButton();
-            this.SelectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
@@ -328,12 +328,12 @@
             this.toolStripButton4,
             this.toolStripButton5,
             this.toolStripSeparator2,
-            this.toolStripSplitButton1,
+            this.EditSpBtn,
             this.MoveFeatureBtn,
             this.CreateFeatureBtn,
+            this.SelectLayer,
             this.toolStripSeparator4,
-            this.toolStripButton3,
-            this.SelectLayer});
+            this.toolStripButton3});
             this.toolsBar.Location = new System.Drawing.Point(0, 25);
             this.toolsBar.Name = "toolsBar";
             this.toolsBar.Size = new System.Drawing.Size(1034, 25);
@@ -418,39 +418,72 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripSplitButton1
+            // EditSpBtn
             // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.编辑ToolStripMenuItem1,
-            this.停止编辑ToolStripMenuItem,
-            this.保存编辑内容ToolStripMenuItem});
-            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(60, 22);
-            this.toolStripSplitButton1.Text = "编辑器";
+            this.EditSpBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.EditSpBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BeginEditItem,
+            this.EndEditItem,
+            this.SaveEditItem});
+            this.EditSpBtn.Image = ((System.Drawing.Image)(resources.GetObject("EditSpBtn.Image")));
+            this.EditSpBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditSpBtn.Name = "EditSpBtn";
+            this.EditSpBtn.Size = new System.Drawing.Size(60, 22);
+            this.EditSpBtn.Text = "编辑器";
+            this.EditSpBtn.Click += new System.EventHandler(this.EditSpBtn_Click);
             // 
-            // 编辑ToolStripMenuItem1
+            // BeginEditItem
             // 
-            this.编辑ToolStripMenuItem1.Name = "编辑ToolStripMenuItem1";
-            this.编辑ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.编辑ToolStripMenuItem1.Text = "开始编辑";
-            this.编辑ToolStripMenuItem1.Click += new System.EventHandler(this.编辑ToolStripMenuItem1_Click);
+            this.BeginEditItem.Enabled = false;
+            this.BeginEditItem.Name = "BeginEditItem";
+            this.BeginEditItem.Size = new System.Drawing.Size(180, 22);
+            this.BeginEditItem.Text = "开始编辑";
+            this.BeginEditItem.Click += new System.EventHandler(this.BeginEditItem_Click);
             // 
-            // 停止编辑ToolStripMenuItem
+            // EndEditItem
             // 
-            this.停止编辑ToolStripMenuItem.Name = "停止编辑ToolStripMenuItem";
-            this.停止编辑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.停止编辑ToolStripMenuItem.Text = "停止编辑";
-            this.停止编辑ToolStripMenuItem.Click += new System.EventHandler(this.停止编辑ToolStripMenuItem_Click);
+            this.EndEditItem.Enabled = false;
+            this.EndEditItem.Name = "EndEditItem";
+            this.EndEditItem.Size = new System.Drawing.Size(180, 22);
+            this.EndEditItem.Text = "停止编辑";
+            this.EndEditItem.Click += new System.EventHandler(this.EndEditItem_Click);
             // 
-            // 保存编辑内容ToolStripMenuItem
+            // SaveEditItem
             // 
-            this.保存编辑内容ToolStripMenuItem.Name = "保存编辑内容ToolStripMenuItem";
-            this.保存编辑内容ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.保存编辑内容ToolStripMenuItem.Text = "保存编辑内容";
-            this.保存编辑内容ToolStripMenuItem.Click += new System.EventHandler(this.保存编辑内容ToolStripMenuItem_Click);
+            this.SaveEditItem.Enabled = false;
+            this.SaveEditItem.Name = "SaveEditItem";
+            this.SaveEditItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveEditItem.Text = "保存编辑内容";
+            this.SaveEditItem.Click += new System.EventHandler(this.SaveEditItem_Click);
+            // 
+            // MoveFeatureBtn
+            // 
+            this.MoveFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MoveFeatureBtn.Enabled = false;
+            this.MoveFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("MoveFeatureBtn.Image")));
+            this.MoveFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MoveFeatureBtn.Name = "MoveFeatureBtn";
+            this.MoveFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.MoveFeatureBtn.Text = "选中并移动要素";
+            this.MoveFeatureBtn.Click += new System.EventHandler(this.MoveFeatureBtn_Click);
+            // 
+            // CreateFeatureBtn
+            // 
+            this.CreateFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CreateFeatureBtn.Enabled = false;
+            this.CreateFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFeatureBtn.Image")));
+            this.CreateFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CreateFeatureBtn.Name = "CreateFeatureBtn";
+            this.CreateFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.CreateFeatureBtn.Text = "创建要素";
+            this.CreateFeatureBtn.Click += new System.EventHandler(this.CreateFeatureBtn_Click);
+            // 
+            // SelectLayer
+            // 
+            this.SelectLayer.Enabled = false;
+            this.SelectLayer.Name = "SelectLayer";
+            this.SelectLayer.Size = new System.Drawing.Size(121, 25);
+            this.SelectLayer.Text = "请选择图层";
             // 
             // toolStripSeparator4
             // 
@@ -477,6 +510,7 @@
             // 
             // layersTree
             // 
+            this.layersTree.CheckBoxes = true;
             this.layersTree.Dock = System.Windows.Forms.DockStyle.Left;
             this.layersTree.Location = new System.Drawing.Point(0, 50);
             this.layersTree.Name = "layersTree";
@@ -499,34 +533,6 @@
             this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
             this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
             this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
-            // 
-            // MoveFeatureBtn
-            // 
-            this.MoveFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MoveFeatureBtn.Enabled = false;
-            this.MoveFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("MoveFeatureBtn.Image")));
-            this.MoveFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MoveFeatureBtn.Name = "MoveFeatureBtn";
-            this.MoveFeatureBtn.Size = new System.Drawing.Size(23, 22);
-            this.MoveFeatureBtn.Text = "选中并移动要素";
-            this.MoveFeatureBtn.Click += new System.EventHandler(this.MoveFeatureBtn_Click);
-            // 
-            // CreateFeatureBtn
-            // 
-            this.CreateFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CreateFeatureBtn.Enabled = false;
-            this.CreateFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFeatureBtn.Image")));
-            this.CreateFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CreateFeatureBtn.Name = "CreateFeatureBtn";
-            this.CreateFeatureBtn.Size = new System.Drawing.Size(23, 22);
-            this.CreateFeatureBtn.Text = "创建要素";
-            this.CreateFeatureBtn.Click += new System.EventHandler(this.CreateFeatureBtn_Click);
-            // 
-            // SelectLayer
-            // 
-            this.SelectLayer.Name = "SelectLayer";
-            this.SelectLayer.Size = new System.Drawing.Size(121, 25);
-            this.SelectLayer.Text = "请选择图层";
             // 
             // Main
             // 
@@ -599,10 +605,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TreeView layersTree;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-        private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem 停止编辑ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 保存编辑内容ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton EditSpBtn;
+        private System.Windows.Forms.ToolStripMenuItem BeginEditItem;
+        private System.Windows.Forms.ToolStripMenuItem EndEditItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveEditItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripButton MoveFeatureBtn;
