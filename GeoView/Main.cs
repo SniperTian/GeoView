@@ -39,6 +39,7 @@ namespace GeoView
         private bool mIsInSelect = false;
         private bool mIsInIdentify = false;
         private bool mIsInMovingShapes = false;
+        private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         //正在移动的图形的集合
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
@@ -52,7 +53,7 @@ namespace GeoView
         public Main()
         {
             InitializeComponent();
-            layersTree.CheckBoxes = true;
+            GeoViewInitial();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -67,17 +68,43 @@ namespace GeoView
 
         private void 编辑ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            停止编辑ToolStripMenuItem.Enabled = true;
+            保存编辑内容ToolStripMenuItem.Enabled = true;
+            MoveFeatureBtn.Enabled = true;
+            RefreshSelectLayer();
         }
 
         private void 停止编辑ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MoveFeatureBtn.Enabled = false;
+            CreateFeatureBtn.Enabled = false;
+            MoveFeatureBtn.Checked = false;
+            CreateFeatureBtn.Checked = false;
+            SelectLayer.SelectedIndex = -1;
+            SelectLayer.Enabled = false;
         }
 
         private void 保存编辑内容ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void MoveFeatureBtn_Click(object sender, EventArgs e)
+        {
+            MoveFeatureBtn.Checked = true;
+            if (CreateFeatureBtn.Checked)
+            {
+                CreateFeatureBtn.Checked = false;
+            }
+        }
+
+        private void CreateFeatureBtn_Click(object sender, EventArgs e)
+        {
+            CreateFeatureBtn.Checked = true;
+            if (MoveFeatureBtn.Checked)
+            {
+                MoveFeatureBtn.Checked = false;
+            }
         }
 
         private void moMap_Click(object sender, EventArgs e)
@@ -159,7 +186,7 @@ namespace GeoView
                     sMapLayer.Features = sFeatures;
 
                     moMap.Layers.Add(sMapLayer);
-                    refreshLayersTree();    //刷新图层列表
+                    RefreshLayersTree();    //刷新图层列表
                     if (moMap.Layers.Count == 1)
                     {
                         moMap.FullExtent();
@@ -182,6 +209,14 @@ namespace GeoView
         }
 
         #region 私有函数
+
+        //控件状态初始化
+        private void GeoViewInitial()
+        {
+            layersTree.CheckBoxes = true;
+            停止编辑ToolStripMenuItem.Enabled = false;
+            保存编辑内容ToolStripMenuItem.Enabled = false;
+        }
 
         // 初始化符号
         private void InitializeSymbols()
@@ -245,7 +280,7 @@ namespace GeoView
         }
 
         //图层列表刷新
-        private void refreshLayersTree()
+        private void RefreshLayersTree()
         {
             layersTree.Nodes.Clear();
             for(Int32 i = 0; i < moMap.Layers.Count; i++)
@@ -258,6 +293,19 @@ namespace GeoView
             layersTree.Refresh();
         }
 
+        //刷新图层下拉框
+        private void RefreshSelectLayer()
+        {
+            SelectLayer.Items.Clear();
+            for (Int32 i = 0; i < moMap.Layers.Count; i++)
+            {
+                SelectLayer.Items.Add(moMap.Layers.GetItem(i).Name);
+            }
+            SelectLayer.SelectedIndex = mLastOpLayerIndex;
+        }
+
         #endregion
+
+        
     }
 }

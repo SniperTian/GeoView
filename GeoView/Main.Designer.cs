@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.moMap = new MyMapObjects.moMapControl();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssMapScale = new System.Windows.Forms.ToolStripStatusLabel();
@@ -59,7 +58,7 @@
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geoView帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于GeoViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolsBar = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -78,27 +77,14 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.layersTree = new System.Windows.Forms.TreeView();
+            this.moMap = new MyMapObjects.moMapControl();
+            this.MoveFeatureBtn = new System.Windows.Forms.ToolStripButton();
+            this.CreateFeatureBtn = new System.Windows.Forms.ToolStripButton();
+            this.SelectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolsBar.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // moMap
-            // 
-            this.moMap.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.moMap.Dock = System.Windows.Forms.DockStyle.Right;
-            this.moMap.FlashColor = System.Drawing.Color.Green;
-            this.moMap.Location = new System.Drawing.Point(304, 50);
-            this.moMap.Name = "moMap";
-            this.moMap.SelectionColor = System.Drawing.Color.Cyan;
-            this.moMap.Size = new System.Drawing.Size(730, 593);
-            this.moMap.TabIndex = 0;
-            this.moMap.Click += new System.EventHandler(this.moMap_Click);
-            this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
-            this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
-            this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
-            this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
             // 
             // statusStrip1
             // 
@@ -329,9 +315,9 @@
             this.关于GeoViewToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.关于GeoViewToolStripMenuItem.Text = "关于 GeoView";
             // 
-            // toolStrip1
+            // toolsBar
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolsBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
             this.toolStripSeparator1,
@@ -343,13 +329,16 @@
             this.toolStripButton5,
             this.toolStripSeparator2,
             this.toolStripSplitButton1,
+            this.MoveFeatureBtn,
+            this.CreateFeatureBtn,
             this.toolStripSeparator4,
-            this.toolStripButton3});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1034, 25);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStripButton3,
+            this.SelectLayer});
+            this.toolsBar.Location = new System.Drawing.Point(0, 25);
+            this.toolsBar.Name = "toolsBar";
+            this.toolsBar.Size = new System.Drawing.Size(1034, 25);
+            this.toolsBar.TabIndex = 3;
+            this.toolsBar.Text = "工具栏";
             // 
             // toolStripButton1
             // 
@@ -445,21 +434,21 @@
             // 编辑ToolStripMenuItem1
             // 
             this.编辑ToolStripMenuItem1.Name = "编辑ToolStripMenuItem1";
-            this.编辑ToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+            this.编辑ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.编辑ToolStripMenuItem1.Text = "开始编辑";
             this.编辑ToolStripMenuItem1.Click += new System.EventHandler(this.编辑ToolStripMenuItem1_Click);
             // 
             // 停止编辑ToolStripMenuItem
             // 
             this.停止编辑ToolStripMenuItem.Name = "停止编辑ToolStripMenuItem";
-            this.停止编辑ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.停止编辑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.停止编辑ToolStripMenuItem.Text = "停止编辑";
             this.停止编辑ToolStripMenuItem.Click += new System.EventHandler(this.停止编辑ToolStripMenuItem_Click);
             // 
             // 保存编辑内容ToolStripMenuItem
             // 
             this.保存编辑内容ToolStripMenuItem.Name = "保存编辑内容ToolStripMenuItem";
-            this.保存编辑内容ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.保存编辑内容ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.保存编辑内容ToolStripMenuItem.Text = "保存编辑内容";
             this.保存编辑内容ToolStripMenuItem.Click += new System.EventHandler(this.保存编辑内容ToolStripMenuItem_Click);
             // 
@@ -494,6 +483,51 @@
             this.layersTree.Size = new System.Drawing.Size(290, 593);
             this.layersTree.TabIndex = 5;
             // 
+            // moMap
+            // 
+            this.moMap.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.moMap.Dock = System.Windows.Forms.DockStyle.Right;
+            this.moMap.FlashColor = System.Drawing.Color.Green;
+            this.moMap.Location = new System.Drawing.Point(304, 50);
+            this.moMap.Name = "moMap";
+            this.moMap.SelectionColor = System.Drawing.Color.Cyan;
+            this.moMap.Size = new System.Drawing.Size(730, 593);
+            this.moMap.TabIndex = 0;
+            this.moMap.Click += new System.EventHandler(this.moMap_Click);
+            this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
+            this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
+            this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
+            this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
+            // 
+            // MoveFeatureBtn
+            // 
+            this.MoveFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MoveFeatureBtn.Enabled = false;
+            this.MoveFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("MoveFeatureBtn.Image")));
+            this.MoveFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MoveFeatureBtn.Name = "MoveFeatureBtn";
+            this.MoveFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.MoveFeatureBtn.Text = "选中并移动要素";
+            this.MoveFeatureBtn.Click += new System.EventHandler(this.MoveFeatureBtn_Click);
+            // 
+            // CreateFeatureBtn
+            // 
+            this.CreateFeatureBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CreateFeatureBtn.Enabled = false;
+            this.CreateFeatureBtn.Image = ((System.Drawing.Image)(resources.GetObject("CreateFeatureBtn.Image")));
+            this.CreateFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CreateFeatureBtn.Name = "CreateFeatureBtn";
+            this.CreateFeatureBtn.Size = new System.Drawing.Size(23, 22);
+            this.CreateFeatureBtn.Text = "创建要素";
+            this.CreateFeatureBtn.Click += new System.EventHandler(this.CreateFeatureBtn_Click);
+            // 
+            // SelectLayer
+            // 
+            this.SelectLayer.Name = "SelectLayer";
+            this.SelectLayer.Size = new System.Drawing.Size(121, 25);
+            this.SelectLayer.Text = "请选择图层";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -502,7 +536,7 @@
             this.Controls.Add(this.layersTree);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.moMap);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolsBar);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -513,8 +547,8 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolsBar.ResumeLayout(false);
+            this.toolsBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -551,7 +585,7 @@
         private System.Windows.Forms.ToolStripMenuItem 清除所选要素ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem geoView帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于GeoViewToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolsBar;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
@@ -571,5 +605,8 @@
         private System.Windows.Forms.ToolStripMenuItem 保存编辑内容ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripButton MoveFeatureBtn;
+        private System.Windows.Forms.ToolStripButton CreateFeatureBtn;
+        private System.Windows.Forms.ToolStripComboBox SelectLayer;
     }
 }
