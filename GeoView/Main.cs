@@ -116,7 +116,6 @@ namespace GeoView
             MoveFeatureBtn.Checked = false;
             CreateFeatureBtn.Checked = false;
             SelectLayer.SelectedIndex = -1;
-            SelectLayer.Text = "请选择图层";
             SelectLayer.Enabled = false;
             EndEditItem.Enabled = false;
             SaveEditItem.Enabled = false;
@@ -186,6 +185,15 @@ namespace GeoView
         //选择操作图层
         private void SelectLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (SelectLayer.SelectedIndex == -1)
+            {
+                SelectLayer.DropDownStyle = ComboBoxStyle.DropDown;
+                SelectLayer.Text = "请选择图层";
+            }
+            else
+            {
+                SelectLayer.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
             mOperatingLayerIndex = SelectLayer.SelectedIndex;
             if (mOperatingLayerIndex != -1 && mGvShapeFiles[mOperatingLayerIndex].SourceFileType=="shp")
             {
@@ -207,7 +215,6 @@ namespace GeoView
                 else
                 {
                     SelectLayer.SelectedIndex = -1;
-                    SelectLayer.Text = "请选择图层";
                     mOperatingLayerIndex = -1;
                 }
             }
@@ -803,6 +810,7 @@ namespace GeoView
                         sFeatures.Add(sFeature);
                     }
                     sMapLayer.Features = sFeatures;
+                    sMapLayer.Renderer = sLayer.Renderer;
                     moMap.Layers.RemoveAt(i);
                     moMap.Layers.Insert(i, sMapLayer);
                 }
