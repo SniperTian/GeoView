@@ -40,6 +40,7 @@ namespace GeoView.DataIOTools
         public MyMapObjects.moFields Fields
         {
             get { return _Fields; }
+            set { _Fields = value; }
         }
 
         /// <summary>

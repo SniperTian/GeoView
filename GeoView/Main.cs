@@ -44,6 +44,7 @@ namespace GeoView
         private bool mIsInIdentify = false;
         private bool mReallyMove = false;   //移动状态是否真的拖动要素进行了移动
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
+        private bool mReallyModified = false;   //修改了数据且没有保存
         //正在移动的图形的集合
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
@@ -88,25 +89,77 @@ namespace GeoView
             SelectLayer.Enabled = true;
             RefreshSelectLayer();
             MoveFeatureBtn_Click(sender, e);
+            mReallyModified = false;
         }
 
         //结束编辑
         private void EndEditItem_Click(object sender, EventArgs e)
         {
+            if (mReallyModified == true)
+            {
+                DialogResult dr = MessageBox.Show("是否要保存编辑内容", "Saving", MessageBoxButtons.YesNoCancel);
+                if (dr == DialogResult.Cancel)
+                {
+                    return;
+                }
+                else if(dr == DialogResult.Yes)
+                {
+                    SaveEditItem_Click(sender, e);
+                }
+                else
+                {
+                    CancelEdit();
+                }
+            }
             MoveFeatureBtn.Enabled = false;
             CreateFeatureBtn.Enabled = false;
             MoveFeatureBtn.Checked = false;
             CreateFeatureBtn.Checked = false;
             SelectLayer.SelectedIndex = -1;
+            SelectLayer.Text = "请选择图层";
             SelectLayer.Enabled = false;
             EndEditItem.Enabled = false;
             SaveEditItem.Enabled = false;
+            for (Int32 i = 0; i < moMap.Layers.Count; i++)
+            {
+                moMap.Layers.GetItem(i).SelectedFeatures.Clear();
+            }
+            moMap.RedrawMap();
         }
 
         //保存编辑
         private void SaveEditItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                for (Int32 i = 0; i < moMap.Layers.Count; i++)
+                {
+                    //图形数据
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
+                    mGvShapeFiles[i].Geometries.Clear();
+                    for (Int32 j = 0; j < sLayer.Features.Count; j++)
+                    {
+                        mGvShapeFiles[i].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
+                    }
+                    string path = mGvShapeFiles[i].DefaultFilePath;
+                    mGvShapeFiles[i].SaveToFile(path);
+                    //属性数据
+                    mDbfFiles[i].Fields = sLayer.AttributeFields;
+                    mDbfFiles[i].AttributesList.Clear();
+                    for(Int32 j = 0; j < sLayer.Features.Count; j++)
+                    {
+                        mDbfFiles[i].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
+                    }
+                    path = mDbfFiles[i].DefaultPath;
+                    mDbfFiles[i].SaveToFile(path);
+                }
+                mReallyModified = false;
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show(error.ToString());
+                return;
+            }
         }
 
         //选择并移动要素
@@ -395,6 +448,8 @@ namespace GeoView
             if (mReallyMove)
             {
                 //做相应的数据修改
+                mReallyMove = false;
+                mReallyModified = true;
                 MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
                 for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
                 {
@@ -727,6 +782,36 @@ namespace GeoView
                     MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mMovingGeometries[i];
                     sDrawingTool.DrawPoints(sPoints, mMovingPointSymbol);
                 }
+            }
+        }
+
+        //取消修改
+        private void CancelEdit()
+        {
+            try
+            {
+                for (Int32 i = 0; i < moMap.Layers.Count; i++)
+                {
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
+                    MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(sLayer.Name, sLayer.ShapeType, mDbfFiles[i].Fields);
+                    //加载要素
+                    MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+                    for (Int32 j = 0; j < mGvShapeFiles[i].Geometries.Count; ++j)
+                    {
+                        MyMapObjects.moFeature sFeature = new MyMapObjects.moFeature(mGvShapeFiles[i].GeometryType, 
+                            mGvShapeFiles[i].Geometries[j], mDbfFiles[i].AttributesList[j]);
+                        sFeatures.Add(sFeature);
+                    }
+                    sMapLayer.Features = sFeatures;
+                    moMap.Layers.RemoveAt(i);
+                    moMap.Layers.Insert(i, sMapLayer);
+                }
+                mReallyModified = false;
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.ToString());
+                return;
             }
         }
 
