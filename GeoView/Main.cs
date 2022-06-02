@@ -42,6 +42,7 @@ namespace GeoView
         private bool mIsInSelect = false;
         private bool mIsInMove = false;
         private bool mIsInIdentify = false;
+        private bool mReallyMove = false;   //移动状态是否真的拖动要素进行了移动
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         //正在移动的图形的集合
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
@@ -68,6 +69,7 @@ namespace GeoView
             ShowMapScale();
         }
 
+        //编辑
         private void EditSpBtn_Click(object sender, EventArgs e)
         {
             if (moMap.Layers.Count > 0)
@@ -76,6 +78,7 @@ namespace GeoView
             }
         }
 
+        //开始编辑
         private void BeginEditItem_Click(object sender, EventArgs e)
         {
             EndEditItem.Enabled = true;
@@ -87,6 +90,7 @@ namespace GeoView
             MoveFeatureBtn_Click(sender, e);
         }
 
+        //结束编辑
         private void EndEditItem_Click(object sender, EventArgs e)
         {
             MoveFeatureBtn.Enabled = false;
@@ -99,11 +103,13 @@ namespace GeoView
             SaveEditItem.Enabled = false;
         }
 
+        //保存编辑
         private void SaveEditItem_Click(object sender, EventArgs e)
         {
 
         }
 
+        //选择并移动要素
         private void MoveFeatureBtn_Click(object sender, EventArgs e)
         {
             MoveFeatureBtn.Checked = true;
@@ -114,6 +120,7 @@ namespace GeoView
             mMapOpStyle = 1;    //默认为编辑操作
         }
 
+        //新建要素
         private void CreateFeatureBtn_Click(object sender, EventArgs e)
         {
             CreateFeatureBtn.Checked = true;
@@ -123,9 +130,34 @@ namespace GeoView
             }
         }
 
+        //选择操作图层
         private void SelectLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             mOperatingLayerIndex = SelectLayer.SelectedIndex;
+            if (mOperatingLayerIndex != -1 && mGvShapeFiles[mOperatingLayerIndex].SourceFileType=="shp")
+            {
+                Int32 goOn = (Int32)MessageBox.Show("对shapefile文件进行编辑操作，会在同一目录下生成同名gvshp文件，操作会保存在该gvshp文件中！若已有同名gvshp文件，会进行覆盖，请知悉！是否继续？",
+                    "Warning",MessageBoxButtons.OKCancel,MessageBoxIcon.Exclamation);
+
+                if (goOn == 1)
+                {
+                    mGvShapeFiles[mOperatingLayerIndex].SourceFileType = "gvshp";
+                    string filePath = mGvShapeFiles[mOperatingLayerIndex].DefaultFilePath;
+                    string sPath = filePath.Substring(0, filePath.IndexOf(".shp")) + ".gvshp";
+                    mGvShapeFiles[mOperatingLayerIndex].SaveToFile(sPath);
+                    mGvShapeFiles[mOperatingLayerIndex].DefaultFilePath = sPath;
+                    filePath = mDbfFiles[mOperatingLayerIndex].DefaultPath;
+                    sPath= filePath.Substring(0, filePath.IndexOf(".dbf")) + ".gvdbf";
+                    mDbfFiles[mOperatingLayerIndex].SaveToFile(sPath);
+                    mDbfFiles[mOperatingLayerIndex].DefaultPath = sPath;
+                }
+                else
+                {
+                    SelectLayer.SelectedIndex = -1;
+                    SelectLayer.Text = "请选择图层";
+                    mOperatingLayerIndex = -1;
+                }
+            }
         }
 
         private void moMap_Click(object sender, EventArgs e)
@@ -144,18 +176,16 @@ namespace GeoView
             {
                 OnEdit_MouseDown(e);
             }
-            else if (mMapOpStyle == 2)
-            {
-
-            }
         }
 
         private void OnEdit_MouseDown(MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
                 return;
+            if (mOperatingLayerIndex == -1) return;
             //判断应该是进行选择还是移动
             mIsInMove = false;
+            mIsInSelect = false;
             MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
             if (moMap.Layers.GetItem(mOperatingLayerIndex).ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
@@ -219,6 +249,7 @@ namespace GeoView
             }
             else
             {
+                mIsInSelect = true;
                 OnSelect_MouseDown(e);
             }
         }
@@ -227,10 +258,8 @@ namespace GeoView
             if (e.Button == MouseButtons.Left)
             {
                 mStartMouseLocation = e.Location;
-                mIsInSelect = true;
             }
         }
-
         private void OnMoveSelect_MouseDown(MouseEventArgs e)
         {
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
@@ -276,6 +305,7 @@ namespace GeoView
             }
             //设置变量
             mStartMouseLocation = e.Location;
+            mReallyMove = false;
         }
 
         private void moMap_MouseMove(object sender, MouseEventArgs e)
@@ -285,10 +315,6 @@ namespace GeoView
             {
                 OnEdit_MouseMove(e);
             }
-            else if (mMapOpStyle == 2)
-            {
-                
-            }
         }
 
         private void OnEdit_MouseMove(MouseEventArgs e)
@@ -297,7 +323,7 @@ namespace GeoView
             {
                 OnMoveSelect_MouseMove(e);
             }
-            else
+            else if(mIsInSelect)
             {
                 OnSelect_MouseMove(e);
             }
@@ -316,9 +342,11 @@ namespace GeoView
 
         private void OnMoveSelect_MouseMove(MouseEventArgs e)
         {
+            if (mIsInMove == false) return;
             //修改移动图形的坐标
             double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
             double sDeltaY = moMap.ToMapDistance(mStartMouseLocation.Y - e.Location.Y);
+            mReallyMove = true;
             ModifyMovingGeometries(sDeltaX, sDeltaY);
             //刷新地图并绘制移动图形
             moMap.Refresh();
@@ -333,10 +361,6 @@ namespace GeoView
             {
                 OnEdit_MouseUp(e);
             }
-            else if (mMapOpStyle == 2)
-            {
-                
-            }
         }
 
         private void OnEdit_MouseUp(MouseEventArgs e)
@@ -345,7 +369,7 @@ namespace GeoView
             {
                 OnMoveSelect_MouseUp(e);
             }
-            else
+            else if(mIsInSelect)
             {
                 OnSelect_MouseUp(e);
             }
@@ -366,10 +390,28 @@ namespace GeoView
 
         private void OnMoveSelect_MouseUp(MouseEventArgs e)
         {
+            if (mIsInMove == false) return;
             mIsInMove = false;
-            //做相应的数据修改，不再编写
-            //重构地图
-            moMap.RedrawMap();
+            if (mReallyMove)
+            {
+                //做相应的数据修改
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                {
+                    MyMapObjects.moFeature sFeature = sLayer.SelectedFeatures.GetItem(i);
+                    sFeature.Geometry = mMovingGeometries[i];
+                }
+                sLayer.UpdateExtent();
+                //重构地图
+                moMap.RedrawMap();
+            }
+            else
+            {
+                MyMapObjects.moRectangle sBox = GetMapRectByTwoPoints(e.Location, e.Location);
+                double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+                moMap.SelectLayerByBox(sBox, sTolerance, mOperatingLayerIndex); //该方法只在当前图层中选择，与demo中不同
+                moMap.RedrawTrackingShapes();
+            }
             //清除移动图形列表
             mMovingGeometries.Clear();
         }
@@ -417,13 +459,14 @@ namespace GeoView
                     sGeometries = sShpFileReader.Geometries;
                     sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
                     sGvShpFileManager.SourceFileType = "shp";   //设置文件源
+                    sGvShpFileManager.DefaultFilePath = shpFilePath;
                     sGvShpFileManager.UpdateGeometries(sGeometries);
                 }
                 else
                 {
                     //读取gvshp文件
                     string gvshpFilePath = sFileName;
-                    dbfFilePath = gvshpFilePath.Substring(0, gvshpFilePath.IndexOf(".gvshp")) + ".dbf";
+                    dbfFilePath = gvshpFilePath.Substring(0, gvshpFilePath.IndexOf(".gvshp")) + ".gvdbf";
                     //(1)读取gvshp文件
                     sGvShpFileManager = new DataIOTools.gvShpFileManager(gvshpFilePath);
                     sGvShpFileManager.SourceFileType = "gvshp";

@@ -50,6 +50,15 @@ namespace GeoView.DataIOTools
             get { return _AttributesList; }
         }
 
+        /// <summary>
+        /// 默认路径
+        /// </summary>
+        public string DefaultPath
+        {
+            get { return _DefaultFilePath; }
+            set { _DefaultFilePath = value; }
+        }
+
         #endregion
 
         #region 方法
