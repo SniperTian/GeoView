@@ -439,7 +439,7 @@
             // 
             this.BeginEditItem.Enabled = false;
             this.BeginEditItem.Name = "BeginEditItem";
-            this.BeginEditItem.Size = new System.Drawing.Size(180, 22);
+            this.BeginEditItem.Size = new System.Drawing.Size(148, 22);
             this.BeginEditItem.Text = "开始编辑";
             this.BeginEditItem.Click += new System.EventHandler(this.BeginEditItem_Click);
             // 
@@ -447,7 +447,7 @@
             // 
             this.EndEditItem.Enabled = false;
             this.EndEditItem.Name = "EndEditItem";
-            this.EndEditItem.Size = new System.Drawing.Size(180, 22);
+            this.EndEditItem.Size = new System.Drawing.Size(148, 22);
             this.EndEditItem.Text = "停止编辑";
             this.EndEditItem.Click += new System.EventHandler(this.EndEditItem_Click);
             // 
@@ -455,7 +455,7 @@
             // 
             this.SaveEditItem.Enabled = false;
             this.SaveEditItem.Name = "SaveEditItem";
-            this.SaveEditItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveEditItem.Size = new System.Drawing.Size(148, 22);
             this.SaveEditItem.Text = "保存编辑内容";
             this.SaveEditItem.Click += new System.EventHandler(this.SaveEditItem_Click);
             // 
@@ -484,7 +484,6 @@
             // SelectLayer
             // 
             this.SelectLayer.Enabled = false;
-            this.SelectLayer.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.SelectLayer.Name = "SelectLayer";
             this.SelectLayer.Size = new System.Drawing.Size(121, 31);
             this.SelectLayer.Text = "请选择图层";
@@ -533,8 +532,10 @@
             this.moMap.SelectionColor = System.Drawing.Color.Cyan;
             this.moMap.Size = new System.Drawing.Size(730, 587);
             this.moMap.TabIndex = 0;
-            this.moMap.Click += new System.EventHandler(this.moMap_Click);
-            this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
+            this.moMap.MapScaleChanged += new MyMapObjects.moMapControl.MapScaleChangedHandle(this.moMap_MapScaleChanged);
+            this.moMap.AfterTrackingLayerDraw += new MyMapObjects.moMapControl.AfterTrackingLayerDrawHandle(this.moMap_AfterTrackingLayerDraw);
+            this.moMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseClick);
+            this.moMap.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDoubleClick);
             this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
             this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
             this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
