@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "5951b784-fb07-482d-a3ff-ec59e1bfb316": {
+      "ProjectGuid": "5951b784-fb07-482d-a3ff-ec59e1bfb316",
+      "DisplayName": "MyMapObjects",
+      "ColorIndex": 0
+    },
+    "4faaac1f-29f3-42f5-9e2b-60472b5d9dfc": {
+      "ProjectGuid": "4faaac1f-29f3-42f5-9e2b-60472b5d9dfc",
+      "DisplayName": "GeoView",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

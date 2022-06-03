@@ -45,6 +45,42 @@ namespace GeoView
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
         private List<MyMapObjects.moPoints> mSketchingShape;    //正在描绘的图形，用一个多点集合存储；
 
+        //图层渲染相关参数
+        private bool mIsInPointRenderer = false;//是否选中点图层渲染
+        private Int32 mPointRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Int32 mPointSymbolStyle = 0; //样式索引
+        private Color mPointSimpleRendererColor = Color.Red; //符号颜色
+        private Double mPointSimpleRendererSize = 5; //符号尺寸
+        private Int32 mPointUniqueFieldIndex = 0; //绑定字段索引
+        private Double mPointUniqueRendererSize = 5; //符号尺寸
+        private Int32 mPointClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPointClassBreaksNum = 5; //分类数
+        private Color mPointClassBreaksRendererColor = Color.Red; //符号颜色
+        private Double mPointClassBreaksRendererMinSize = 3; //符号起始尺寸,点图层采用符号尺寸进行分级表示
+        private Double mPointClassBreaksRendererMaxSize = 6; //符号终止尺寸
+
+        private bool mIsInPolylineRenderer = false;//是否选中线图层渲染
+        private Int32 mPolylineRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Int32 mPolylineSymbolStyle = 0; //样式索引
+        private Color mPolylineSimpleRendererColor = Color.Red; //符号颜色
+        private Double mPolylineSimpleRendererSize = 5; //符号尺寸
+        private Int32 mPolylineUniqueFieldIndex = 0; //绑定字段索引
+        private Double mPolylineUniqueRendererSize = 5; //符号尺寸
+        private Int32 mPolylineClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPolylineClassBreaksNum = 5; //分类数
+        private Color mPolylineClassBreaksRendererColor = Color.Red; //符号颜色
+        private Double mPolylineClassBreaksRendererMinSize = 3; //符号起始尺寸,线图层采用符号尺寸进行分级表示
+        private Double mPolylineClassBreaksRendererMaxSize = 6; //符号终止尺寸
+
+        private bool mIsInPolygonRenderer = false;//是否选中面图层渲染
+        private Int32 mPolygonRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Color mPolygonSimpleRendererColor = Color.Red; //符号颜色
+        private Int32 mPolygonUniqueFieldIndex = 0; //绑定字段索引
+        private Int32 mPolygonClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPolygonClassBreaksNum = 5; //分类数
+        private Color mPolygonClassBreaksRendererStartColor = Color.MistyRose; //符号起始颜色,面图层采用符号颜色进行分级表示
+        private Color mPolygonClassBreaksRendererEndColor = Color.Red; //符号终止颜色
+
         //(3)与文件操作相关的变量
         private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
         private List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
@@ -63,7 +99,7 @@ namespace GeoView
             InitializeSketchingShape();
             //(3)显示比例尺
             ShowMapScale();
-        }
+        }   
 
         private void EditSpBtn_Click(object sender, EventArgs e)
         {
@@ -234,9 +270,58 @@ namespace GeoView
             }
         }
 
-        #region 私有函数
+        public void GetPointRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
+            Int32 uniqueFieldIndex, Double uniqueRendererSize, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererColor, double classBreakRendererMinSize, double classBreakRendererMaxSize)
+        {
+            mPointRendererMode = renderMode;
+            mPointSymbolStyle = symbolStyle;
+            mPointSimpleRendererColor = simpleRendererColor;
+            mPointSimpleRendererSize = simpleRendererSize;
+            mPointUniqueFieldIndex = uniqueFieldIndex;
+            mPointUniqueRendererSize = uniqueRendererSize;
+            mPointClassBreaksFieldIndex = classBreakFieldIndex;
+            mPointClassBreaksNum = classNum;
+            mPointClassBreaksRendererColor = classBreakRendererColor;
+            mPointClassBreaksRendererMinSize = classBreakRendererMinSize;
+            mPointClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInPointRenderer = true;
+        }
 
-        // 初始化符号
+        public void GetPolylineRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
+            Int32 uniqueFieldIndex, Double uniqueRendererSize, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererColor, double classBreakRendererMinSize, double classBreakRendererMaxSize)
+        {
+            mPolylineRendererMode = renderMode;
+            mPolylineSymbolStyle = symbolStyle;
+            mPolylineSimpleRendererColor = simpleRendererColor;
+            mPolylineSimpleRendererSize = simpleRendererSize;
+            mPolylineUniqueFieldIndex = uniqueFieldIndex;
+            mPolylineUniqueRendererSize = uniqueRendererSize;
+            mPolylineClassBreaksFieldIndex = classBreakFieldIndex;
+            mPolylineClassBreaksNum = classNum;
+            mPolylineClassBreaksRendererColor = classBreakRendererColor;
+            mPolylineClassBreaksRendererMinSize = classBreakRendererMinSize;
+            mPolylineClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInPolylineRenderer = true;
+        }
+
+        public void GetPolygonRenderer(Int32 renderMode, Color simpleRendererColor,
+            Int32 uniqueFieldIndex, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererStartColor, Color classBreakRendererEndColor)
+        {
+            mPolygonRendererMode = renderMode;
+            mPolygonSimpleRendererColor = simpleRendererColor;
+            mPolygonUniqueFieldIndex = uniqueFieldIndex;
+            mPolygonClassBreaksFieldIndex = classBreakFieldIndex;
+            mPolygonClassBreaksNum = classNum;
+            mPolygonClassBreaksRendererStartColor = classBreakRendererStartColor;
+            mPolygonClassBreaksRendererEndColor = classBreakRendererEndColor;
+            mIsInPolygonRenderer = true;
+        }
+            #region 私有函数
+
+            // 初始化符号
         private void InitializeSymbols()
         {
             mSelectBoxSymbol = new MyMapObjects.moSimpleFillSymbol();

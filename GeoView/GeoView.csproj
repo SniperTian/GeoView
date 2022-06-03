@@ -67,6 +67,24 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="PointRenderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PointRenderer.Designer.cs">
+      <DependentUpon>PointRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolygonRenderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolygonRenderer.Designer.cs">
+      <DependentUpon>PolygonRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolylineRenderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolylineRenderer.Designer.cs">
+      <DependentUpon>PolylineRenderer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Renderer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +104,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PointRenderer.resx">
+      <DependentUpon>PointRenderer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolygonRenderer.resx">
+      <DependentUpon>PolygonRenderer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolylineRenderer.resx">
+      <DependentUpon>PolylineRenderer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Renderer.resx">
       <DependentUpon>Renderer.cs</DependentUpon>

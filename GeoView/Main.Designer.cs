@@ -346,7 +346,7 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Text = "打开";
             // 
             // toolStripButton2
             // 
@@ -355,7 +355,7 @@
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Text = "保存";
             // 
             // toolStripSeparator1
             // 
@@ -369,7 +369,7 @@
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "toolStripButton6";
+            this.toolStripButton6.Text = "漫游";
             // 
             // toolStripButton7
             // 
@@ -378,7 +378,7 @@
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
             this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton7.Text = "toolStripButton7";
+            this.toolStripButton7.Text = "全图显示";
             // 
             // toolStripButton8
             // 
@@ -387,7 +387,7 @@
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
             this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton8.Text = "toolStripButton8";
+            this.toolStripButton8.Text = "选择要素";
             // 
             // toolStripSeparator3
             // 
@@ -401,7 +401,7 @@
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.Text = "放大";
             // 
             // toolStripButton5
             // 
@@ -410,7 +410,7 @@
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "toolStripButton5";
+            this.toolStripButton5.Text = "缩小";
             // 
             // toolStripSeparator2
             // 
@@ -435,7 +435,7 @@
             // 
             this.BeginEditItem.Enabled = false;
             this.BeginEditItem.Name = "BeginEditItem";
-            this.BeginEditItem.Size = new System.Drawing.Size(148, 22);
+            this.BeginEditItem.Size = new System.Drawing.Size(180, 22);
             this.BeginEditItem.Text = "开始编辑";
             this.BeginEditItem.Click += new System.EventHandler(this.BeginEditItem_Click);
             // 
@@ -443,7 +443,7 @@
             // 
             this.EndEditItem.Enabled = false;
             this.EndEditItem.Name = "EndEditItem";
-            this.EndEditItem.Size = new System.Drawing.Size(148, 22);
+            this.EndEditItem.Size = new System.Drawing.Size(180, 22);
             this.EndEditItem.Text = "停止编辑";
             this.EndEditItem.Click += new System.EventHandler(this.EndEditItem_Click);
             // 
@@ -451,7 +451,7 @@
             // 
             this.SaveEditItem.Enabled = false;
             this.SaveEditItem.Name = "SaveEditItem";
-            this.SaveEditItem.Size = new System.Drawing.Size(148, 22);
+            this.SaveEditItem.Size = new System.Drawing.Size(180, 22);
             this.SaveEditItem.Text = "保存编辑内容";
             this.SaveEditItem.Click += new System.EventHandler(this.SaveEditItem_Click);
             // 
