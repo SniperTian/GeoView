@@ -61,12 +61,6 @@
     <Compile Include="DataIOTools\shpFileHeader.cs" />
     <Compile Include="DataIOTools\shpFileReader.cs" />
     <Compile Include="DataIOTools\shxFile.cs" />
-    <Compile Include="EditShpWarningForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditShpWarningForm.Designer.cs">
-      <DependentUpon>EditShpWarningForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,9 +83,6 @@
     </Compile>
     <EmbeddedResource Include="AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditShpWarningForm.resx">
-      <DependentUpon>EditShpWarningForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

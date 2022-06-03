@@ -29,6 +29,7 @@ namespace GeoView
         private MyMapObjects.moSimpleLineSymbol mMovingPolylineSymbol;
         private MyMapObjects.moSimpleMarkerSymbol mMovingPointSymbol;
         private MyMapObjects.moSimpleFillSymbol mEditingPolygonSymbol;  //正在编辑的多边形符号
+        private MyMapObjects.moSimpleLineSymbol mEditingPolylineSymbol;
         private MyMapObjects.moSimpleMarkerSymbol mEditingVertexSymbol; //正在编辑的图形顶点的符号
         private MyMapObjects.moSimpleLineSymbol mElasticSymbol; //橡皮筋符号
         private bool mShowLngLat = false;   //是否显示经纬度
@@ -49,6 +50,7 @@ namespace GeoView
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
         private List<MyMapObjects.moPoints> mSketchingShape;    //正在描绘的图形，用一个多点集合存储；
+        private List<MyMapObjects.moPoint> mSketchingPoint; //正在描绘的点
 
         //(3)与文件操作相关的变量
         private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
@@ -142,6 +144,7 @@ namespace GeoView
                     {
                         mGvShapeFiles[i].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
                     }
+                    mGvShapeFiles[i].UpdateGeometries(mGvShapeFiles[i].Geometries);
                     string path = mGvShapeFiles[i].DefaultFilePath;
                     mGvShapeFiles[i].SaveToFile(path);
                     //属性数据
@@ -151,6 +154,7 @@ namespace GeoView
                     {
                         mDbfFiles[i].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
                     }
+                    mDbfFiles[i].UpdateAttributesList(mDbfFiles[i].AttributesList);
                     path = mDbfFiles[i].DefaultPath;
                     mDbfFiles[i].SaveToFile(path);
                 }
@@ -445,15 +449,25 @@ namespace GeoView
             }
             else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
             {
-
+                MyMapObjects.moPoints sLastPart = mSketchingShape.Last();
+                Int32 sPointCount = sLastPart.Count;
+                if (sPointCount == 0)
+                { }
+                else
+                {
+                    moMap.Refresh();
+                    MyMapObjects.moPoint sLastPoint = sLastPart.GetItem(sPointCount - 1);
+                    MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
+                    sDrawingTool.DrawLine(sLastPoint, sCurPoint, mElasticSymbol);
+                }
             }
             else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
             {
-
+                ;
             }
             else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
-
+                ;
             }
         }
 
@@ -533,25 +547,31 @@ namespace GeoView
         private void OnSketch_MouseClick(MouseEventArgs e)
         {
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+            if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                //将屏幕坐标转换为地图坐标并加入描绘图形
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                mSketchingPoint.Add(sPoint);
+                EndSketchGeo(sMapLayer.ShapeType);
+                //地图控件重绘跟踪图层
+                moMap.RedrawTrackingShapes();
+            }
+            else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                //将屏幕坐标转换为地图坐标并加入描绘图形
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                mSketchingPoint.Add(sPoint);
+                EndSketchPart(sMapLayer.ShapeType);
+                //地图控件重绘跟踪图层
+                moMap.RedrawTrackingShapes();
+            }
+            else
             {
                 //将屏幕坐标转换为地图坐标并加入描绘图形
                 MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
                 mSketchingShape.Last().Add(sPoint);
                 //地图控件重绘跟踪图层
                 moMap.RedrawTrackingShapes();
-            }
-            else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
-            {
-
-            }
-            else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
-            {
-
-            }
-            else if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
-            {
-
             }
         }
         
@@ -709,6 +729,9 @@ namespace GeoView
             mEditingPolygonSymbol.Color = Color.Transparent;
             mEditingPolygonSymbol.Outline.Color = Color.DarkGreen;
             mEditingPolygonSymbol.Outline.Size = 0.53;
+            mEditingPolylineSymbol = new MyMapObjects.moSimpleLineSymbol();
+            mEditingPolylineSymbol.Color = Color.DarkGreen;
+            mEditingPolylineSymbol.Size = 0.53;
             mEditingVertexSymbol = new MyMapObjects.moSimpleMarkerSymbol();
             mEditingVertexSymbol.Color = Color.DarkGreen;
             mEditingVertexSymbol.Style = MyMapObjects.moSimpleMarkerSymbolStyleConstant.SolidSquare;
@@ -722,6 +745,7 @@ namespace GeoView
         // 初始化描绘图形
         private void InitializeSketchingShape()
         {
+            mSketchingPoint = new List<MyMapObjects.moPoint>();
             mSketchingShape = new List<MyMapObjects.moPoints>();
             MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
             mSketchingShape.Add(sPoints);
@@ -929,6 +953,7 @@ namespace GeoView
         //结束描绘部件
         private void EndSketchPart(MyMapObjects.moGeometryTypeConstant shapeType)
         {
+            mReallyModified = true;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
                 //判断是否可以结束，即是否最少三个点
@@ -942,21 +967,30 @@ namespace GeoView
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
             {
-
+                //判断是否可以结束，即是否最少两个点
+                if (mSketchingShape.Last().Count < 2)
+                    return;
+                //往描绘图形中增加一个多点对象
+                MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
+                mSketchingShape.Add(sPoints);
+                //重绘跟踪层
+                moMap.RedrawTrackingShapes();
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
             {
-
+                ;
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
-
+                //重绘跟踪层
+                moMap.RedrawTrackingShapes();
             }
         }
 
         //结束描绘图形
         private void EndSketchGeo(MyMapObjects.moGeometryTypeConstant shapeType)
         {
+            mReallyModified = true;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
                 if (mSketchingShape.Last().Count >= 1 && mSketchingShape.Last().Count < 3)
@@ -971,17 +1005,14 @@ namespace GeoView
                 {
                     //查找多边形图层，如果有则加入该图层
                     MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-                    if (sLayer != null)
-                    {
-                        //新建复合多边形
-                        MyMapObjects.moMultiPolygon sMultiPolygon = new MyMapObjects.moMultiPolygon();
-                        sMultiPolygon.Parts.AddRange(mSketchingShape.ToArray());
-                        sMultiPolygon.UpdateExtent();
-                        //生成要素并加入图层
-                        MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
-                        sFeature.Geometry = sMultiPolygon;
-                        sLayer.Features.Add(sFeature);
-                    }
+                    //新建复合多边形
+                    MyMapObjects.moMultiPolygon sMultiPolygon = new MyMapObjects.moMultiPolygon();
+                    sMultiPolygon.Parts.AddRange(mSketchingShape.ToArray());
+                    sMultiPolygon.UpdateExtent();
+                    //生成要素并加入图层
+                    MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                    sFeature.Geometry = sMultiPolygon;
+                    sLayer.Features.Add(sFeature);
                 }
                 //初始化描绘图形
                 InitializeSketchingShape();
@@ -990,37 +1021,127 @@ namespace GeoView
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
             {
-
+                if (mSketchingShape.Last().Count == 1)
+                    return;
+                //如果最后一个部件的点数为0，则删除最后一个部件
+                if (mSketchingShape.Last().Count == 0)
+                {
+                    mSketchingShape.Remove(mSketchingShape.Last());
+                }
+                //如果用户的确输入了，则加入多边形图层
+                if (mSketchingShape.Count > 0)
+                {
+                    //查找多边形图层，如果有则加入该图层
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                    //新建复合多边形
+                    MyMapObjects.moMultiPolyline sMultiPolyline = new MyMapObjects.moMultiPolyline();
+                    sMultiPolyline.Parts.AddRange(mSketchingShape.ToArray());
+                    sMultiPolyline.UpdateExtent();
+                    //生成要素并加入图层
+                    MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                    sFeature.Geometry = sMultiPolyline;
+                    sLayer.Features.Add(sFeature);
+                }
+                //初始化描绘图形
+                InitializeSketchingShape();
+                //重绘地图
+                moMap.RedrawMap();
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
             {
-
+                if (mSketchingPoint.Count == 1)
+                {
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                    MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                    sFeature.Geometry = mSketchingPoint[0];
+                    sLayer.Features.Add(sFeature);
+                }
+                InitializeSketchingShape();
+                moMap.RedrawMap();
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
-
+                if (mSketchingPoint.Count > 0)
+                {
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                    //新建复合多边形
+                    MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
+                    sPoints.AddRange(mSketchingPoint.ToArray());
+                    sPoints.UpdateExtent();
+                    //生成要素并加入图层
+                    MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                    sFeature.Geometry = sPoints;
+                    sLayer.Features.Add(sFeature);
+                }
+                //初始化描绘图形
+                InitializeSketchingShape();
+                //重绘地图
+                moMap.RedrawMap();
             }
         }
 
         //绘制正在描绘的图形
         private void DrawSketchingShapes(MyMapObjects.moUserDrawingTool drawingTool)
         {
-            if (mSketchingShape == null)
-                return;
-            Int32 sPartCount = mSketchingShape.Count;
-            //绘制已经描绘完成的部分
-            for (Int32 i = 0; i <= sPartCount - 2; i++)
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
-                drawingTool.DrawPolygon(mSketchingShape[i], mEditingPolygonSymbol);
+                if (mSketchingShape == null)
+                    return;
+                Int32 sPartCount = mSketchingShape.Count;
+                //绘制已经描绘完成的部分
+                for (Int32 i = 0; i <= sPartCount - 2; i++)
+                {
+                    drawingTool.DrawPolygon(mSketchingShape[i], mEditingPolygonSymbol);
+                }
+                //正在描绘的部分（只有一个Part）
+                MyMapObjects.moPoints sLastPart = mSketchingShape.Last();
+                if (sLastPart.Count >= 2)
+                    drawingTool.DrawPolyline(sLastPart, mEditingPolygonSymbol.Outline);
+                //绘制所有顶点手柄
+                for (Int32 i = 0; i <= sPartCount - 1; i++)
+                {
+                    MyMapObjects.moPoints sPoints = mSketchingShape[i];
+                    drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
+                }
             }
-            //正在描绘的部分（只有一个Part）
-            MyMapObjects.moPoints sLastPart = mSketchingShape.Last();
-            if (sLastPart.Count >= 2)
-                drawingTool.DrawPolyline(sLastPart, mEditingPolygonSymbol.Outline);
-            //绘制所有顶点手柄
-            for (Int32 i = 0; i <= sPartCount - 1; i++)
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
             {
-                MyMapObjects.moPoints sPoints = mSketchingShape[i];
+                if (mSketchingShape == null)
+                    return;
+                Int32 sPartCount = mSketchingShape.Count;
+                //绘制已经描绘完成的部分
+                for (Int32 i = 0; i <= sPartCount - 2; i++)
+                {
+                    drawingTool.DrawPolyline(mSketchingShape[i], mEditingPolylineSymbol);
+                }
+                //正在描绘的部分（只有一个Part）
+                MyMapObjects.moPoints sLastPart = mSketchingShape.Last();
+                if (sLastPart.Count >= 2)
+                {
+                    MyMapObjects.moPoints sPolyline = sLastPart.Clone();
+                    sPolyline.RemoveAt(sLastPart.Count - 1);
+                    drawingTool.DrawPolyline(sPolyline, mEditingPolylineSymbol);
+                }
+                //绘制所有顶点手柄
+                for (Int32 i = 0; i <= sPartCount - 1; i++)
+                {
+                    MyMapObjects.moPoints sPoints = mSketchingShape[i];
+                    drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                if (mSketchingPoint == null)
+                    return;
+                drawingTool.DrawPoint(mSketchingPoint[0], mEditingVertexSymbol);
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                if (mSketchingPoint == null)
+                    return;
+                MyMapObjects.moPoints sPoints = new MyMapObjects.moPoints();
+                sPoints.AddRange(mSketchingPoint.ToArray());
                 drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
             }
         }
