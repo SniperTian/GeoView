@@ -546,7 +546,7 @@
             // moMapRightMenu
             // 
             this.moMapRightMenu.Name = "moMapRightMenu";
-            this.moMapRightMenu.Size = new System.Drawing.Size(181, 26);
+            this.moMapRightMenu.Size = new System.Drawing.Size(61, 4);
             this.moMapRightMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.moMapRightMenu_ItemClicked);
             // 
             // Main

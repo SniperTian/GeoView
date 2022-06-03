@@ -128,6 +128,7 @@ namespace GeoView
             for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
                 moMap.Layers.GetItem(i).SelectedFeatures.Clear();
+                moMap.Layers.GetItem(i).SelectIndex.Clear();
             }
             moMap.RedrawMap();
         }
@@ -1205,6 +1206,11 @@ namespace GeoView
         private void RightMenuInSelect()
         {
             if (mOperatingLayerIndex == -1) return;
+            //MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            //if (sLayer.SelectedFeatures.Count == 0)
+            //{
+            //    return;
+            //}
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("复制");
             moMapRightMenu.Items.Add("粘贴");
@@ -1219,12 +1225,11 @@ namespace GeoView
             moMapRightMenu.Items.Add("结束部件");
             moMapRightMenu.Items.Add("完成草图");
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
-            {
-                moMapRightMenu.Items[0].Enabled = false;
-            }
+            //if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            //{
+            //    moMapRightMenu.Items[0].Enabled = false;
+            //}
         }
-
 
         private void RightOperateInSelect(ToolStripItemClickedEventArgs e)
         {

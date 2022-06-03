@@ -210,7 +210,6 @@ namespace MyMapObjects
                 Rectangle sClientRect = this.ClientRectangle;
                 mMapDrawingReference.ZoomExtentToWindow(sFullExtent,sClientRect.Width,sClientRect.Height);
                 this.UseWaitCursor = true;
-                moRectangle ex = GetExtent();
                 DrawBufferMap1();
                 DrawBufferMap2();
                 this.UseWaitCursor = false;
@@ -671,6 +670,10 @@ namespace MyMapObjects
                 else if (sLayer.ShapeType == moGeometryTypeConstant.MultiPolygon)
                 {
                     sLayer.DrawSelectedFeatures(g, sExtent, sMapScale, dpm, mpu, mSelectedFillSymbol);
+                }
+                else if (sLayer.ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    sLayer.DrawSelectedFeatures(g, sExtent, sMapScale, dpm, mpu, mSelectedPointSymbol);
                 }
             }
             //（4）触发事件，以便用户程序继续绘图
