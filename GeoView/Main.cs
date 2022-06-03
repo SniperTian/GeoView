@@ -190,6 +190,7 @@ namespace GeoView
                 MoveFeatureBtn.Checked = false;
             }
             mMapOpStyle = 2;
+            RightMenuInSketch();
         }
 
         //选择操作图层
@@ -389,8 +390,6 @@ namespace GeoView
 
         private void OnEdit_MouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInMove)
             {
                 OnMoveSelect_MouseMove(e);
@@ -402,8 +401,6 @@ namespace GeoView
         }
         private void OnSelect_MouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInSelect == false)
             {
                 return;
@@ -415,8 +412,6 @@ namespace GeoView
         }
         private void OnMoveSelect_MouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInMove == false) return;
             //修改移动图形的坐标
             double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
@@ -431,8 +426,6 @@ namespace GeoView
         }
         private void OnSketch_MouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             MyMapObjects.moPoint sCurPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
             if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
@@ -631,6 +624,10 @@ namespace GeoView
             if (mMapOpStyle == 1)
             {
                 RightOperateInSelect(e);
+            }
+            else if (mMapOpStyle == 2)
+            {
+                RightOperateInSketch(e);
             }
         }
 
@@ -1207,6 +1204,7 @@ namespace GeoView
         //选择状态右键菜单
         private void RightMenuInSelect()
         {
+            if (mOperatingLayerIndex == -1) return;
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("复制");
             moMapRightMenu.Items.Add("粘贴");
@@ -1216,7 +1214,15 @@ namespace GeoView
         //描绘状态右键菜单
         private void RightMenuInSketch()
         {
+            if (mOperatingLayerIndex == -1) return;
             moMapRightMenu.Items.Clear();
+            moMapRightMenu.Items.Add("结束部件");
+            moMapRightMenu.Items.Add("完成草图");
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                moMapRightMenu.Items[0].Enabled = false;
+            }
         }
 
 
@@ -1228,6 +1234,20 @@ namespace GeoView
             {
                 sLayer.RemoveSelection();
                 moMap.RedrawMap();
+            }
+        }
+
+        private void RightOperateInSketch(ToolStripItemClickedEventArgs e)
+        {
+            if (mOperatingLayerIndex == -1) return;
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            if (e.ClickedItem.Text == "结束部件")
+            {
+                EndSketchPart(sLayer.ShapeType);
+            }
+            else if (e.ClickedItem.Text == "完成草图")
+            {
+                EndSketchGeo(sLayer.ShapeType);
             }
         }
 
