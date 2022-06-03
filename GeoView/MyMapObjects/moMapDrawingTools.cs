@@ -34,6 +34,11 @@ namespace MyMapObjects
                 moMultiPolygon sMultiPolygon = (moMultiPolygon)geometry;
                 DrawMultiPolygon(g, extent, mapScale, dpm, mpu, sMultiPolygon, symbol);
             }
+            else if (geometry.GetType() == typeof(moPoints))
+            {
+                moPoints sPoints = (moPoints)geometry;
+                DrawPoints(g, extent, mapScale, dpm, mpu, sPoints, symbol);
+            }
         }
 
         //绘制点

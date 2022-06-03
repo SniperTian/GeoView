@@ -261,6 +261,7 @@ namespace GeoView.DataIOTools
                 MyMapObjects.moPoint sPoint = new MyMapObjects.moPoint(sX, sY);
                 sPoints.Add(sPoint);
             }
+            sPoints.UpdateExtent();
             _Geometries.Add(sPoints);
         }
 

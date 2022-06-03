@@ -61,3 +61,4 @@ D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug
 D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
 D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.exe
 D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete

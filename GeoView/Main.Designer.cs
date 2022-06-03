@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -81,6 +82,7 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.layersTree = new System.Windows.Forms.TreeView();
             this.moMap = new MyMapObjects.moMapControl();
+            this.moMapRightMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
@@ -525,6 +527,7 @@
             // 
             this.moMap.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.moMap.ContextMenuStrip = this.moMapRightMenu;
             this.moMap.Dock = System.Windows.Forms.DockStyle.Right;
             this.moMap.FlashColor = System.Drawing.Color.Green;
             this.moMap.Location = new System.Drawing.Point(304, 56);
@@ -539,6 +542,12 @@
             this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
             this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
             this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
+            // 
+            // moMapRightMenu
+            // 
+            this.moMapRightMenu.Name = "moMapRightMenu";
+            this.moMapRightMenu.Size = new System.Drawing.Size(181, 26);
+            this.moMapRightMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.moMapRightMenu_ItemClicked);
             // 
             // Main
             // 
@@ -620,5 +629,6 @@
         private System.Windows.Forms.ToolStripButton MoveFeatureBtn;
         private System.Windows.Forms.ToolStripButton CreateFeatureBtn;
         private System.Windows.Forms.ToolStripComboBox SelectLayer;
+        private System.Windows.Forms.ContextMenuStrip moMapRightMenu;
     }
 }

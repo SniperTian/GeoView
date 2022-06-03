@@ -90,10 +90,15 @@ namespace MyMapObjects
                     moMultiPolyline sMultiPolyline = (moMultiPolyline)_Geometry;
                     sRect = sMultiPolyline.GetEnvelope();
                 }
-                else
+                else if (_ShapeType == moGeometryTypeConstant.MultiPolygon)
                 {
                     moMultiPolygon sMultiPolygon = (moMultiPolygon)_Geometry;
                     sRect = sMultiPolygon.GetEnvelope();
+                }
+                else
+                {
+                    moPoints sPoints = (moPoints)_Geometry;
+                    sRect = sPoints.GetEnvelope();
                 }
             }
             return sRect;

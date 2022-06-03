@@ -26,6 +26,7 @@ namespace MyMapObjects
         private moRectangle _Extent = new moRectangle(double.MaxValue, double.MinValue, double.MaxValue, double.MinValue);//图层范围
         private moRenderer _Renderer;//图层渲染对象
         private moLabelRenderer _LabelRenderer;//注记渲染对象
+        private List<Int32> _SelectIndex = new List<Int32>();
     
         #endregion
 
@@ -55,6 +56,10 @@ namespace MyMapObjects
 
         #region 属性
 
+        public List<Int32> SelectIndex
+        {
+            get { return _SelectIndex; }
+        }
         /// <summary>
         /// 获取图层的要素几何类型
         /// </summary>
@@ -183,6 +188,22 @@ namespace MyMapObjects
         public void ClearSelection()
         {
             _SelectedFeatures.Clear();
+            _SelectIndex.Clear();
+        }
+
+        public void RemoveSelection()
+        {
+            MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+            for(Int32 i = 0; i < _Features.Count; ++i)
+            {
+                if (SelectIndex.Contains(i) == false)
+                {
+                    sFeatures.Add(_Features.GetItem(i));
+                }
+            }
+            _Features = sFeatures;
+            _SelectIndex.Clear();
+            _SelectedFeatures.Clear();
         }
 
         /// <summary>
@@ -195,6 +216,7 @@ namespace MyMapObjects
         {
             //说明:出于简化，仅考虑一种选择模式
             moFeatures sSelection = null;
+            SelectIndex.Clear();
             if (selectingBox.Width == 0 && selectingBox.Height == 0)
             {
                 //按点选
@@ -449,6 +471,7 @@ namespace MyMapObjects
                     if (moMapTools.IsPointOnPoint(point, sPoint, tolerance) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
                     }
                 }
                 else if (_ShapeType == moGeometryTypeConstant.MultiPolyline)
@@ -457,6 +480,7 @@ namespace MyMapObjects
                     if (moMapTools.IsPointOnMultiPolyline(point, sMultiPolyline, tolerance) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
                     }
                 }
                 else if (_ShapeType == moGeometryTypeConstant.MultiPolygon)
@@ -465,6 +489,20 @@ namespace MyMapObjects
                     if (moMapTools.IsPointWithinMultiPolygon(point, sMultiPolygon) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
+                    }
+                }
+                else if (_ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    moPoints sPoints = (moPoints)_Features.GetItem(i).Geometry;
+                    for(Int32 j = 0; j < sPoints.Count; j++)
+                    {
+                        if (moMapTools.IsPointOnPoint(point, sPoints.GetItem(j), tolerance) == true)
+                        {
+                            sSelectedFeatures.Add(_Features.GetItem(i));
+                            SelectIndex.Add(i);
+                            break;
+                        }
                     }
                 }
             }
@@ -484,6 +522,7 @@ namespace MyMapObjects
                     if (moMapTools.IsPointWithinBox(sPoint, selectingBox) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
                     }
                 }
                 else if (_ShapeType == moGeometryTypeConstant.MultiPolyline)
@@ -492,6 +531,7 @@ namespace MyMapObjects
                     if (moMapTools.IsMultiPolylinePartiallyWithinBox(sMultiPolyline, selectingBox) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
                     }
                 }
                 else if (_ShapeType == moGeometryTypeConstant.MultiPolygon)
@@ -500,7 +540,22 @@ namespace MyMapObjects
                     if (moMapTools.IsMultiPolygonPartiallyWithinBox(sMultiPolygon, selectingBox) == true)
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
+                        SelectIndex.Add(i);
                     }
+                }
+                else if (_ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    moPoints sPoints = (moPoints)_Features.GetItem(i).Geometry;
+                    for(Int32 j = 0; j < sPoints.Count; j++)
+                    {
+                        if (moMapTools.IsPointWithinBox(sPoints.GetItem(j), selectingBox) == true)
+                        {
+                            sSelectedFeatures.Add(_Features.GetItem(i));
+                            SelectIndex.Add(i);
+                            break;
+                        }
+                    }
+                    
                 }
             }
             return sSelectedFeatures;

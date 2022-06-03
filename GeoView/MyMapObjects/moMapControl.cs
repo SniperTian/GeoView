@@ -210,6 +210,7 @@ namespace MyMapObjects
                 Rectangle sClientRect = this.ClientRectangle;
                 mMapDrawingReference.ZoomExtentToWindow(sFullExtent,sClientRect.Width,sClientRect.Height);
                 this.UseWaitCursor = true;
+                moRectangle ex = GetExtent();
                 DrawBufferMap1();
                 DrawBufferMap2();
                 this.UseWaitCursor = false;
