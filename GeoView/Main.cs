@@ -1083,6 +1083,7 @@ namespace GeoView
         //绘制正在描绘的图形
         private void DrawSketchingShapes(MyMapObjects.moUserDrawingTool drawingTool)
         {
+            if (mOperatingLayerIndex == -1) return;
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
