@@ -120,3 +120,4 @@ E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\G
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.exe
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Label.resources

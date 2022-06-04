@@ -102,10 +102,17 @@ namespace GeoView
         private Int32 mPolygonClassBreaksNum = 5; //分类数
         private Color mPolygonClassBreaksRendererStartColor = Color.MistyRose; //符号起始颜色,面图层采用符号颜色进行分级表示
         private Color mPolygonClassBreaksRendererEndColor = Color.Red; //符号终止颜色
+        //(5)与显示注记有关变量
+        private Color mLabelColor = Color.Black;
+        private Font mLabelFont = new Font("宋体", 12);
+        private Int32 mLabelFieldIndex = 0;
+        private bool mLabelUseMask = false;
+        private bool mLabelVisible = false;
 
         PointRenderer mPointRenderer;
         PolylineRenderer mPolylineRenderer;
         PolygonRenderer mPolygonRenderer;
+        Label mLabel;
 
         #endregion
         public Main()
@@ -1155,9 +1162,28 @@ namespace GeoView
 
         private void 显示注记ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);//待显示注记的图层
+            mLabel = new Label(sLayer);
+            mLabel.Owner = this;
+            mLabel.ShowDialog();
+            MyMapObjects.moLabelRenderer sLabelRenderer = new MyMapObjects.moLabelRenderer();            
+            sLabelRenderer.Field = sLayer.AttributeFields.GetItem(mLabelFieldIndex).Name;
+            sLabelRenderer.TextSymbol.Font = mLabelFont;
+            sLabelRenderer.TextSymbol.FontColor = mLabelColor;
+            sLabelRenderer.TextSymbol.UseMask = mLabelUseMask;
+            sLabelRenderer.LabelFeatures = mLabelVisible;
+            sLayer.LabelRenderer = sLabelRenderer;
+            moMap.RedrawMap();
         }
 
+        public void GetLabel(bool visible,bool useMask,Int32 fieldIndex,Color color,Font font)
+        {
+            mLabelVisible = visible;
+            mLabelUseMask = useMask;
+            mLabelFieldIndex = fieldIndex;
+            mLabelColor = color;
+            mLabelFont = font;
+        }
 
 
         #region 图层渲染相关
