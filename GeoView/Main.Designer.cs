@@ -62,12 +62,12 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnPan = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnFullExtent = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnSelect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnZoomIn = new System.Windows.Forms.ToolStripButton();
+            this.tsbtnZoomOut = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSpBtn = new System.Windows.Forms.ToolStripSplitButton();
             this.BeginEditItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -320,12 +320,12 @@
             this.toolStripButton1,
             this.toolStripButton2,
             this.toolStripSeparator1,
-            this.toolStripButton6,
-            this.toolStripButton7,
-            this.toolStripButton8,
+            this.tsbtnPan,
+            this.tsbtnFullExtent,
+            this.tsbtnSelect,
             this.toolStripSeparator3,
-            this.toolStripButton4,
-            this.toolStripButton5,
+            this.tsbtnZoomIn,
+            this.tsbtnZoomOut,
             this.toolStripSeparator2,
             this.EditSpBtn,
             this.MoveFeatureBtn,
@@ -362,55 +362,60 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton6
+            // tsbtnPan
             // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "漫游";
+            this.tsbtnPan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbtnPan.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnPan.Image")));
+            this.tsbtnPan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnPan.Name = "tsbtnPan";
+            this.tsbtnPan.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnPan.Text = "漫游";
+            this.tsbtnPan.Click += new System.EventHandler(this.tsbtnPan_Click);
             // 
-            // toolStripButton7
+            // tsbtnFullExtent
             // 
-            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton7.Text = "全范围显示";
+            this.tsbtnFullExtent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbtnFullExtent.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnFullExtent.Image")));
+            this.tsbtnFullExtent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnFullExtent.Name = "tsbtnFullExtent";
+            this.tsbtnFullExtent.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnFullExtent.Text = "全范围显示";
+            this.tsbtnFullExtent.Click += new System.EventHandler(this.tsbtnFullExtent_Click);
             // 
-            // toolStripButton8
+            // tsbtnSelect
             // 
-            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton8.Text = "选择要素";
+            this.tsbtnSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbtnSelect.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnSelect.Image")));
+            this.tsbtnSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnSelect.Name = "tsbtnSelect";
+            this.tsbtnSelect.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnSelect.Text = "选择要素";
+            this.tsbtnSelect.Click += new System.EventHandler(this.tsbtnSelect_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton4
+            // tsbtnZoomIn
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "放大";
+            this.tsbtnZoomIn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbtnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomIn.Image")));
+            this.tsbtnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnZoomIn.Name = "tsbtnZoomIn";
+            this.tsbtnZoomIn.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnZoomIn.Text = "放大";
+            this.tsbtnZoomIn.Click += new System.EventHandler(this.tsbtnZoomIn_Click);
             // 
-            // toolStripButton5
+            // tsbtnZoomOut
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "缩小";
+            this.tsbtnZoomOut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbtnZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnZoomOut.Image")));
+            this.tsbtnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbtnZoomOut.Name = "tsbtnZoomOut";
+            this.tsbtnZoomOut.Size = new System.Drawing.Size(23, 22);
+            this.tsbtnZoomOut.Text = "缩小";
+            this.tsbtnZoomOut.Click += new System.EventHandler(this.tsbtnZoomOut_Click);
             // 
             // toolStripSeparator2
             // 
@@ -524,6 +529,7 @@
             this.moMap.Load += new System.EventHandler(this.moMap_Load);
             this.moMap.Click += new System.EventHandler(this.moMap_Click);
             this.moMap.DoubleClick += new System.EventHandler(this.moMap_DoubleClick);
+            this.moMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseClick);
             this.moMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseDown);
             this.moMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseMove);
             this.moMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.moMap_MouseUp);
@@ -588,12 +594,12 @@
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
-        private System.Windows.Forms.ToolStripButton toolStripButton7;
-        private System.Windows.Forms.ToolStripButton toolStripButton8;
+        private System.Windows.Forms.ToolStripButton tsbtnPan;
+        private System.Windows.Forms.ToolStripButton tsbtnFullExtent;
+        private System.Windows.Forms.ToolStripButton tsbtnSelect;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton tsbtnZoomIn;
+        private System.Windows.Forms.ToolStripButton tsbtnZoomOut;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.TreeView layersTree;
         private System.Windows.Forms.ToolStripSplitButton EditSpBtn;

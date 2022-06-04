@@ -38,7 +38,7 @@ namespace GeoView
         private bool mIsInPan = false;
         private bool mIsInSelect = false;
         private bool mIsInIdentify = false;
-        private bool mIsInMovingShapes = false;
+        private bool mIsInMovingShapes = false;   
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         //正在移动的图形的集合
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
@@ -90,6 +90,7 @@ namespace GeoView
         public Main()
         {
             InitializeComponent();
+            moMap.MouseWheel += MoMap_MouseWheel;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -155,30 +156,307 @@ namespace GeoView
             }
         }
 
+        private void tsbtnZoomIn_Click(object sender, EventArgs e)
+        {
+            mMapOpStyle = 1;
+        }
+
+        private void tsbtnZoomOut_Click(object sender, EventArgs e)
+        {
+            mMapOpStyle = 2;
+        }
+
+        private void tsbtnPan_Click(object sender, EventArgs e)
+        {
+            mMapOpStyle = 3;
+        }
+
+        private void tsbtnSelect_Click(object sender, EventArgs e)
+        {
+            mMapOpStyle = 4;
+        }
+        #region 地图事件处理
         private void moMap_Click(object sender, EventArgs e)
         {
+            
+        }
+        private void moMap_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (mMapOpStyle == 1)//放大
+            {
+            }
+            else if (mMapOpStyle == 2)//缩小
+            {
+                OnZoomOut_MouseClick(e);
+            }
+            else if (mMapOpStyle == 3)//漫游
+            {
 
+            }
+            else if (mMapOpStyle == 4)//选择
+            {
+
+            }
+            else if (mMapOpStyle == 5)//查询
+            {
+
+            }
+            else if (mMapOpStyle == 6)//移动
+            {
+
+            }
+            else if (mMapOpStyle == 7)//描绘
+            {
+            }
+            else if (mMapOpStyle == 8)//编辑
+            {
+            }
+        }
+        //缩小状态下鼠标单击
+        private void OnZoomOut_MouseClick(MouseEventArgs e)
+        {
+            //单点缩小
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+            moMap.ZoomByCenter(sPoint, 1 / mZoomRatioFixed);
         }
 
         private void moMap_DoubleClick(object sender, EventArgs e)
         {
 
         }
-
+        
         private void moMap_MouseDown(object sender, MouseEventArgs e)
         {
+            if (mMapOpStyle == 1)//放大
+            {
+                OnZoomIn_MouseDown(e);
+            }
+            else if (mMapOpStyle == 2)//缩小
+            {
+            }
+            else if (mMapOpStyle == 3)//漫游
+            {
+                OnPan_MouseDown(e);
+            }
+            else if (mMapOpStyle == 4)//选择
+            {
+                OnSelect_MouseDown(e);
+            }
+            else if (mMapOpStyle == 5)//查询
+            {
+            }
+            else if (mMapOpStyle == 6)//移动
+            {
+            }
+            else if (mMapOpStyle == 7)//描绘
+            {
+            }
+            else if (mMapOpStyle == 8)//编辑
+            {
+            }
+        }
+        //放大状态下鼠标按下
+        private void OnZoomIn_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInZoomIn = true;
+            }
+        }
+
+        //漫游状态下鼠标按下
+        private void OnPan_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInPan = true;
+                //this.Cursor = new Cursor("ico/PanUp.ico");
+            }
 
         }
 
+        //选择状态下鼠标按下
+        private void OnSelect_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInSelect = true;
+            }
+        }
+        //0：无，1：放大，2：缩小，3：漫游，4：选择；5：查询；6：移动；7：描绘；8：编辑；
         private void moMap_MouseMove(object sender, MouseEventArgs e)
         {
+            if (mMapOpStyle == 1)//放大
+            {
+                OnZoomIn_MouseMove(e);
+            }
+            else if (mMapOpStyle == 2)//缩小
+            {
+            }
+            else if (mMapOpStyle == 3)//漫游
+            {
+                OnPan_MouseMove(e);
+            }
+            else if (mMapOpStyle == 4)//选择
+            {
+                OnSelect_MouseMove(e);
+            }
+            else if (mMapOpStyle == 5)//查询
+            {
+            }
+            else if (mMapOpStyle == 6)//移动
+            { 
+            }
+            else if (mMapOpStyle == 7)//描绘
+            {
+            }
+            else if (mMapOpStyle == 8)//编辑
+            {
+            }
+        }
 
+        //放大状态下鼠标移动
+        private void OnZoomIn_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInZoomIn == false)
+            {
+                return;
+            }
+            moMap.Refresh();
+            MyMapObjects.moRectangle sRect = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
+            sDrawingTool.DrawRectangle(sRect, mZoomBoxSymbol);
+        }
+
+        //漫游状态下鼠标移动
+        private void OnPan_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInPan == false)
+                return;
+            moMap.PanMapImageTo(e.Location.X - mStartMouseLocation.X, e.Location.Y - mStartMouseLocation.Y);
+        }
+
+        //选择状态下鼠标移动
+        private void OnSelect_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInSelect == false)
+                return;
+            moMap.Refresh();
+            MyMapObjects.moRectangle sRect = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
+            sDrawingTool.DrawRectangle(sRect, mZoomBoxSymbol);
         }
 
         private void moMap_MouseUp(object sender, MouseEventArgs e)
         {
-
+            if (mMapOpStyle == 1)//放大
+            {
+                OnZoomIn_MouseUp(e);
+            }
+            else if (mMapOpStyle == 2)//缩小
+            {
+            }
+            else if (mMapOpStyle == 3)//漫游
+            {
+                OnPan_MouseUp(e);
+            }
+            else if (mMapOpStyle == 4)//选择
+            {
+                OnSelect_MouseUp(e);
+            }
+            else if (mMapOpStyle == 5)//查询
+            {
+            }
+            else if (mMapOpStyle == 6)//移动
+            {
+            }
+            else if (mMapOpStyle == 7)//描绘
+            {
+            }
+            else if (mMapOpStyle == 8)//编辑
+            {
+            }
         }
+
+        //放大状态下鼠标松开
+        private void OnZoomIn_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInZoomIn == false)
+                return;
+            mIsInZoomIn = false;
+            if (mStartMouseLocation.X == e.Location.X && mStartMouseLocation.Y == e.Location.Y)
+            {
+                //单点放大
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(mStartMouseLocation.X, mStartMouseLocation.Y);
+                moMap.ZoomByCenter(sPoint, mZoomRatioFixed);
+            }
+            else
+            {
+                //矩形放大
+                MyMapObjects.moRectangle sBox = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+                moMap.ZoomToExtent(sBox);
+            }
+        }
+
+        //漫游状态下鼠标松开
+        private void OnPan_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInPan == false)
+            {
+                return;
+            }
+            mIsInPan = false;
+            double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
+            double sDeltaY = moMap.ToMapDistance(mStartMouseLocation.Y - e.Location.Y);
+            moMap.PanDelta(sDeltaX, sDeltaY);
+        }
+
+        //选择状态下鼠标松开
+        private void OnSelect_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInSelect == false)
+            {
+                return;
+            }
+            mIsInSelect = false;
+            MyMapObjects.moRectangle sBox = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+            moMap.SelectByBox(sBox, sTolerance, 0);
+            moMap.RedrawTrackingShapes();
+        }
+
+        //鼠标滑轮事件
+        private void MoMap_MouseWheel(object sender, MouseEventArgs e)
+        {
+            //计算地图控件中心的地图坐标
+            double sX = moMap.ClientRectangle.Width / 2;
+            double sY = moMap.ClientRectangle.Height / 2;
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(sX, sY);
+            if (e.Delta > 0)
+            {
+                moMap.ZoomByCenter(sPoint, mZoomRatioMouseWheel);
+            }
+            else
+            {
+                moMap.ZoomByCenter(sPoint, 1 / mZoomRatioMouseWheel);
+            }
+        }
+
+        #endregion
+
+        //全范围显示
+        private void tsbtnFullExtent_Click(object sender, EventArgs e)
+        {
+            moMap.FullExtent();
+        }
+
+
+
+
+
 
         private void 打开地图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -685,6 +963,18 @@ namespace GeoView
             return index;
         }
 
+        //根据屏幕上两点获得一个地图坐标下的矩形
+        private MyMapObjects.moRectangle GetMapRectByTwoPoints(PointF point1, PointF point2)
+        {
+            MyMapObjects.moPoint sPoint1 = moMap.ToMapPoint(point1.X, point1.Y);
+            MyMapObjects.moPoint sPoint2 = moMap.ToMapPoint(point2.X, point2.Y);
+            double sMinX = Math.Min(sPoint1.X, sPoint2.X);
+            double sMaxX = Math.Max(sPoint1.X, sPoint2.X);
+            double sMinY = Math.Min(sPoint1.Y, sPoint2.Y);
+            double sMaxY = Math.Max(sPoint1.Y, sPoint2.Y);
+            MyMapObjects.moRectangle sRect = new MyMapObjects.moRectangle(sMinX, sMaxX, sMinY, sMaxY);
+            return sRect;
+        }
 
         #endregion
 
@@ -692,5 +982,7 @@ namespace GeoView
         {
 
         }
+
+        
     }
 }
