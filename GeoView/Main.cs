@@ -270,7 +270,7 @@ namespace GeoView
                 return;
             }
         }
-
+        #region 图层渲染
         private void GetPointRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
             Int32 uniqueFieldIndex, Double uniqueRendererSize, Int32 classBreakFieldIndex, Int32 classNum,
             Color classBreakRendererColor, double classBreakRendererMinSize, double classBreakRendererMaxSize)
@@ -398,7 +398,7 @@ namespace GeoView
                     //获取最小最大值并分级
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPointClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPointClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPointClassBreaksNum;
                         MyMapObjects.moSimpleMarkerSymbol sSymbol = new MyMapObjects.moSimpleMarkerSymbol();
@@ -484,7 +484,7 @@ namespace GeoView
                     //获取最小最大值并分5级
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPolylineClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPolylineClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolylineClassBreaksNum;
                         MyMapObjects.moSimpleLineSymbol sSymbol = new MyMapObjects.moSimpleLineSymbol();
@@ -566,7 +566,7 @@ namespace GeoView
                     //获取最小最大值并分5级
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPolygonClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPolygonClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolygonClassBreaksNum;
                         MyMapObjects.moSimpleFillSymbol sSymbol = new MyMapObjects.moSimpleFillSymbol();
@@ -581,11 +581,11 @@ namespace GeoView
                 }
             }
         }
-
+        #endregion
 
         #region 私有函数
 
-            // 初始化符号
+        // 初始化符号
         private void InitializeSymbols()
         {
             mSelectBoxSymbol = new MyMapObjects.moSimpleFillSymbol();
