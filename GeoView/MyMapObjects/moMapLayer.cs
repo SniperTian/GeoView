@@ -169,6 +169,8 @@ namespace MyMapObjects
             set { _LabelRenderer = value; }
         }
 
+
+
         #endregion
 
         #region 方法

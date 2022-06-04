@@ -244,6 +244,7 @@ namespace MyMapObjects
             }
             else
             {
+                sSizes[0] = startSize;
                 sSizes[sBreakCount - 1] = endSize;
                 double sSizeStep = (endSize - startSize) / (sBreakCount - 1);
                 for (Int32 i = 1; i <= sBreakCount - 2; i++)

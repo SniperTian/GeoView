@@ -261,6 +261,7 @@
             this.rbtnClassBreaks.TabIndex = 2;
             this.rbtnClassBreaks.Text = "分级渲染";
             this.rbtnClassBreaks.UseVisualStyleBackColor = true;
+            this.rbtnClassBreaks.CheckedChanged += new System.EventHandler(this.rbtnClassBreaks_CheckedChanged);
             // 
             // rbtnUniqueValue
             // 
@@ -271,6 +272,7 @@
             this.rbtnUniqueValue.TabIndex = 1;
             this.rbtnUniqueValue.Text = "唯一值渲染";
             this.rbtnUniqueValue.UseVisualStyleBackColor = true;
+            this.rbtnUniqueValue.CheckedChanged += new System.EventHandler(this.rbtnUniqueValue_CheckedChanged);
             // 
             // rbtnSimple
             // 
@@ -283,6 +285,7 @@
             this.rbtnSimple.TabStop = true;
             this.rbtnSimple.Text = "单一符号渲染";
             this.rbtnSimple.UseVisualStyleBackColor = true;
+            this.rbtnSimple.CheckedChanged += new System.EventHandler(this.rbtnSimple_CheckedChanged);
             // 
             // PolygonRenderer
             // 
@@ -296,6 +299,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "PolygonRenderer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图层渲染";
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();

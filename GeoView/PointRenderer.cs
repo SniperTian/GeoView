@@ -54,18 +54,112 @@ namespace GeoView
             cboStyle.SelectedIndex = 0;
             cboUniqueField.SelectedIndex = 0;
             cboClassBreaksField.SelectedIndex = 0;
+
+
+            if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.Simple)
+            {
+                MyMapObjects.moSimpleRenderer sRenderer = (MyMapObjects.moSimpleRenderer)layer.Renderer;
+                MyMapObjects.moSimpleMarkerSymbol sSymbol = (MyMapObjects.moSimpleMarkerSymbol)sRenderer.Symbol;
+                cboStyle.SelectedIndex = (Int32)sSymbol.Style;
+                btnSimpleColor.BackColor = sSymbol.Color;
+                mSimpleRendererColor = sSymbol.Color;
+                nudSimpleSize.Value = Convert.ToDecimal(sSymbol.Size);
+                rbtnSimple.Checked = true;
+
+            }
+            else if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.UniqueValue)
+            {
+                MyMapObjects.moUniqueValueRenderer sRenderer = (MyMapObjects.moUniqueValueRenderer)layer.Renderer;
+                MyMapObjects.moSimpleMarkerSymbol sSymbol = (MyMapObjects.moSimpleMarkerSymbol)sRenderer.GetSymbol(0);
+                cboStyle.SelectedIndex = (Int32)sSymbol.Style;
+                cboUniqueField.SelectedIndex = layer.AttributeFields.FindField(sRenderer.Field);
+                nudUniqueSize.Value = Convert.ToDecimal(sSymbol.Size);
+                rbtnUniqueValue.Checked = true;
+
+            }
+            else if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.ClassBreaks)
+            {
+                MyMapObjects.moClassBreaksRenderer sRenderer = (MyMapObjects.moClassBreaksRenderer)layer.Renderer;
+            
+                MyMapObjects.moSimpleMarkerSymbol sStartSymbol = (MyMapObjects.moSimpleMarkerSymbol)sRenderer.GetSymbol(0);
+                MyMapObjects.moSimpleMarkerSymbol sEndSymbol = (MyMapObjects.moSimpleMarkerSymbol)sRenderer.GetSymbol(sRenderer.BreakCount-1);
+                cboStyle.SelectedIndex = (Int32)sStartSymbol.Style;
+                btnClassBreaksColor.BackColor = sStartSymbol.Color;
+                mClassBreaksRendererColor = sStartSymbol.Color;
+                cboClassBreaksField.SelectedIndex = layer.AttributeFields.FindField(sRenderer.Field);
+                nudClassBreaksNum.Value = sRenderer.BreakCount;
+                nudClassBreaksMinSize.Value = Convert.ToDecimal(sStartSymbol.Size);
+                nudClassBreaksMaxSize.Value = Convert.ToDecimal(sEndSymbol.Size);
+                rbtnClassBreaks.Checked = true;
+            }
+            SetEnabled();
         }
 
         #endregion
 
         #region 窗体操作
 
+        //设置选项是否可选
+        private void SetEnabled()
+        {
+            if (rbtnSimple.Checked)
+            {
+                btnSimpleColor.Enabled = true;
+                nudSimpleSize.Enabled = true;
+                cboUniqueField.Enabled = false;
+                nudUniqueSize.Enabled = false;
+                cboClassBreaksField.Enabled = false;
+                nudClassBreaksNum.Enabled = false;
+                btnClassBreaksColor.Enabled = false;
+                nudClassBreaksMinSize.Enabled = false;
+                nudClassBreaksMaxSize.Enabled = false;
+            }
+            else if (rbtnUniqueValue.Checked)
+            {
+                btnSimpleColor.Enabled = false;
+                nudSimpleSize.Enabled = false;
+                cboUniqueField.Enabled = true;
+                nudUniqueSize.Enabled = true;
+                cboClassBreaksField.Enabled = false;
+                nudClassBreaksNum.Enabled = false;
+                btnClassBreaksColor.Enabled = false;
+                nudClassBreaksMinSize.Enabled = false;
+                nudClassBreaksMaxSize.Enabled = false;
+            }
+            else if (rbtnClassBreaks.Checked)
+            {
+                btnSimpleColor.Enabled = false;
+                nudSimpleSize.Enabled = false;
+                cboUniqueField.Enabled = false;
+                nudUniqueSize.Enabled = false;
+                cboClassBreaksField.Enabled = true;
+                nudClassBreaksNum.Enabled = true;
+                btnClassBreaksColor.Enabled = true;
+                nudClassBreaksMinSize.Enabled = true;
+                nudClassBreaksMaxSize.Enabled = true;
+            }
+        }
+
+        private void rbtnSimple_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
+
+        private void rbtnUniqueValue_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
+
+        private void rbtnClassBreaks_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
         //选择渲染方式
         private void GetRendererMode()
         {
             if (rbtnSimple.Checked)
             {
-                mRendererMode = 0;
+                mRendererMode = 0;              
             }
             else if (rbtnUniqueValue.Checked)
             {
@@ -173,5 +267,6 @@ namespace GeoView
         }
         #endregion
 
+        
     }
 }

@@ -86,14 +86,14 @@ namespace GeoView
         private Int32 mPolylineRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
         private Int32 mPolylineSymbolStyle = 0; //样式索引
         private Color mPolylineSimpleRendererColor = Color.Red; //符号颜色
-        private Double mPolylineSimpleRendererSize = 5; //符号尺寸
+        private Double mPolylineSimpleRendererSize = 0.5; //符号尺寸
         private Int32 mPolylineUniqueFieldIndex = 0; //绑定字段索引
-        private Double mPolylineUniqueRendererSize = 5; //符号尺寸
+        private Double mPolylineUniqueRendererSize = 0.5; //符号尺寸
         private Int32 mPolylineClassBreaksFieldIndex = 0; //绑定字段索引
         private Int32 mPolylineClassBreaksNum = 5; //分类数
         private Color mPolylineClassBreaksRendererColor = Color.Red; //符号颜色
-        private Double mPolylineClassBreaksRendererMinSize = 3; //符号起始尺寸,线图层采用符号尺寸进行分级表示
-        private Double mPolylineClassBreaksRendererMaxSize = 6; //符号终止尺寸
+        private Double mPolylineClassBreaksRendererMinSize = 0.5; //符号起始尺寸,线图层采用符号尺寸进行分级表示
+        private Double mPolylineClassBreaksRendererMaxSize = 1.5; //符号终止尺寸
 
         private Int32 mPolygonRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
         private Color mPolygonSimpleRendererColor = Color.Red; //符号颜色
@@ -961,7 +961,7 @@ namespace GeoView
                     }
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPointClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPointClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPointClassBreaksNum;
                         MyMapObjects.moSimpleMarkerSymbol sSymbol = new MyMapObjects.moSimpleMarkerSymbol();
@@ -1051,7 +1051,7 @@ namespace GeoView
 
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPolylineClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPolylineClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolylineClassBreaksNum;
                         MyMapObjects.moSimpleLineSymbol sSymbol = new MyMapObjects.moSimpleLineSymbol();
@@ -1137,7 +1137,7 @@ namespace GeoView
                     //获取最小最大值并分5级
                     double sMinValue = sValues.Min();
                     double sMaxValue = sValues.Max();
-                    for (Int32 i = 0; i <= mPolygonClassBreaksNum; i++)
+                    for (Int32 i = 0; i < mPolygonClassBreaksNum; i++)
                     {
                         double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolygonClassBreaksNum;
                         MyMapObjects.moSimpleFillSymbol sSymbol = new MyMapObjects.moSimpleFillSymbol();

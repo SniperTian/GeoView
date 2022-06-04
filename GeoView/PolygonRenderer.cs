@@ -40,12 +40,90 @@ namespace GeoView
             }
             cboUniqueField.SelectedIndex = 0;
             cboClassBreaksField.SelectedIndex = 0;
+
+            if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.Simple)
+            {
+                MyMapObjects.moSimpleRenderer sRenderer = (MyMapObjects.moSimpleRenderer)layer.Renderer;
+                MyMapObjects.moSimpleFillSymbol sSymbol = (MyMapObjects.moSimpleFillSymbol)sRenderer.Symbol;
+                btnSimpleColor.BackColor = sSymbol.Color;
+                mSimpleRendererColor = sSymbol.Color;
+                rbtnSimple.Checked = true;
+
+            }
+            else if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.UniqueValue)
+            {
+                MyMapObjects.moUniqueValueRenderer sRenderer = (MyMapObjects.moUniqueValueRenderer)layer.Renderer;
+                MyMapObjects.moSimpleFillSymbol sSymbol = (MyMapObjects.moSimpleFillSymbol)sRenderer.GetSymbol(0);
+                cboUniqueField.SelectedIndex = layer.AttributeFields.FindField(sRenderer.Field);
+                rbtnUniqueValue.Checked = true;
+
+            }
+            else if (layer.Renderer.RendererType == MyMapObjects.moRendererTypeConstant.ClassBreaks)
+            {
+                MyMapObjects.moClassBreaksRenderer sRenderer = (MyMapObjects.moClassBreaksRenderer)layer.Renderer;
+                MyMapObjects.moSimpleFillSymbol sStartSymbol = (MyMapObjects.moSimpleFillSymbol)sRenderer.GetSymbol(0);
+                MyMapObjects.moSimpleFillSymbol sEndSymbol = (MyMapObjects.moSimpleFillSymbol)sRenderer.GetSymbol(sRenderer.BreakCount - 1);
+                cboClassBreaksField.SelectedIndex = layer.AttributeFields.FindField(sRenderer.Field);
+                nudClassBreaksNum.Value = sRenderer.BreakCount;
+                btnClassBreaksStartColor.BackColor = sStartSymbol.Color;
+                mClassBreaksRendererStartColor = sStartSymbol.Color;
+                btnClassBreaksEndColor.BackColor = sEndSymbol.Color;
+                mClassBreaksRendererEndColor = sEndSymbol.Color;
+                rbtnClassBreaks.Checked = true;
+            }
+            SetEnabled();
         }
 
         #endregion
 
         #region 窗体操作
+        //设置选项是否可选
+        private void SetEnabled()
+        {
+            if (rbtnSimple.Checked)
+            {
+                btnSimpleColor.Enabled = true;
+                cboUniqueField.Enabled = false;
+                cboClassBreaksField.Enabled = false;                
+                nudClassBreaksNum.Enabled = false;
+                btnClassBreaksStartColor.Enabled = false;
+                btnClassBreaksEndColor.Enabled = false;
+            }
+            else if (rbtnUniqueValue.Checked)
+            {
+                btnSimpleColor.Enabled = false;
+                cboUniqueField.Enabled = true;
+                cboClassBreaksField.Enabled = false;
+                nudClassBreaksNum.Enabled = false;
+                btnClassBreaksStartColor.Enabled = false;
+                btnClassBreaksEndColor.Enabled = false;
+            }
+            else if (rbtnClassBreaks.Checked)
+            {
+                btnSimpleColor.Enabled = false;
+                cboUniqueField.Enabled = false;
+                cboClassBreaksField.Enabled = true;
+                nudClassBreaksNum.Enabled = true;
+                btnClassBreaksStartColor.Enabled = true;
+                btnClassBreaksEndColor.Enabled = true;
 
+            }
+        }
+
+        private void rbtnSimple_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
+
+        private void rbtnUniqueValue_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
+
+        private void rbtnClassBreaks_CheckedChanged(object sender, EventArgs e)
+        {
+            SetEnabled();
+        }
         //选择渲染方式
         private void GetRendererMode()
         {

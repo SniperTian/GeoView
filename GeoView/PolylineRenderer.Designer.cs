@@ -121,6 +121,11 @@
             // 
             this.nudClassBreaksMaxSize.DecimalPlaces = 2;
             this.nudClassBreaksMaxSize.Font = new System.Drawing.Font("宋体", 12F);
+            this.nudClassBreaksMaxSize.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nudClassBreaksMaxSize.Location = new System.Drawing.Point(290, 70);
             this.nudClassBreaksMaxSize.Maximum = new decimal(new int[] {
             3,
@@ -146,6 +151,11 @@
             // 
             this.nudClassBreaksMinSize.DecimalPlaces = 2;
             this.nudClassBreaksMinSize.Font = new System.Drawing.Font("宋体", 12F);
+            this.nudClassBreaksMinSize.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nudClassBreaksMinSize.Location = new System.Drawing.Point(216, 70);
             this.nudClassBreaksMinSize.Maximum = new decimal(new int[] {
             29,
@@ -268,6 +278,11 @@
             // 
             this.nudUniqueSize.DecimalPlaces = 2;
             this.nudUniqueSize.Font = new System.Drawing.Font("宋体", 12F);
+            this.nudUniqueSize.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nudUniqueSize.Location = new System.Drawing.Point(239, 27);
             this.nudUniqueSize.Maximum = new decimal(new int[] {
             3,
@@ -325,6 +340,11 @@
             // 
             this.nudSimpleSize.DecimalPlaces = 2;
             this.nudSimpleSize.Font = new System.Drawing.Font("宋体", 12F);
+            this.nudSimpleSize.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nudSimpleSize.Location = new System.Drawing.Point(239, 27);
             this.nudSimpleSize.Maximum = new decimal(new int[] {
             3,
@@ -416,6 +436,7 @@
             this.rbtnClassBreaks.TabIndex = 2;
             this.rbtnClassBreaks.Text = "分级渲染";
             this.rbtnClassBreaks.UseVisualStyleBackColor = true;
+            this.rbtnClassBreaks.CheckedChanged += new System.EventHandler(this.rbtnClassBreaks_CheckedChanged);
             // 
             // rbtnUniqueValue
             // 
@@ -426,6 +447,7 @@
             this.rbtnUniqueValue.TabIndex = 1;
             this.rbtnUniqueValue.Text = "唯一值渲染";
             this.rbtnUniqueValue.UseVisualStyleBackColor = true;
+            this.rbtnUniqueValue.CheckedChanged += new System.EventHandler(this.rbtnUniqueValue_CheckedChanged);
             // 
             // rbtnSimple
             // 
@@ -438,6 +460,7 @@
             this.rbtnSimple.TabStop = true;
             this.rbtnSimple.Text = "单一符号渲染";
             this.rbtnSimple.UseVisualStyleBackColor = true;
+            this.rbtnSimple.CheckedChanged += new System.EventHandler(this.rbtnSimple_CheckedChanged);
             // 
             // PolylineRenderer
             // 
@@ -453,6 +476,7 @@
             this.Controls.Add(this.cboStyle);
             this.Controls.Add(this.groupBox1);
             this.Name = "PolylineRenderer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图层渲染";
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
