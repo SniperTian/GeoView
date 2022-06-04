@@ -38,6 +38,8 @@ namespace GeoView
                 cboUniqueField.Items.Add(layer.AttributeFields.GetItem(i).Name);
                 cboClassBreaksField.Items.Add(layer.AttributeFields.GetItem(i).Name);
             }
+            cboUniqueField.SelectedIndex = 0;
+            cboClassBreaksField.SelectedIndex = 0;
         }
 
         #endregion

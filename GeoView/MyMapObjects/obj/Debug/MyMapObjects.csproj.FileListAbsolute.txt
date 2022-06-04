@@ -43,3 +43,12 @@ D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.Gene
 D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
 D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
 D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\bin\Debug\MyMapObjects.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.AssemblyReference.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.moMapControl.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.Properties.Resources.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb

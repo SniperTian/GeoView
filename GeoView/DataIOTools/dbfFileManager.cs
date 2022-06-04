@@ -203,6 +203,9 @@ namespace GeoView.DataIOTools
                     case 'B':
                         sValueType = MyMapObjects.moValueTypeConstant.dDouble;
                         break;
+                    case 'N':
+                        sValueType = MyMapObjects.moValueTypeConstant.dDouble;
+                        break;
                     default:
                         sValueType = MyMapObjects.moValueTypeConstant.dText;
                         break;
@@ -240,7 +243,11 @@ namespace GeoView.DataIOTools
                     }
                     else if (sValueType == MyMapObjects.moValueTypeConstant.dDouble)
                     {
-                        double sTempValue = Convert.ToDouble(sTemp);
+                        double sTempValue = 0;
+                        if (sTemp.Length != 0)
+                        {
+                            sTempValue = Convert.ToDouble(sTemp);
+                        }
                         sAttributes.Append(sTempValue);
                     }
                     else

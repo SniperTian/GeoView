@@ -65,6 +65,7 @@
             this.btnPolygonRendererCancel.TabIndex = 33;
             this.btnPolygonRendererCancel.Text = "取消";
             this.btnPolygonRendererCancel.UseVisualStyleBackColor = true;
+            this.btnPolygonRendererCancel.Click += new System.EventHandler(this.btnPolygonRendererCancel_Click);
             // 
             // btnPolygonRendererConfirm
             // 
@@ -74,6 +75,7 @@
             this.btnPolygonRendererConfirm.TabIndex = 32;
             this.btnPolygonRendererConfirm.Text = "确定";
             this.btnPolygonRendererConfirm.UseVisualStyleBackColor = true;
+            this.btnPolygonRendererConfirm.Click += new System.EventHandler(this.btnPolygonRendererConfirm_Click);
             // 
             // groupBox4
             // 
@@ -101,6 +103,7 @@
             this.btnClassBreaksEndColor.Size = new System.Drawing.Size(75, 24);
             this.btnClassBreaksEndColor.TabIndex = 11;
             this.btnClassBreaksEndColor.UseVisualStyleBackColor = false;
+            this.btnClassBreaksEndColor.Click += new System.EventHandler(this.btnClassBreaksEndColor_Click);
             // 
             // label3
             // 
@@ -121,6 +124,7 @@
             this.btnClassBreaksStartColor.Size = new System.Drawing.Size(75, 24);
             this.btnClassBreaksStartColor.TabIndex = 8;
             this.btnClassBreaksStartColor.UseVisualStyleBackColor = false;
+            this.btnClassBreaksStartColor.Click += new System.EventHandler(this.btnClassBreaksStartColor_Click);
             // 
             // label8
             // 
@@ -154,6 +158,7 @@
             0,
             0,
             0});
+            this.nudClassBreaksNum.ValueChanged += new System.EventHandler(this.nudClassBreaksNum_ValueChanged);
             // 
             // cboClassBreaksField
             // 
@@ -162,6 +167,7 @@
             this.cboClassBreaksField.Name = "cboClassBreaksField";
             this.cboClassBreaksField.Size = new System.Drawing.Size(73, 20);
             this.cboClassBreaksField.TabIndex = 8;
+            this.cboClassBreaksField.SelectedIndexChanged += new System.EventHandler(this.cboClassBreaksField_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -201,6 +207,7 @@
             this.cboUniqueField.Name = "cboUniqueField";
             this.cboUniqueField.Size = new System.Drawing.Size(73, 20);
             this.cboUniqueField.TabIndex = 8;
+            this.cboUniqueField.SelectedIndexChanged += new System.EventHandler(this.cboUniqueField_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -222,6 +229,7 @@
             this.btnSimpleColor.Size = new System.Drawing.Size(75, 24);
             this.btnSimpleColor.TabIndex = 5;
             this.btnSimpleColor.UseVisualStyleBackColor = false;
+            this.btnSimpleColor.Click += new System.EventHandler(this.btnSimpleColor_Click);
             // 
             // label2
             // 

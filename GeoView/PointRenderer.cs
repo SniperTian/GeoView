@@ -51,6 +51,9 @@ namespace GeoView
                 cboUniqueField.Items.Add(layer.AttributeFields.GetItem(i).Name);
                 cboClassBreaksField.Items.Add(layer.AttributeFields.GetItem(i).Name);
             }
+            cboStyle.SelectedIndex = 0;
+            cboUniqueField.SelectedIndex = 0;
+            cboClassBreaksField.SelectedIndex = 0;
         }
 
         #endregion
@@ -73,7 +76,6 @@ namespace GeoView
                 mRendererMode = 2;
             }
         }
-
         //选择样式
         private void cboStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
