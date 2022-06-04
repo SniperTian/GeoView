@@ -83,9 +83,16 @@
             this.layersTree = new System.Windows.Forms.TreeView();
             this.moMap = new MyMapObjects.moMapControl();
             this.moMapRightMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.LayerRightMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.移除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开属性表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.缩放至图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.编辑要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
+            this.LayerRightMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -522,6 +529,7 @@
             this.layersTree.Name = "layersTree";
             this.layersTree.Size = new System.Drawing.Size(290, 587);
             this.layersTree.TabIndex = 5;
+            this.layersTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.layersTree_MouseDown);
             // 
             // moMap
             // 
@@ -545,9 +553,57 @@
             // 
             // moMapRightMenu
             // 
+            this.moMapRightMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.moMapRightMenu.Name = "moMapRightMenu";
             this.moMapRightMenu.Size = new System.Drawing.Size(61, 4);
             this.moMapRightMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.moMapRightMenu_ItemClicked);
+            // 
+            // LayerRightMenu
+            // 
+            this.LayerRightMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.LayerRightMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.移除ToolStripMenuItem,
+            this.打开属性表ToolStripMenuItem,
+            this.缩放至图层ToolStripMenuItem,
+            this.编辑要素ToolStripMenuItem,
+            this.属性ToolStripMenuItem});
+            this.LayerRightMenu.Name = "LayerRightMenu";
+            this.LayerRightMenu.Size = new System.Drawing.Size(137, 114);
+            // 
+            // 移除ToolStripMenuItem
+            // 
+            this.移除ToolStripMenuItem.Name = "移除ToolStripMenuItem";
+            this.移除ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.移除ToolStripMenuItem.Text = "移除";
+            this.移除ToolStripMenuItem.Click += new System.EventHandler(this.移除ToolStripMenuItem_Click);
+            // 
+            // 打开属性表ToolStripMenuItem
+            // 
+            this.打开属性表ToolStripMenuItem.Name = "打开属性表ToolStripMenuItem";
+            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.打开属性表ToolStripMenuItem.Text = "打开属性表";
+            this.打开属性表ToolStripMenuItem.Click += new System.EventHandler(this.打开属性表ToolStripMenuItem_Click);
+            // 
+            // 缩放至图层ToolStripMenuItem
+            // 
+            this.缩放至图层ToolStripMenuItem.Name = "缩放至图层ToolStripMenuItem";
+            this.缩放至图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.缩放至图层ToolStripMenuItem.Text = "缩放至图层";
+            this.缩放至图层ToolStripMenuItem.Click += new System.EventHandler(this.缩放至图层ToolStripMenuItem_Click);
+            // 
+            // 编辑要素ToolStripMenuItem
+            // 
+            this.编辑要素ToolStripMenuItem.Name = "编辑要素ToolStripMenuItem";
+            this.编辑要素ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.编辑要素ToolStripMenuItem.Text = "编辑要素";
+            this.编辑要素ToolStripMenuItem.Click += new System.EventHandler(this.编辑要素ToolStripMenuItem_Click);
+            // 
+            // 属性ToolStripMenuItem
+            // 
+            this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
+            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.属性ToolStripMenuItem.Text = "属性";
+            this.属性ToolStripMenuItem.Click += new System.EventHandler(this.属性ToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -570,6 +626,7 @@
             this.menuStrip1.PerformLayout();
             this.toolsBar.ResumeLayout(false);
             this.toolsBar.PerformLayout();
+            this.LayerRightMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -630,5 +687,11 @@
         private System.Windows.Forms.ToolStripButton CreateFeatureBtn;
         private System.Windows.Forms.ToolStripComboBox SelectLayer;
         private System.Windows.Forms.ContextMenuStrip moMapRightMenu;
+        private System.Windows.Forms.ContextMenuStrip LayerRightMenu;
+        private System.Windows.Forms.ToolStripMenuItem 移除ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 打开属性表ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 缩放至图层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 编辑要素ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 属性ToolStripMenuItem;
     }
 }

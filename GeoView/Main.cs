@@ -736,6 +736,49 @@ namespace GeoView
             }
         }
 
+        private void layersTree_MouseDown(object sender, MouseEventArgs e)
+        {
+            Point clickPoint = new Point(e.X, e.Y);
+            TreeNode currentNode = layersTree.GetNodeAt(clickPoint);
+            if (currentNode != null)
+            {
+                layersTree.SelectedNode = currentNode;
+                mLastOpLayerIndex = currentNode.Index;  //鼠标单击或右键菜单对应的图层索引
+            }
+        }
+
+        private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 编辑要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectLayer.Enabled == true)    //编辑状态
+            {
+                if (SelectLayer.SelectedIndex != mLastOpLayerIndex) //更换编辑图层
+                {
+                    EndEditItem_Click(sender, e);
+                }
+            }
+            BeginEditItem_Click(sender, e);
+        }
+
+        private void 属性ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #region 私有函数
 
         //初始化控件
@@ -822,6 +865,7 @@ namespace GeoView
                 TreeNode layerNode = new TreeNode();
                 layerNode.Text = moMap.Layers.GetItem(i).Name;
                 layerNode.Checked = moMap.Layers.GetItem(i).Visible;
+                layerNode.ContextMenuStrip = LayerRightMenu;
                 layersTree.Nodes.Add(layerNode);
             }
             layersTree.Refresh();
@@ -1206,11 +1250,6 @@ namespace GeoView
         private void RightMenuInSelect()
         {
             if (mOperatingLayerIndex == -1) return;
-            //MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            //if (sLayer.SelectedFeatures.Count == 0)
-            //{
-            //    return;
-            //}
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("复制");
             moMapRightMenu.Items.Add("粘贴");
@@ -1225,10 +1264,6 @@ namespace GeoView
             moMapRightMenu.Items.Add("结束部件");
             moMapRightMenu.Items.Add("完成草图");
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            //if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
-            //{
-            //    moMapRightMenu.Items[0].Enabled = false;
-            //}
         }
 
         private void RightOperateInSelect(ToolStripItemClickedEventArgs e)
