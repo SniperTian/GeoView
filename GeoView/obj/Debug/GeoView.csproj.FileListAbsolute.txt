@@ -41,7 +41,6 @@ D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoVie
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.pdb
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Main.resources
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Renderer.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Research.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.exe
@@ -99,3 +98,6 @@ E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.cspr
 E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
 E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.exe
 E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources

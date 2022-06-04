@@ -75,6 +75,7 @@
             this.EndEditItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveEditItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveFeatureBtn = new System.Windows.Forms.ToolStripButton();
+            this.EditPointBtn = new System.Windows.Forms.ToolStripButton();
             this.CreateFeatureBtn = new System.Windows.Forms.ToolStripButton();
             this.SelectLayer = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -89,10 +90,16 @@
             this.缩放至图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.编辑要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditPointStrip = new System.Windows.Forms.ToolStrip();
+            this.MovePointBtn = new System.Windows.Forms.ToolStripButton();
+            this.AddPointBtn = new System.Windows.Forms.ToolStripButton();
+            this.DeletePointBtn = new System.Windows.Forms.ToolStripButton();
+            this.EditPointStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
             this.LayerRightMenu.SuspendLayout();
+            this.EditPointStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -342,6 +349,7 @@
             this.toolStripSeparator2,
             this.EditSpBtn,
             this.MoveFeatureBtn,
+            this.EditPointBtn,
             this.CreateFeatureBtn,
             this.SelectLayer,
             this.toolStripSeparator4,
@@ -476,8 +484,20 @@
             this.MoveFeatureBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MoveFeatureBtn.Name = "MoveFeatureBtn";
             this.MoveFeatureBtn.Size = new System.Drawing.Size(28, 28);
-            this.MoveFeatureBtn.Text = "选中并移动要素";
+            this.MoveFeatureBtn.Text = "编辑工具";
             this.MoveFeatureBtn.Click += new System.EventHandler(this.MoveFeatureBtn_Click);
+            // 
+            // EditPointBtn
+            // 
+            this.EditPointBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EditPointBtn.Enabled = false;
+            this.EditPointBtn.Image = ((System.Drawing.Image)(resources.GetObject("EditPointBtn.Image")));
+            this.EditPointBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditPointBtn.Name = "EditPointBtn";
+            this.EditPointBtn.Size = new System.Drawing.Size(28, 28);
+            this.EditPointBtn.Text = "编辑折点";
+            this.EditPointBtn.CheckedChanged += new System.EventHandler(this.EditPointBtn_CheckedChanged);
+            this.EditPointBtn.Click += new System.EventHandler(this.EditPointBtn_Click);
             // 
             // CreateFeatureBtn
             // 
@@ -605,11 +625,72 @@
             this.属性ToolStripMenuItem.Text = "属性";
             this.属性ToolStripMenuItem.Click += new System.EventHandler(this.属性ToolStripMenuItem_Click);
             // 
+            // EditPointStrip
+            // 
+            this.EditPointStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.EditPointStrip.Enabled = false;
+            this.EditPointStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.EditPointStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.EditPointStripLabel1,
+            this.MovePointBtn,
+            this.AddPointBtn,
+            this.DeletePointBtn});
+            this.EditPointStrip.Location = new System.Drawing.Point(533, 28);
+            this.EditPointStrip.Name = "EditPointStrip";
+            this.EditPointStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.EditPointStrip.Size = new System.Drawing.Size(171, 25);
+            this.EditPointStrip.TabIndex = 6;
+            this.EditPointStrip.Text = "toolStrip1";
+            this.EditPointStrip.Visible = false;
+            // 
+            // MovePointBtn
+            // 
+            this.MovePointBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MovePointBtn.Enabled = false;
+            this.MovePointBtn.Image = ((System.Drawing.Image)(resources.GetObject("MovePointBtn.Image")));
+            this.MovePointBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MovePointBtn.Name = "MovePointBtn";
+            this.MovePointBtn.Size = new System.Drawing.Size(23, 22);
+            this.MovePointBtn.Text = "修改草图折点";
+            this.MovePointBtn.Visible = false;
+            this.MovePointBtn.Click += new System.EventHandler(this.MovePointBtn_Click);
+            // 
+            // AddPointBtn
+            // 
+            this.AddPointBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddPointBtn.Enabled = false;
+            this.AddPointBtn.Image = ((System.Drawing.Image)(resources.GetObject("AddPointBtn.Image")));
+            this.AddPointBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddPointBtn.Name = "AddPointBtn";
+            this.AddPointBtn.Size = new System.Drawing.Size(23, 22);
+            this.AddPointBtn.Text = "增加折点";
+            this.AddPointBtn.Visible = false;
+            this.AddPointBtn.Click += new System.EventHandler(this.AddPointBtn_Click);
+            // 
+            // DeletePointBtn
+            // 
+            this.DeletePointBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DeletePointBtn.Enabled = false;
+            this.DeletePointBtn.Image = ((System.Drawing.Image)(resources.GetObject("DeletePointBtn.Image")));
+            this.DeletePointBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeletePointBtn.Name = "DeletePointBtn";
+            this.DeletePointBtn.Size = new System.Drawing.Size(23, 22);
+            this.DeletePointBtn.Text = "删除折点";
+            this.DeletePointBtn.Visible = false;
+            this.DeletePointBtn.Click += new System.EventHandler(this.DeletePointBtn_Click);
+            // 
+            // EditPointStripLabel1
+            // 
+            this.EditPointStripLabel1.Name = "EditPointStripLabel1";
+            this.EditPointStripLabel1.Size = new System.Drawing.Size(68, 22);
+            this.EditPointStripLabel1.Text = "编辑折点：";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1034, 665);
+            this.Controls.Add(this.EditPointStrip);
             this.Controls.Add(this.layersTree);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.moMap);
@@ -627,6 +708,8 @@
             this.toolsBar.ResumeLayout(false);
             this.toolsBar.PerformLayout();
             this.LayerRightMenu.ResumeLayout(false);
+            this.EditPointStrip.ResumeLayout(false);
+            this.EditPointStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -693,5 +776,11 @@
         private System.Windows.Forms.ToolStripMenuItem 缩放至图层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 编辑要素ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 属性ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton EditPointBtn;
+        private System.Windows.Forms.ToolStrip EditPointStrip;
+        private System.Windows.Forms.ToolStripButton MovePointBtn;
+        private System.Windows.Forms.ToolStripButton AddPointBtn;
+        private System.Windows.Forms.ToolStripButton DeletePointBtn;
+        private System.Windows.Forms.ToolStripLabel EditPointStripLabel1;
     }
 }

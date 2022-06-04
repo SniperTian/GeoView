@@ -35,7 +35,7 @@ namespace GeoView
         private bool mShowLngLat = false;   //是否显示经纬度
 
         //(2)与地图操作有关的变量
-        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素
+        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点
         private Int32 mOperatingLayerIndex = -1;    //当前操作的图层索引
         private PointF mStartMouseLocation;
         private bool mIsInZoomIn = false;
@@ -46,6 +46,18 @@ namespace GeoView
         private bool mReallyMove = false;   //移动状态是否真的拖动要素进行了移动
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         private bool mReallyModified = false;   //修改了数据且没有保存
+        private bool mIsInMovePoint
+        {
+            get { return MovePointBtn.Checked; }
+        }
+        private bool mIsInAddPoint
+        {
+            get { return AddPointBtn.Checked; }
+        }
+        private bool mIsInDeletePoint
+        {
+            get { return DeletePointBtn.Checked; }
+        }
         //正在移动的图形的集合
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
@@ -126,6 +138,7 @@ namespace GeoView
             EndEditItem.Enabled = true;
             SaveEditItem.Enabled = true;
             MoveFeatureBtn.Enabled = true;
+            EditPointBtn.Enabled = true;
             CreateFeatureBtn.Enabled = true;
             SelectLayer.Enabled = true;
             RefreshSelectLayer();
@@ -153,8 +166,10 @@ namespace GeoView
                 }
             }
             MoveFeatureBtn.Enabled = false;
+            EditPointBtn.Enabled = false;
             CreateFeatureBtn.Enabled = false;
             MoveFeatureBtn.Checked = false;
+            EditPointBtn.Checked = false;
             CreateFeatureBtn.Checked = false;
             SelectLayer.SelectedIndex = -1;
             mOperatingLayerIndex = -1;
@@ -207,21 +222,46 @@ namespace GeoView
             }
         }
 
-        //选择并移动要素
+        //编辑要素
         private void MoveFeatureBtn_Click(object sender, EventArgs e)
         {
             MoveFeatureBtn.Checked = true;
-            if (CreateFeatureBtn.Checked)
-            {
-                CreateFeatureBtn.Checked = false;
-            }
+            EditPointBtn.Checked = false;
+            CreateFeatureBtn.Checked = false;
             mMapOpStyle = 1;    //默认为编辑操作
             RightMenuInSelect();
+        }
+
+        //编辑折点
+        private void EditPointBtn_Click(object sender, EventArgs e)
+        {
+            if (mOperatingLayerIndex == -1) return;
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            if (sLayer.SelectedFeatures.Count != 1)
+            {
+                MessageBox.Show("请选择且仅选择一个可编辑的要素进行修改！");
+                return;
+            }
+            MoveFeatureBtn.Checked = false;
+            EditPointBtn.Checked = true;
+            CreateFeatureBtn.Checked = false;
+            mMapOpStyle = 3;
+            RightMenuInEdit();
+            ShowEditStrip(sLayer.ShapeType);
+        }
+        private void EditPointBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EditPointBtn.Checked == false)
+            {
+                HideEditStrip();
+            }
         }
 
         //新建要素
         private void CreateFeatureBtn_Click(object sender, EventArgs e)
         {
+            MoveFeatureBtn.Checked = false;
+            EditPointBtn.Checked = false;
             CreateFeatureBtn.Checked = true;
             if (MoveFeatureBtn.Checked)
             {
@@ -229,6 +269,27 @@ namespace GeoView
             }
             mMapOpStyle = 2;
             RightMenuInSketch();
+        }
+
+        private void MovePointBtn_Click(object sender, EventArgs e)
+        {
+            MovePointBtn.Checked = true;
+            AddPointBtn.Checked = false;
+            DeletePointBtn.Checked = false;
+        }
+
+        private void AddPointBtn_Click(object sender, EventArgs e)
+        {
+            MovePointBtn.Checked = false;
+            AddPointBtn.Checked = true;
+            DeletePointBtn.Checked = false;
+        }
+
+        private void DeletePointBtn_Click(object sender, EventArgs e)
+        {
+            MovePointBtn.Checked = false;
+            AddPointBtn.Checked = false;
+            DeletePointBtn.Checked = true;
         }
 
         //选择操作图层
@@ -1518,6 +1579,39 @@ namespace GeoView
             }
         }
 
+        //删除上一个节点
+        private void DeleteLastSketchPoint(MyMapObjects.moGeometryTypeConstant shapeType)
+        {
+            mReallyModified = true;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+            {
+                Int32 pointsNum = mSketchingShape.Last().Count;
+                if (pointsNum == 0)
+                    return;
+                mSketchingShape.Last().RemoveAt(pointsNum - 1);
+                moMap.RedrawTrackingShapes();
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+            {
+                Int32 pointsNum = mSketchingShape.Last().Count;
+                if (pointsNum == 0)
+                    return;
+                mSketchingShape.Last().RemoveAt(pointsNum - 1);
+                moMap.RedrawTrackingShapes();
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                ;
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                Int32 pointsNum = mSketchingPoint.Count;
+                if (pointsNum == 0) return;
+                mSketchingPoint.RemoveAt(pointsNum - 1);
+                moMap.RedrawTrackingShapes();
+            }
+        }
+        
         //绘制正在描绘的图形
         private void DrawSketchingShapes(MyMapObjects.moUserDrawingTool drawingTool)
         {
@@ -1620,9 +1714,17 @@ namespace GeoView
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("结束部件");
             moMapRightMenu.Items.Add("完成草图");
-            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            moMapRightMenu.Items.Add("删除节点");
         }
 
+        //编辑折点状态右键菜单
+        private void RightMenuInEdit()
+        {
+            if (mOperatingLayerIndex == -1) return;
+            moMapRightMenu.Items.Clear();
+        }
+
+        //选择状态右键菜单操作
         private void RightOperateInSelect(ToolStripItemClickedEventArgs e)
         {
             if (mOperatingLayerIndex == -1) return;
@@ -1634,6 +1736,7 @@ namespace GeoView
             }
         }
 
+        //描绘状态右键菜单操作
         private void RightOperateInSketch(ToolStripItemClickedEventArgs e)
         {
             if (mOperatingLayerIndex == -1) return;
@@ -1646,8 +1749,42 @@ namespace GeoView
             {
                 EndSketchGeo(sLayer.ShapeType);
             }
+            else if (e.ClickedItem.Text == "删除节点")
+            {
+                DeleteLastSketchPoint(sLayer.ShapeType);
+            }
         }
 
+        //显示编辑节点工具栏
+        private void ShowEditStrip(MyMapObjects.moGeometryTypeConstant shapeType)
+        {
+            EditPointStrip.Enabled = true;
+            EditPointStrip.Visible = true;
+            MovePointBtn.Enabled = true;
+            MovePointBtn.Visible = true;
+            MovePointBtn.Checked = true;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.Point) return;
+            AddPointBtn.Enabled = true;
+            AddPointBtn.Visible = true;
+            DeletePointBtn.Enabled = true;
+            DeletePointBtn.Visible = true;
+        }
+
+        //隐藏编辑节点工具栏
+        private void HideEditStrip()
+        {
+            EditPointStrip.Enabled = false;
+            EditPointStrip.Visible = false;
+            MovePointBtn.Enabled = false;
+            MovePointBtn.Visible = false;
+            MovePointBtn.Checked = false;
+            AddPointBtn.Enabled = false;
+            AddPointBtn.Visible = false;
+            AddPointBtn.Checked = false;
+            DeletePointBtn.Enabled = false;
+            DeletePointBtn.Visible = false;
+            DeletePointBtn.Checked = false;
+        }
         #endregion
     }
 }
