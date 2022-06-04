@@ -222,6 +222,7 @@
             // 
             // cboClassBreaksField
             // 
+            this.cboClassBreaksField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboClassBreaksField.FormattingEnabled = true;
             this.cboClassBreaksField.Location = new System.Drawing.Point(60, 30);
             this.cboClassBreaksField.Name = "cboClassBreaksField";
@@ -288,6 +289,7 @@
             // 
             // cboUniqueField
             // 
+            this.cboUniqueField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboUniqueField.FormattingEnabled = true;
             this.cboUniqueField.Location = new System.Drawing.Point(60, 30);
             this.cboUniqueField.Name = "cboUniqueField";
@@ -385,6 +387,7 @@
             // 
             // cboStyle
             // 
+            this.cboStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboStyle.FormattingEnabled = true;
             this.cboStyle.Location = new System.Drawing.Point(94, 99);
             this.cboStyle.Name = "cboStyle";
