@@ -57,6 +57,43 @@ namespace GeoView
         private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
         private List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
         private MyMapObjects.moLayers mDataBeforeEdit;
+
+        //(4)与图层渲染有关的变量
+        private bool mIsInPointRenderer = false;//是否选中点图层渲染
+        private Int32 mPointRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Int32 mPointSymbolStyle = 0; //样式索引
+        private Color mPointSimpleRendererColor = Color.Red; //符号颜色
+        private Double mPointSimpleRendererSize = 5; //符号尺寸
+        private Int32 mPointUniqueFieldIndex = 0; //绑定字段索引
+        private Double mPointUniqueRendererSize = 5; //符号尺寸
+        private Int32 mPointClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPointClassBreaksNum = 5; //分类数
+        private Color mPointClassBreaksRendererColor = Color.Red; //符号颜色
+        private Double mPointClassBreaksRendererMinSize = 3; //符号起始尺寸,点图层采用符号尺寸进行分级表示
+        private Double mPointClassBreaksRendererMaxSize = 6; //符号终止尺寸
+
+        private bool mIsInPolylineRenderer = false;//是否选中线图层渲染
+        private Int32 mPolylineRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Int32 mPolylineSymbolStyle = 0; //样式索引
+        private Color mPolylineSimpleRendererColor = Color.Red; //符号颜色
+        private Double mPolylineSimpleRendererSize = 5; //符号尺寸
+        private Int32 mPolylineUniqueFieldIndex = 0; //绑定字段索引
+        private Double mPolylineUniqueRendererSize = 5; //符号尺寸
+        private Int32 mPolylineClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPolylineClassBreaksNum = 5; //分类数
+        private Color mPolylineClassBreaksRendererColor = Color.Red; //符号颜色
+        private Double mPolylineClassBreaksRendererMinSize = 3; //符号起始尺寸,线图层采用符号尺寸进行分级表示
+        private Double mPolylineClassBreaksRendererMaxSize = 6; //符号终止尺寸
+
+        private bool mIsInPolygonRenderer = false;//是否选中面图层渲染
+        private Int32 mPolygonRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
+        private Color mPolygonSimpleRendererColor = Color.Red; //符号颜色
+        private Int32 mPolygonUniqueFieldIndex = 0; //绑定字段索引
+        private Int32 mPolygonClassBreaksFieldIndex = 0; //绑定字段索引
+        private Int32 mPolygonClassBreaksNum = 5; //分类数
+        private Color mPolygonClassBreaksRendererStartColor = Color.MistyRose; //符号起始颜色,面图层采用符号颜色进行分级表示
+        private Color mPolygonClassBreaksRendererEndColor = Color.Red; //符号终止颜色
+
         #endregion
         public Main()
         {
@@ -745,9 +782,9 @@ namespace GeoView
                 layersTree.SelectedNode = currentNode;
                 mLastOpLayerIndex = currentNode.Index;  //鼠标单击或右键菜单对应的图层索引
             }
-            else
+            else 
             {
-                if (e.Button == MouseButtons.Right)
+                if(e.Button == MouseButtons.Right)
                 {
                     mLastOpLayerIndex = -1;
                 }
@@ -756,22 +793,21 @@ namespace GeoView
 
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mLastOpLayerIndex == -1) return;
+
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mLastOpLayerIndex == -1) return;
+
         }
 
         private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mLastOpLayerIndex == -1) return;
+
         }
 
         private void 编辑要素ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mLastOpLayerIndex == -1) return;
             if (SelectLayer.Enabled == true)    //编辑状态
             {
                 if (SelectLayer.SelectedIndex != mLastOpLayerIndex) //更换编辑图层
@@ -786,6 +822,319 @@ namespace GeoView
         {
 
         }
+
+        #region 图层渲染
+        public void GetPointRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
+            Int32 uniqueFieldIndex, Double uniqueRendererSize, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererColor, double classBreakRendererMinSize, double classBreakRendererMaxSize)
+        {
+            mPointRendererMode = renderMode;
+            mPointSymbolStyle = symbolStyle;
+            mPointSimpleRendererColor = simpleRendererColor;
+            mPointSimpleRendererSize = simpleRendererSize;
+            mPointUniqueFieldIndex = uniqueFieldIndex;
+            mPointUniqueRendererSize = uniqueRendererSize;
+            mPointClassBreaksFieldIndex = classBreakFieldIndex;
+            mPointClassBreaksNum = classNum;
+            mPointClassBreaksRendererColor = classBreakRendererColor;
+            mPointClassBreaksRendererMinSize = classBreakRendererMinSize;
+            mPointClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInPointRenderer = true;
+        }
+
+        public void GetPolylineRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
+            Int32 uniqueFieldIndex, Double uniqueRendererSize, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererColor, double classBreakRendererMinSize, double classBreakRendererMaxSize)
+        {
+            mPolylineRendererMode = renderMode;
+            mPolylineSymbolStyle = symbolStyle;
+            mPolylineSimpleRendererColor = simpleRendererColor;
+            mPolylineSimpleRendererSize = simpleRendererSize;
+            mPolylineUniqueFieldIndex = uniqueFieldIndex;
+            mPolylineUniqueRendererSize = uniqueRendererSize;
+            mPolylineClassBreaksFieldIndex = classBreakFieldIndex;
+            mPolylineClassBreaksNum = classNum;
+            mPolylineClassBreaksRendererColor = classBreakRendererColor;
+            mPolylineClassBreaksRendererMinSize = classBreakRendererMinSize;
+            mPolylineClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInPolylineRenderer = true;
+        }
+
+        public void GetPolygonRenderer(Int32 renderMode, Color simpleRendererColor,
+            Int32 uniqueFieldIndex, Int32 classBreakFieldIndex, Int32 classNum,
+            Color classBreakRendererStartColor, Color classBreakRendererEndColor)
+        {
+            mPolygonRendererMode = renderMode;
+            mPolygonSimpleRendererColor = simpleRendererColor;
+            mPolygonUniqueFieldIndex = uniqueFieldIndex;
+            mPolygonClassBreaksFieldIndex = classBreakFieldIndex;
+            mPolygonClassBreaksNum = classNum;
+            mPolygonClassBreaksRendererStartColor = classBreakRendererStartColor;
+            mPolygonClassBreaksRendererEndColor = classBreakRendererEndColor;
+            mIsInPolygonRenderer = true;
+        }
+
+        /// <summary>
+        /// 图层渲染函数,需移植到图层栏右键菜单中的点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RendererClick(object sender, EventArgs e)
+        {
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);//待渲染的图层
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                PointRenderer sPointRenderer = new PointRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
+                sPointRenderer.Owner = this;
+                sPointRenderer.ShowDialog();
+                //简单渲染
+                if (mPointRendererMode == 0)
+                {
+                    MyMapObjects.moSimpleRenderer sRenderer = new MyMapObjects.moSimpleRenderer();
+                    MyMapObjects.moSimpleMarkerSymbol sSymbol = new MyMapObjects.moSimpleMarkerSymbol();
+                    sSymbol.Style = (MyMapObjects.moSimpleMarkerSymbolStyleConstant)mPointSymbolStyle;//修改样式
+                    sSymbol.Color = mPointSimpleRendererColor;//修改颜色
+                    sSymbol.Size = mPointSimpleRendererSize;//修改尺寸
+                    sRenderer.Symbol = sSymbol;
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //唯一值渲染
+                else if (mPointRendererMode == 1)
+                {
+                    MyMapObjects.moUniqueValueRenderer sRenderer = new MyMapObjects.moUniqueValueRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPointUniqueFieldIndex).Name;
+                    List<string> sValues = new List<string>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    for (Int32 i = 0; i < sFeatrueCount; i++) //加入所有要素的属性值
+                    {
+                        string sValue = Convert.ToString(sLayer.Features.GetItem(i).Attributes.GetItem(mPointUniqueFieldIndex));
+                        sValues.Add(sValue);
+                    }
+                    //去除重复
+                    sValues = sValues.Distinct().ToList();
+                    //生成符号
+                    Int32 sValueCount = sValues.Count;
+                    for (Int32 i = 0; i < sValueCount; i++)
+                    {
+                        MyMapObjects.moSimpleMarkerSymbol sSymbol = new MyMapObjects.moSimpleMarkerSymbol();
+                        sSymbol.Style = (MyMapObjects.moSimpleMarkerSymbolStyleConstant)mPointSymbolStyle;//修改样式
+                        sSymbol.Size = mPointSimpleRendererSize;//修改尺寸
+                        sRenderer.AddUniqueValue(sValues[i], sSymbol);
+                    }
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleMarkerSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //分级渲染
+                else if (mPointRendererMode == 2)
+                {
+                    MyMapObjects.moClassBreaksRenderer sRenderer = new MyMapObjects.moClassBreaksRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPointClassBreaksFieldIndex).Name;
+                    List<double> sValues = new List<double>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    Int32 sFieldIndes = sLayer.AttributeFields.FindField(sRenderer.Field);
+                    //读出所有值,判断是否为数值字段
+                    try
+                    {
+                        for (Int32 i = 0; i < sFeatrueCount; i++)
+                        {
+                            double sValue = Convert.ToDouble(sLayer.Features.GetItem(i).Attributes.GetItem(sFieldIndes));
+                            sValues.Add(sValue);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("该字段不是数值字段，不支持分级渲染！");
+                        return;
+                    }
+                    //获取最小最大值并分级
+                    double sMinValue = sValues.Min();
+                    double sMaxValue = sValues.Max();
+                    for (Int32 i = 0; i < mPointClassBreaksNum; i++)
+                    {
+                        double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPointClassBreaksNum;
+                        MyMapObjects.moSimpleMarkerSymbol sSymbol = new MyMapObjects.moSimpleMarkerSymbol();
+                        sSymbol.Color = mPointClassBreaksRendererColor;
+                        sSymbol.Style = (MyMapObjects.moSimpleMarkerSymbolStyleConstant)mPointSymbolStyle;
+                        sRenderer.AddBreakValue(sValue, sSymbol);
+                    }
+                    double sMinSize = mPointClassBreaksRendererMinSize;
+                    double sMaxSize = mPointClassBreaksRendererMaxSize;
+                    sRenderer.RampSize(sMinSize, sMaxSize);
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleMarkerSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+            {
+                PolylineRenderer sPolylineRenderer = new PolylineRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
+                sPolylineRenderer.Owner = this;
+                sPolylineRenderer.ShowDialog();
+                //简单渲染
+                if (mPolylineRendererMode == 0)
+                {
+                    MyMapObjects.moSimpleRenderer sRenderer = new MyMapObjects.moSimpleRenderer();
+                    MyMapObjects.moSimpleLineSymbol sSymbol = new MyMapObjects.moSimpleLineSymbol();
+                    sSymbol.Style = (MyMapObjects.moSimpleLineSymbolStyleConstant)mPolylineSymbolStyle;//传参修改
+                    sSymbol.Color = mPolylineSimpleRendererColor;//修改颜色
+                    sSymbol.Size = mPolylineSimpleRendererSize;//修改尺寸
+                    sRenderer.Symbol = sSymbol;
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //唯一值渲染
+                else if (mPolylineRendererMode == 1)
+                {
+                    MyMapObjects.moUniqueValueRenderer sRenderer = new MyMapObjects.moUniqueValueRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPolylineUniqueFieldIndex).Name;
+                    List<string> sValues = new List<string>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    for (Int32 i = 0; i < sFeatrueCount; i++)
+                    {
+                        string sValue = Convert.ToString(sLayer.Features.GetItem(i).Attributes.GetItem(mPolylineUniqueFieldIndex));
+                        sValues.Add(sValue);
+                    }
+                    //去除重复
+                    sValues = sValues.Distinct().ToList();
+                    //生成符号
+                    Int32 sValueCount = sValues.Count;
+                    for (Int32 i = 0; i < sValueCount; i++)
+                    {
+                        MyMapObjects.moSimpleLineSymbol sSymbol = new MyMapObjects.moSimpleLineSymbol();
+                        sSymbol.Style = (MyMapObjects.moSimpleLineSymbolStyleConstant)mPolylineSymbolStyle;//修改样式
+                        sSymbol.Size = mPolylineUniqueRendererSize;//修改尺寸
+                        sRenderer.AddUniqueValue(sValues[i], sSymbol);
+                    }
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleLineSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //分级渲染
+                else if (mPolylineRendererMode == 2)
+                {
+                    MyMapObjects.moClassBreaksRenderer sRenderer = new MyMapObjects.moClassBreaksRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPolylineClassBreaksFieldIndex).Name;
+                    List<double> sValues = new List<double>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    Int32 sFieldIndes = sLayer.AttributeFields.FindField(sRenderer.Field);
+                    //读出所有值,判断是否是数值字段
+                    try
+                    {
+                        for (Int32 i = 0; i < sFeatrueCount; i++)
+                        {
+                            double sValue = Convert.ToDouble(sLayer.Features.GetItem(i).Attributes.GetItem(sFieldIndes));
+                            sValues.Add(sValue);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("该字段不是数值字段，不支持分级渲染！");
+                        return;
+                    }
+
+                    //获取最小最大值并分5级
+                    double sMinValue = sValues.Min();
+                    double sMaxValue = sValues.Max();
+                    for (Int32 i = 0; i < mPolylineClassBreaksNum; i++)
+                    {
+                        double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolylineClassBreaksNum;
+                        MyMapObjects.moSimpleLineSymbol sSymbol = new MyMapObjects.moSimpleLineSymbol();
+                        sSymbol.Color = mPolylineClassBreaksRendererColor;
+                        sSymbol.Style = (MyMapObjects.moSimpleLineSymbolStyleConstant)mPolylineSymbolStyle;
+                        sRenderer.AddBreakValue(sValue, sSymbol);
+                    }
+                    double sMinSize = mPolylineClassBreaksRendererMinSize;
+                    double sMaxSize = mPolylineClassBreaksRendererMaxSize;
+                    sRenderer.RampSize(sMinSize, sMaxSize);
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleLineSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+            {
+                PolygonRenderer sPolygonRenderer = new PolygonRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
+                sPolygonRenderer.Owner = this;
+                sPolygonRenderer.ShowDialog();
+                //简单渲染
+                if (mPolygonRendererMode == 0)
+                {
+                    MyMapObjects.moSimpleRenderer sRenderer = new MyMapObjects.moSimpleRenderer();
+                    MyMapObjects.moSimpleFillSymbol sSymbol = new MyMapObjects.moSimpleFillSymbol();
+                    sSymbol.Color = mPolygonSimpleRendererColor;
+                    sRenderer.Symbol = sSymbol;
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //唯一值渲染
+                else if (mPolygonRendererMode == 1)
+                {
+                    MyMapObjects.moUniqueValueRenderer sRenderer = new MyMapObjects.moUniqueValueRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPolygonUniqueFieldIndex).Name;
+                    List<string> sValues = new List<string>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    for (Int32 i = 0; i < sFeatrueCount; i++)
+                    {
+                        string sValue = Convert.ToString(sLayer.Features.GetItem(i).Attributes.GetItem(mPolygonUniqueFieldIndex));
+                        sValues.Add(sValue);
+                    }
+                    //去除重复
+                    sValues = sValues.Distinct().ToList();
+                    //生成符号
+                    Int32 sValueCount = sValues.Count;
+                    for (Int32 i = 0; i <= sValueCount - 1; i++)
+                    {
+                        MyMapObjects.moSimpleFillSymbol sSymbol = new MyMapObjects.moSimpleFillSymbol();
+                        sRenderer.AddUniqueValue(sValues[i], sSymbol);
+                    }
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleFillSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+                //分级渲染
+                else if (mPolygonRendererMode == 2)
+                {
+                    MyMapObjects.moClassBreaksRenderer sRenderer = new MyMapObjects.moClassBreaksRenderer();
+                    sRenderer.Field = sLayer.AttributeFields.GetItem(mPolygonClassBreaksFieldIndex).Name;
+                    List<double> sValues = new List<double>();
+                    Int32 sFeatrueCount = sLayer.Features.Count;
+                    Int32 sFieldIndes = sLayer.AttributeFields.FindField(sRenderer.Field);
+                    //读出所有值
+                    try
+                    {
+                        for (Int32 i = 0; i < sFeatrueCount; i++)
+                        {
+                            double sValue = Convert.ToDouble(sLayer.Features.GetItem(i).Attributes.GetItem(sFieldIndes));
+                            sValues.Add(sValue);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("该字段不是数值字段，不支持分级渲染！");
+                        return;
+                    }
+
+                    //获取最小最大值并分5级
+                    double sMinValue = sValues.Min();
+                    double sMaxValue = sValues.Max();
+                    for (Int32 i = 0; i < mPolygonClassBreaksNum; i++)
+                    {
+                        double sValue = sMinValue + (sMaxValue - sMinValue) * (i + 1) / mPolygonClassBreaksNum;
+                        MyMapObjects.moSimpleFillSymbol sSymbol = new MyMapObjects.moSimpleFillSymbol();
+                        sRenderer.AddBreakValue(sValue, sSymbol);
+                    }
+                    Color sStartColor = mPolygonClassBreaksRendererStartColor;
+                    Color sEndColor = mPolygonClassBreaksRendererEndColor;
+                    sRenderer.RampColor(sStartColor, sEndColor);
+                    sRenderer.DefaultSymbol = new MyMapObjects.moSimpleFillSymbol();
+                    sLayer.Renderer = sRenderer;
+                    moMap.RedrawMap();
+                }
+            }
+        }
+        #endregion
 
         #region 私有函数
 

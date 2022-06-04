@@ -228,6 +228,48 @@ namespace MyMapObjects
         }
 
         /// <summary>
+        /// 为所有符号生成渐变大小
+        /// </summary>
+        /// <param name="startSize"></param>
+        /// <param name="endSize"></param>
+        public void RampSize(double startSize, double endSize)
+        {
+            Int32 sBreakCount = _BreakValues.Count;
+            if (sBreakCount <= 0)
+                return;
+            double[] sSizes = new double[sBreakCount];
+            if (sBreakCount == 1)
+            {
+                sSizes[0] = startSize;
+            }
+            else
+            {
+                sSizes[sBreakCount - 1] = endSize;
+                double sSizeStep = (endSize - startSize) / (sBreakCount - 1);
+                for (Int32 i = 1; i <= sBreakCount - 2; i++)
+                {
+                    sSizes[i] = sSizes[i - 1] + sSizeStep;
+                }
+            }
+            for (Int32 i = 0; i <= sBreakCount - 1; i++)
+            {
+                if (_Symbols[i] != null)
+                {
+                    if (_Symbols[i].SymbolType == moSymbolTypeConstant.SimpleMarkerSymbol)
+                    {
+                        moSimpleMarkerSymbol sSymbol = (moSimpleMarkerSymbol)_Symbols[i];
+                        sSymbol.Size = sSizes[i];
+                    }
+                    else if (_Symbols[i].SymbolType == moSymbolTypeConstant.SimpleLineSymbol)
+                    {
+                        moSimpleLineSymbol sSymbol = (moSimpleLineSymbol)_Symbols[i];
+                        sSymbol.Size = sSizes[i];
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 复制
         /// </summary>
         /// <returns></returns>

@@ -34,3 +34,12 @@ F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
 F:\GeoView\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csprojAssemblyReference.cache
+D:\Download\GeoView-main\GeoView\MyMapObjects\bin\Debug\MyMapObjects.dll
+D:\Download\GeoView-main\GeoView\MyMapObjects\bin\Debug\MyMapObjects.pdb
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.AssemblyReference.cache
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.moMapControl.resources
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.Properties.Resources.resources
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.GenerateResource.cache
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.csproj.CoreCompileInputs.cache
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.dll
+D:\Download\GeoView-main\GeoView\MyMapObjects\obj\Debug\MyMapObjects.pdb
