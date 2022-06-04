@@ -745,25 +745,33 @@ namespace GeoView
                 layersTree.SelectedNode = currentNode;
                 mLastOpLayerIndex = currentNode.Index;  //鼠标单击或右键菜单对应的图层索引
             }
+            else
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    mLastOpLayerIndex = -1;
+                }
+            }
         }
 
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (mLastOpLayerIndex == -1) return;
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (mLastOpLayerIndex == -1) return;
         }
 
         private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (mLastOpLayerIndex == -1) return;
         }
 
         private void 编辑要素ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (mLastOpLayerIndex == -1) return;
             if (SelectLayer.Enabled == true)    //编辑状态
             {
                 if (SelectLayer.SelectedIndex != mLastOpLayerIndex) //更换编辑图层
