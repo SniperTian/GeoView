@@ -50,7 +50,6 @@ namespace GeoView
         private bool mIsInEditPoint = false;    //编辑节点状态
         private Int32 mMouseOnPartIndex = -1;   //鼠标位于多边形部件的索引
         private Int32 mMouseOnPointIndex = -1;  //鼠标位于多边形部件顶点的索引
-        private bool mPointEditingNeedSaved = false;
         private bool mIsInMovePoint
         {
             get { return MovePointBtn.Checked; }
@@ -162,7 +161,7 @@ namespace GeoView
         //结束编辑
         private void EndEditItem_Click(object sender, EventArgs e)
         {
-            if (mReallyRecord == true || mPointEditingNeedSaved == true)
+            if (mReallyRecord == true || mReallyModified == true)
             {
                 DialogResult dr = MessageBox.Show("是否要保存编辑内容", "Saving", MessageBoxButtons.YesNoCancel);
                 if (dr == DialogResult.Cancel)
@@ -204,13 +203,13 @@ namespace GeoView
         {
             try
             {
-                if (mPointEditingNeedSaved == true)
+                if (mReallyModified == true)
                 {
                     MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
                     sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
                     sLayer.UpdateExtent();
                     mEditingGeometry = null;
-                    mPointEditingNeedSaved = false;
+                    mReallyModified = false;
                     moMap.RedrawMap();
                     MoveFeatureBtn_Click(new object(), e);
                 }
@@ -860,11 +859,6 @@ namespace GeoView
                 mEditingGeometry = sMultiPolygon;
                 moMap.RedrawTrackingShapes();
             }
-            if (mReallyModified)
-            {
-                mReallyModified = false;
-                mPointEditingNeedSaved = true;
-            }
         }
         private void MultiPolylineEditing_MouseUp(MouseEventArgs e)
         {
@@ -884,7 +878,6 @@ namespace GeoView
             sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
             sLayer.UpdateExtent();
             mEditingGeometry = null;
-            mPointEditingNeedSaved = false;
             moMap.RedrawMap();
             MoveFeatureBtn_Click(new object(), e);
         }
@@ -1715,10 +1708,10 @@ namespace GeoView
         {
             try
             {
-                if (mPointEditingNeedSaved)
+                if (mReallyModified)
                 {
                     mEditingGeometry = null;
-                    mPointEditingNeedSaved = false;
+                    mReallyModified = false;
                     moMap.RedrawMap();
                 }
                 for (Int32 i = 0; i < moMap.Layers.Count; i++)
