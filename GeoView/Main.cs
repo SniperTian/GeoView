@@ -44,12 +44,13 @@ namespace GeoView
         private bool mIsInMove = false;
         private bool mIsInIdentify = false;
         private bool mIsInRenderer = false;
-        private bool mReallyMove = false;   //移动状态是否真的拖动要素进行了移动
+        private bool mReallyModified = false;   //是否真的对要素进行了修改
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
-        private bool mReallyModified = false;   //修改了数据且没有保存
+        private bool mReallyRecord = false;   //对要素的修改是否保存
         private bool mIsInEditPoint = false;    //编辑节点状态
-        private Int32 mEditingPointIndex = -1;  //当前修改的顶点的索引号
-        private Int32 mEditingPartIndex = -1;   //当前修改的部件的索引号
+        private Int32 mMouseOnPartIndex = -1;   //鼠标位于多边形部件的索引
+        private Int32 mMouseOnPointIndex = -1;  //鼠标位于多边形部件顶点的索引
+        private bool mPointEditingNeedSaved = false;
         private bool mIsInMovePoint
         {
             get { return MovePointBtn.Checked; }
@@ -155,13 +156,13 @@ namespace GeoView
             SelectLayer.Enabled = true;
             RefreshSelectLayer();
             MoveFeatureBtn_Click(sender, e);
-            mReallyModified = false;
+            mReallyRecord = false;
         }
 
         //结束编辑
         private void EndEditItem_Click(object sender, EventArgs e)
         {
-            if (mReallyModified == true)
+            if (mReallyRecord == true || mPointEditingNeedSaved == true)
             {
                 DialogResult dr = MessageBox.Show("是否要保存编辑内容", "Saving", MessageBoxButtons.YesNoCancel);
                 if (dr == DialogResult.Cancel)
@@ -203,6 +204,16 @@ namespace GeoView
         {
             try
             {
+                if (mPointEditingNeedSaved == true)
+                {
+                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                    sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
+                    sLayer.UpdateExtent();
+                    mEditingGeometry = null;
+                    mPointEditingNeedSaved = false;
+                    moMap.RedrawMap();
+                    MoveFeatureBtn_Click(new object(), e);
+                }
                 for (Int32 i = 0; i < moMap.Layers.Count; i++)
                 {
                     //图形数据
@@ -226,7 +237,7 @@ namespace GeoView
                     path = mDbfFiles[i].DefaultPath;
                     mDbfFiles[i].SaveToFile(path);
                 }
-                mReallyModified = false;
+                mReallyRecord = false;
             }
             catch (Exception error)
             {
@@ -267,8 +278,8 @@ namespace GeoView
         {
             if (EditPointBtn.Checked == false)
             {
-                mEditingPartIndex = -1;
-                mEditingPointIndex = -1;
+                mMouseOnPartIndex = -1;
+                mMouseOnPointIndex = -1;
                 HideEditStrip();
             }
         }
@@ -287,6 +298,7 @@ namespace GeoView
             RightMenuInSketch();
         }
 
+        //移动节点
         private void MovePointBtn_Click(object sender, EventArgs e)
         {
             MovePointBtn.Checked = true;
@@ -294,6 +306,7 @@ namespace GeoView
             DeletePointBtn.Checked = false;
         }
 
+        //增加节点
         private void AddPointBtn_Click(object sender, EventArgs e)
         {
             MovePointBtn.Checked = false;
@@ -301,6 +314,7 @@ namespace GeoView
             DeletePointBtn.Checked = false;
         }
 
+        //删除节点
         private void DeletePointBtn_Click(object sender, EventArgs e)
         {
             MovePointBtn.Checked = false;
@@ -491,7 +505,7 @@ namespace GeoView
             }
             //设置变量
             mStartMouseLocation = e.Location;
-            mReallyMove = false;
+            mReallyModified = false;
         }
         private void OnEditPoint_MouseDown(MouseEventArgs e)
         {
@@ -521,25 +535,10 @@ namespace GeoView
             MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mEditingGeometry;
             double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
             MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
-            if (mIsInMovePoint)
+            mReallyModified = false;
+            if (mMouseOnPartIndex != -1 && mMouseOnPointIndex != -1)
             {
-                mReallyMove = false;
-                for (Int32 i = 0; i < sMultiPolygon.Parts.Count; i++)
-                {
-                    MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(i);
-                    Int32 j = 0;
-                    for (; j < sPoints.Count; j++)
-                    {
-                        if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sPoints.GetItem(j), sTolerance))
-                        {
-                            mEditingPartIndex = i;
-                            mEditingPointIndex = j;
-                            mIsInEditPoint = true;
-                            break;
-                        }
-                    }
-                    if (j < sPoints.Count) break;
-                }
+                mIsInEditPoint = true;
             }
         }
         private void MultiPolylineEditing_MouseDown(MouseEventArgs e)
@@ -600,7 +599,7 @@ namespace GeoView
             //修改移动图形的坐标
             double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
             double sDeltaY = moMap.ToMapDistance(mStartMouseLocation.Y - e.Location.Y);
-            mReallyMove = true;
+            mReallyModified = true;
             ModifyMovingGeometries(sDeltaX, sDeltaY);
             //刷新地图并绘制移动图形
             moMap.Refresh();
@@ -687,24 +686,17 @@ namespace GeoView
                 MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mEditingGeometry;
                 double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
                 MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
-                Int32 i = 0;
-                for (; i < sMultiPolygon.Parts.Count; i++)
+                if (PointCloseToMultiPolygonPoint(sPoint, sMultiPolygon, sTolerance))
                 {
-                    MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(i);
-                    Int32 j = 0;
-                    for (; j < sPoints.Count; j++)
-                    {
-                        if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sPoints.GetItem(j), sTolerance))
-                        {
-                            this.Cursor = new Cursor("ico/EditMoveVertex.ico");
-                            break;
-                        }
-                    }
-                    if (j < sPoints.Count) break;
+                    if (mIsInMovePoint) this.Cursor = new Cursor("ico/EditMoveVertex.ico");
+                    if (mIsInAddPoint) this.Cursor = new Cursor("ico/AddPoint.ico");
+                    if (mIsInDeletePoint) this.Cursor = new Cursor("ico/DeletePoint.ico");
                 }
-                if (i == sMultiPolygon.Parts.Count)
+                else
                 {
                     this.Cursor = Cursors.Default;
+                    mMouseOnPartIndex = -1;
+                    mMouseOnPointIndex = -1;
                 }
             }
             else
@@ -713,14 +705,15 @@ namespace GeoView
                 MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
                 if (mIsInMovePoint)
                 {
-                    mReallyMove = true;
-                    if (mEditingPartIndex == -1 || mEditingPointIndex == -1) return;
-                    MyMapObjects.moPoint newPoint = sMultiPolygon.Parts.GetItem(mEditingPartIndex).GetItem(mEditingPointIndex);
+                    mReallyModified = true;
+                    MyMapObjects.moPoint newPoint = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex).GetItem(mMouseOnPointIndex);
                     newPoint.X = sPoint.X; newPoint.Y = sPoint.Y;
                     sMultiPolygon.UpdateExtent();
                     mEditingGeometry = sMultiPolygon;
+                    moMap.RedrawTrackingShapes();
                 }
-                moMap.RedrawTrackingShapes();
+                if (mIsInAddPoint) mIsInEditPoint = false;
+                if (mIsInDeletePoint) mIsInEditPoint = false;
             }
         }
         private void MultiPolylineEditing_MouseMove(MouseEventArgs e)
@@ -780,11 +773,11 @@ namespace GeoView
                 return;
             if (mIsInMove == false) return;
             mIsInMove = false;
-            if (mReallyMove)
+            if (mReallyModified)
             {
                 //做相应的数据修改
-                mReallyMove = false;
-                mReallyModified = true;
+                mReallyModified = false;
+                mReallyRecord = true;
                 MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
                 for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
                 {
@@ -832,10 +825,46 @@ namespace GeoView
             {
                 MultiPoint_MouseUp(e);
             }
+            mMouseOnPartIndex = -1;
+            mMouseOnPointIndex = -1;
         }
         private void MultiPolygonEditing_MouseUp(MouseEventArgs e)
         {
-
+            MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mEditingGeometry;
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+            if (mIsInAddPoint)
+            {
+                mReallyModified = true;
+                MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex);
+                sPoints.Insert(mMouseOnPointIndex + 1, sPoint);
+                sMultiPolygon.UpdateExtent();
+                mEditingGeometry = sMultiPolygon;
+                moMap.RedrawTrackingShapes();
+                MovePointBtn_Click(new object(), e);
+            }
+            if (mIsInDeletePoint)
+            {
+                mReallyModified = true;
+                MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex);
+                if (sPoints.Count > 3)
+                {
+                    sPoints.RemoveAt(mMouseOnPointIndex);
+                }
+                else
+                {
+                    MessageBox.Show("无法继续删减，否则会导致要素的几何无效！");
+                    MovePointBtn_Click(new object(), e);
+                    return;
+                }
+                sMultiPolygon.UpdateExtent();
+                mEditingGeometry = sMultiPolygon;
+                moMap.RedrawTrackingShapes();
+            }
+            if (mReallyModified)
+            {
+                mReallyModified = false;
+                mPointEditingNeedSaved = true;
+            }
         }
         private void MultiPolylineEditing_MouseUp(MouseEventArgs e)
         {
@@ -855,6 +884,7 @@ namespace GeoView
             sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
             sLayer.UpdateExtent();
             mEditingGeometry = null;
+            mPointEditingNeedSaved = false;
             moMap.RedrawMap();
             MoveFeatureBtn_Click(new object(), e);
         }
@@ -902,7 +932,7 @@ namespace GeoView
                 moMap.RedrawTrackingShapes();
             }
         }
-        
+
 
         private void moMap_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -1685,6 +1715,12 @@ namespace GeoView
         {
             try
             {
+                if (mPointEditingNeedSaved)
+                {
+                    mEditingGeometry = null;
+                    mPointEditingNeedSaved = false;
+                    moMap.RedrawMap();
+                }
                 for (Int32 i = 0; i < moMap.Layers.Count; i++)
                 {
                     MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
@@ -1693,16 +1729,17 @@ namespace GeoView
                     MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
                     for (Int32 j = 0; j < mGvShapeFiles[i].Geometries.Count; ++j)
                     {
-                        MyMapObjects.moFeature sFeature = new MyMapObjects.moFeature(mGvShapeFiles[i].GeometryType, 
+                        MyMapObjects.moFeature sFeature = new MyMapObjects.moFeature(mGvShapeFiles[i].GeometryType,
                             mGvShapeFiles[i].Geometries[j], mDbfFiles[i].AttributesList[j]);
                         sFeatures.Add(sFeature);
                     }
                     sMapLayer.Features = sFeatures;
                     sMapLayer.Renderer = sLayer.Renderer;
+                    sMapLayer.UpdateExtent();
                     moMap.Layers.RemoveAt(i);
                     moMap.Layers.Insert(i, sMapLayer);
                 }
-                mReallyModified = false;
+                mReallyRecord = false;
             }
             catch (Exception error)
             {
@@ -2061,6 +2098,56 @@ namespace GeoView
             }
             moMap.RedrawTrackingShapes();
         }
+
+        private bool PointCloseToMultiPolygonPoint(MyMapObjects.moPoint sPoint, MyMapObjects.moMultiPolygon sMultiPolygon, double sTolerance)
+        {
+            if (mIsInMovePoint || mIsInDeletePoint)
+            {
+                for (Int32 i = 0; i < sMultiPolygon.Parts.Count; i++)
+                {
+                    MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(i);
+                    Int32 j = 0;
+                    for (; j < sPoints.Count; j++)
+                    {
+                        if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sPoints.GetItem(j), sTolerance))
+                        {
+                            mMouseOnPartIndex = i;
+                            mMouseOnPointIndex = j;
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (mIsInAddPoint)
+            {
+                for (Int32 i = 0; i < sMultiPolygon.Parts.Count; i++)
+                {
+                    MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(i);
+                    for (Int32 j = 0; j < sPoints.Count; j++)
+                    {
+                        MyMapObjects.moPoints tempPoints = new MyMapObjects.moPoints();
+                        tempPoints.Add(sPoints.GetItem(j));
+                        if (j < sPoints.Count - 1)
+                        {
+                            tempPoints.Add(sPoints.GetItem(j + 1));
+                        }
+                        else
+                        {
+                            tempPoints.Add(sPoints.GetItem(0));
+                        }
+                        tempPoints.UpdateExtent();
+                        if (MyMapObjects.moMapTools.IsPointOnPolyline(sPoint, tempPoints, sTolerance))
+                        {
+                            mMouseOnPartIndex = i;
+                            mMouseOnPointIndex = j;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         #endregion
     }
 }
