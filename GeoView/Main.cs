@@ -43,6 +43,7 @@ namespace GeoView
         private bool mIsInSelect = false;
         private bool mIsInMove = false;
         private bool mIsInIdentify = false;
+        private bool mIsInRenderer = false;
         private bool mReallyMove = false;   //移动状态是否真的拖动要素进行了移动
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         private bool mReallyModified = false;   //修改了数据且没有保存
@@ -1100,12 +1101,17 @@ namespace GeoView
 
         private void 图层渲染ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mIsInRenderer = false;
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);//待渲染的图层
             if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
             {
                 mPointRenderer = new PointRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
                 mPointRenderer.Owner = this;
                 mPointRenderer.ShowDialog();
+                if (mIsInRenderer == false)
+                {
+                    return;
+                }
                 //简单渲染
                 if (mPointRendererMode == 0)
                 {
@@ -1195,6 +1201,10 @@ namespace GeoView
                 mPolylineRenderer = new PolylineRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
                 mPolylineRenderer.Owner = this;
                 mPolylineRenderer.ShowDialog();
+                if (mIsInRenderer == false)
+                {
+                    return;
+                }
                 //简单渲染
                 if (mPolylineRendererMode == 0)
                 {
@@ -1285,6 +1295,10 @@ namespace GeoView
                 mPolygonRenderer = new PolygonRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
                 mPolygonRenderer.Owner = this;
                 mPolygonRenderer.ShowDialog();
+                if (mIsInRenderer == false)
+                {
+                    return;
+                }
                 //简单渲染
                 if (mPolygonRendererMode == 0)
                 {
@@ -1408,6 +1422,7 @@ namespace GeoView
             mPointClassBreaksRendererColor = classBreakRendererColor;
             mPointClassBreaksRendererMinSize = classBreakRendererMinSize;
             mPointClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInRenderer = true;
         }
 
         public void GetPolylineRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
@@ -1425,6 +1440,7 @@ namespace GeoView
             mPolylineClassBreaksRendererColor = classBreakRendererColor;
             mPolylineClassBreaksRendererMinSize = classBreakRendererMinSize;
             mPolylineClassBreaksRendererMaxSize = classBreakRendererMaxSize;
+            mIsInRenderer = true;
         }
 
         public void GetPolygonRenderer(Int32 renderMode, Color simpleRendererColor,
@@ -1438,6 +1454,7 @@ namespace GeoView
             mPolygonClassBreaksNum = classNum;
             mPolygonClassBreaksRendererStartColor = classBreakRendererStartColor;
             mPolygonClassBreaksRendererEndColor = classBreakRendererEndColor;
+            mIsInRenderer = true;
         }
 
         #endregion
