@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     //暂且支持wkt格式,还没有写系统自定义的投影类型
     //暂不具备报错机制(如果文件格式不符合wkt)

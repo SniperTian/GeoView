@@ -55,6 +55,10 @@ namespace MyMapObjects
 
         #region 属性
 
+        public List<Int32> SelectIndex
+        {
+            get { return GetSelectIndex(); }
+        }
         /// <summary>
         /// 获取图层的要素几何类型
         /// </summary>
@@ -165,6 +169,8 @@ namespace MyMapObjects
             set { _LabelRenderer = value; }
         }
 
+
+
         #endregion
 
         #region 方法
@@ -182,6 +188,20 @@ namespace MyMapObjects
         /// </summary>
         public void ClearSelection()
         {
+            _SelectedFeatures.Clear();
+        }
+
+        public void RemoveSelection()
+        {
+            MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+            for(Int32 i = 0; i < _Features.Count; ++i)
+            {
+                if (SelectIndex.Contains(i) == false)
+                {
+                    sFeatures.Add(_Features.GetItem(i));
+                }
+            }
+            _Features = sFeatures;
             _SelectedFeatures.Clear();
         }
 
@@ -405,9 +425,14 @@ namespace MyMapObjects
                     sRenderer.Symbol = new moSimpleLineSymbol();
                     _Renderer = sRenderer;
                 }
-                else
+                else if (_ShapeType == moGeometryTypeConstant.MultiPolygon)
                 {
                     sRenderer.Symbol = new moSimpleFillSymbol();
+                    _Renderer = sRenderer;
+                }
+                else if (_ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    sRenderer.Symbol = new moSimpleMarkerSymbol();
                     _Renderer = sRenderer;
                 }
             }
@@ -467,6 +492,18 @@ namespace MyMapObjects
                         sSelectedFeatures.Add(_Features.GetItem(i));
                     }
                 }
+                else if (_ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    moPoints sPoints = (moPoints)_Features.GetItem(i).Geometry;
+                    for(Int32 j = 0; j < sPoints.Count; j++)
+                    {
+                        if (moMapTools.IsPointOnPoint(point, sPoints.GetItem(j), tolerance) == true)
+                        {
+                            sSelectedFeatures.Add(_Features.GetItem(i));
+                            break;
+                        }
+                    }
+                }
             }
             return sSelectedFeatures;
         }
@@ -501,6 +538,19 @@ namespace MyMapObjects
                     {
                         sSelectedFeatures.Add(_Features.GetItem(i));
                     }
+                }
+                else if (_ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    moPoints sPoints = (moPoints)_Features.GetItem(i).Geometry;
+                    for(Int32 j = 0; j < sPoints.Count; j++)
+                    {
+                        if (moMapTools.IsPointWithinBox(sPoints.GetItem(j), selectingBox) == true)
+                        {
+                            sSelectedFeatures.Add(_Features.GetItem(i));
+                            break;
+                        }
+                    }
+                    
                 }
             }
             return sSelectedFeatures;
@@ -817,7 +867,22 @@ namespace MyMapObjects
             }
         }
 
-
+        private List<Int32> GetSelectIndex()
+        {
+            List<Int32> selectIndex = new List<Int32>();
+            for(Int32 i = 0; i < _SelectedFeatures.Count; ++i)
+            {
+                for(Int32 j = 0; j < _Features.Count; ++j)
+                {
+                    if (_Features.GetItem(j) == _SelectedFeatures.GetItem(i))
+                    {
+                        selectIndex.Add(j);
+                        break;
+                    }
+                }
+            }
+            return selectIndex;
+        }
 
         #endregion
     }

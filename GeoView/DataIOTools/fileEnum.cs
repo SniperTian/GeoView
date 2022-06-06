@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     /// <summary>
     /// shapefile几何类型

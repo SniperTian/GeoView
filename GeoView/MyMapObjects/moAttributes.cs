@@ -82,6 +82,11 @@ namespace MyMapObjects
             _Attributes.RemoveAt(index);
         }
 
+        public void InsertAt(Int32 index, object attributeValue)
+        {
+            _Attributes.Insert(index, attributeValue);
+        }
+
         /// <summary>
         /// 克隆
         /// </summary>

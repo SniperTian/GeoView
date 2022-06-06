@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     //dbf字段信息
     public class dbfField
@@ -49,12 +49,18 @@ namespace MyMapObjectsDemo.DataIOTools
 
         #region 属性
 
+        /// <summary>
+        /// 获取或设置字段名称
+        /// </summary>
         public string FieldName
         {
             set { _FieldName = value; }
             get { return _FieldName; }
         }
 
+        /// <summary>
+        /// 获取或设置dbf约定的字段类型
+        /// </summary>
         public byte FieldType
         {
             set { _FieldType = value; }
@@ -67,6 +73,9 @@ namespace MyMapObjectsDemo.DataIOTools
             get { return _ReservedField1; }
         }
 
+        /// <summary>
+        /// 获取或设置字段长度
+        /// </summary>
         public byte FieldLength
         {
             set { _FieldLength = value; }

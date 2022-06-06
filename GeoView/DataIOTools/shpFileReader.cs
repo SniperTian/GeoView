@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     //要求1：moEnum-moGeometryTypeConstant新增MultiPoint = 3
     //要求2：moPoints:moGeometry
@@ -61,19 +61,25 @@ namespace MyMapObjectsDemo.DataIOTools
 
         #region 属性
 
-        //获取要素数目
+        /// <summary>
+        /// 获取要素数目
+        /// </summary>
         public Int32 Count
         {
             get { return _Geometries.Count; }
         }
 
-        //获取要素类型
+        /// <summary>
+        /// 获取要素类型
+        /// </summary>
         public MyMapObjects.moGeometryTypeConstant ShapeType
         {
             get { return _ShapeType; }
         }
 
-        //获取要素
+        /// <summary>
+        /// 获取要素
+        /// </summary>
         public List<MyMapObjects.moGeometry> Geometries
         {
             get { return _Geometries; }
@@ -255,6 +261,7 @@ namespace MyMapObjectsDemo.DataIOTools
                 MyMapObjects.moPoint sPoint = new MyMapObjects.moPoint(sX, sY);
                 sPoints.Add(sPoint);
             }
+            sPoints.UpdateExtent();
             _Geometries.Add(sPoints);
         }
 

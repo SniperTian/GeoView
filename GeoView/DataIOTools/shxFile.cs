@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     public class shxFile
     {
@@ -39,17 +39,25 @@ namespace MyMapObjectsDemo.DataIOTools
         #endregion
 
         #region 属性
-
+        /// <summary>
+        /// 获取记录数
+        /// </summary>
         public long RecordNum
         {
             get { return _RecordNum; }
         }
 
+        /// <summary>
+        /// 获取要素记录相对于起始位置的偏移量
+        /// </summary>
         public List<Int32> Offset
         {
             get { return _Offset; }
         }
 
+        /// <summary>
+        /// 获取各要素记录长度
+        /// </summary>
         public List<Int32> ContentLength
         {
             get { return _ContentLength; }

@@ -15,50 +15,130 @@ E:\Code\C#Code\Test\bin\Debug\MyMapObjectsDemo.pdb
 E:\Code\C#Code\Test\bin\Debug\MyMapObjects.dll
 E:\Code\C#Code\Test\bin\Debug\MyMapObjects.pdb
 E:\Code\C#Code\Test\obj\Debug\GeoView.csproj.CopyComplete
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.exe.config
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.exe
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.pdb
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\MyMapObjects.dll
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\MyMapObjects.pdb
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.AttributeTable.resources
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Main.resources
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Renderer.resources
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Research.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.exe
-D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.pdb
-F:\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.exe.config
-F:\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.exe
-F:\GeoView\GeoView\bin\Debug\MyMapObjectsDemo.pdb
 F:\GeoView\GeoView\bin\Debug\MyMapObjects.dll
 F:\GeoView\GeoView\bin\Debug\MyMapObjects.pdb
 F:\GeoView\GeoView\obj\Debug\GeoView.csprojAssemblyReference.cache
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.AttributeTable.resources
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Main.resources
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Renderer.resources
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.Research.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
 F:\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
 F:\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.exe
-F:\GeoView\GeoView\obj\Debug\MyMapObjectsDemo.pdb
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.exe.config
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.exe
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjectsDemo.pdb
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjects.dll
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\bin\Debug\MyMapObjects.pdb
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.AttributeTable.resources
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Main.resources
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Renderer.resources
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Properties.Resources.resources
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.Research.resources
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.csproj.CopyComplete
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.exe
-D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\MyMapObjectsDemo.pdb
+F:\GeoView\GeoView\bin\Debug\GeoView.exe.config
+F:\GeoView\GeoView\bin\Debug\GeoView.exe
+F:\GeoView\GeoView\bin\Debug\GeoView.pdb
+F:\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.exe
+F:\GeoView\GeoView\obj\Debug\GeoView.pdb
+F:\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.Main.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.Renderer.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.Research.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.exe.config
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.exe
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Main.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Research.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.exe
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\bin\Debug\GeoView.exe.config
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\bin\Debug\GeoView.exe
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\bin\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\bin\Debug\MyMapObjects.dll
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\bin\Debug\MyMapObjects.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.Main.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.Renderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.Research.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.exe
+D:\course\GIS\3-2\GIS设计\作业\小组作业\备份\GeoView\GeoView\obj\Debug\GeoView.pdb
+D:\Download\GeoView-main\GeoView\bin\Debug\GeoView.exe.config
+D:\Download\GeoView-main\GeoView\bin\Debug\GeoView.exe
+D:\Download\GeoView-main\GeoView\bin\Debug\GeoView.pdb
+D:\Download\GeoView-main\GeoView\bin\Debug\MyMapObjects.dll
+D:\Download\GeoView-main\GeoView\bin\Debug\MyMapObjects.pdb
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.csproj.SuggestedBindingRedirects.cache
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.AttributeTable.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.Main.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.PointRenderer.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.Research.resources
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.exe
+D:\Download\GeoView-main\GeoView\obj\Debug\GeoView.pdb
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\bin\Debug\GeoView.exe.config
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\bin\Debug\GeoView.exe
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\bin\Debug\GeoView.pdb
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\bin\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\bin\Debug\MyMapObjects.pdb
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.SuggestedBindingRedirects.cache
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.Main.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.Research.resources
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.exe
+E:\Documents\大三下\GIS设计和应用\GeoView\GeoView\obj\Debug\GeoView.pdb
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\bin\Debug\GeoView.exe.config
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\bin\Debug\GeoView.exe
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\bin\Debug\GeoView.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\bin\Debug\MyMapObjects.dll
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\bin\Debug\MyMapObjects.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.SuggestedBindingRedirects.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Main.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Research.resources
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.exe
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.pdb
+E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Label.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Label.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\bin\Debug\GeoView.exe.config
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\bin\Debug\GeoView.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\bin\Debug\GeoView.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\bin\Debug\MyMapObjects.dll
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\bin\Debug\MyMapObjects.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.AttributeTable.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.Label.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.Main.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.PointRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.Research.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\new\GeoView-main\GeoView-main\GeoView\obj\Debug\GeoView.Add_field.resources

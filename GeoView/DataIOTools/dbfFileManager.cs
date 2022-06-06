@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace MyMapObjectsDemo.DataIOTools
+namespace GeoView.DataIOTools
 {
     public class dbfFileManager
     {
         #region 字段
 
-        private string _FilePath;   //文件路径
+        private string _DefaultFilePath;   //文件路径
         private dbfFileHeader _dbfFileHeader;
         private MyMapObjects.moFields _Fields = new MyMapObjects.moFields();  //字段集合通过头文件读取，因此应当同时维护头文件和_Fields
         private List<MyMapObjects.moAttributes> _AttributesList = new List<MyMapObjects.moAttributes>();
@@ -20,7 +20,7 @@ namespace MyMapObjectsDemo.DataIOTools
 
         public dbfFileManager(string filePath)
         {
-            _FilePath = filePath;
+            _DefaultFilePath = filePath;
             FileStream sStream = new FileStream(filePath, FileMode.Open);
             BinaryReader sr = new BinaryReader(sStream);
             _dbfFileHeader = new dbfFileHeader(sr); //读取文件头
@@ -40,6 +40,7 @@ namespace MyMapObjectsDemo.DataIOTools
         public MyMapObjects.moFields Fields
         {
             get { return _Fields; }
+            set { _Fields = value; }
         }
 
         /// <summary>
@@ -50,19 +51,117 @@ namespace MyMapObjectsDemo.DataIOTools
             get { return _AttributesList; }
         }
 
+        /// <summary>
+        /// 默认路径
+        /// </summary>
+        public string DefaultPath
+        {
+            get { return _DefaultFilePath; }
+            set { _DefaultFilePath = value; }
+        }
+
         #endregion
 
         #region 方法
-        //更新字段(文件头也要作出修改)
-        public void UpdateFields(MyMapObjects.moFields newFields)
+        /// <summary>
+        /// 添加一个字段(默认追加在末尾)
+        /// </summary>
+        /// <param name="newField"></param>
+        public void CreateField(MyMapObjects.moField newField, MyMapObjects.moAttributes newAttributes)
         {
-
+            //（1）修改文件头
+            MyMapObjects.moValueTypeConstant sValueType = newField.ValueType;
+            dbfField sDbfField = new dbfField();
+            string sFieldName = newField.Name;
+            byte sDbfFieldType;
+            byte sFieldLength;
+            switch (sValueType)
+            {
+                case MyMapObjects.moValueTypeConstant.dInt32:
+                    sDbfFieldType = (byte)'I';
+                    sFieldLength = 11;
+                    break;
+                case MyMapObjects.moValueTypeConstant.dSingle:
+                    sDbfFieldType = (byte)'F';
+                    sFieldLength = 13;
+                    break;
+                case MyMapObjects.moValueTypeConstant.dDouble:
+                    sDbfFieldType = (byte)'B';
+                    sFieldLength = 22;
+                    break;
+                case MyMapObjects.moValueTypeConstant.dText:
+                    sDbfFieldType = (byte)'C';
+                    sFieldLength = 100;
+                    break;
+                default:
+                    sDbfFieldType = (byte)'C';
+                    sFieldLength = 100;
+                    break;
+            }
+            _dbfFileHeader.HeaderLength += 32;
+            _dbfFileHeader.RecordLength += sFieldLength;
+            sDbfField.FieldName = sFieldName;
+            sDbfField.FieldType = sDbfFieldType;
+            sDbfField.FieldLength = sFieldLength;
+            _dbfFileHeader.dbfFields.Add(sDbfField);
+            //（2）修改字段集合
+            _Fields.Append(newField);
+            //（3）修改记录的属性值
+            object[] sAttributesArray = newAttributes.ToArray();
+            if (sAttributesArray.Length != _AttributesList.Count)
+            {
+                string error = "新增属性值数与记录数不一致!";
+                throw new Exception(error);
+            }
+            for (Int32 i = 0; i < sAttributesArray.Length; ++i)
+            {
+                _AttributesList[i].Append(sAttributesArray[i]);
+            }
         }
-        
-        //更新记录(文件头也要作出修改)
+
+        /// <summary>
+        /// 根据指定索引号删除字段
+        /// </summary>
+        public void DeleteField(Int32 index)
+        {
+            if (index < 0 || index >= _Fields.Count)
+            {
+                string error = "索引超出数组范围";
+                throw new Exception(error);
+            }
+            //（1）修改文件头
+            dbfField sDbfField = _dbfFileHeader.dbfFields[index];
+            _dbfFileHeader.HeaderLength -= 32;
+            _dbfFileHeader.RecordLength -= sDbfField.FieldLength;
+            _dbfFileHeader.dbfFields.RemoveAt(index);
+            //（2）修改字段集合
+            _Fields.RemoveAt(index);
+            //（3）修改记录的属性值
+            for (Int32 i = 0; i < _AttributesList.Count; ++i)
+            {
+                _AttributesList[i].RemoveAt(index);
+            }
+        }
+
+        /// <summary>
+        /// 更新记录
+        /// </summary>
+        /// <param name="newAttributesList"></param>
         public void UpdateAttributesList(List<MyMapObjects.moAttributes> newAttributesList)
         {
-
+            if (newAttributesList.Count != 0)
+            {
+                object[] sTempArray = newAttributesList[0].ToArray();
+                if (sTempArray.Length != _Fields.Count)
+                {
+                    string error = "记录的属性值数与字段数不相等!";
+                    throw new Exception(error);
+                }
+            }
+            //（1）修改文件头
+            _dbfFileHeader.RecordNum = (uint)newAttributesList.Count;
+            //（2）修改记录的属性值
+            _AttributesList = newAttributesList;
         }
 
         //保存至dbf文件，路径指定
@@ -79,7 +178,7 @@ namespace MyMapObjectsDemo.DataIOTools
         //保存至dbf文件，路径为原文件的路径(覆盖原文件内容)
         public void SaveToFile()
         {
-            
+            SaveToFile(_DefaultFilePath);
         }
         #endregion
 
@@ -88,7 +187,7 @@ namespace MyMapObjectsDemo.DataIOTools
         //根据头文件读取字段
         private void CreateFieldsFromHeader()
         {
-            for(Int32 i = 0; i < _dbfFileHeader.dbfFields.Count; ++i)
+            for (Int32 i = 0; i < _dbfFileHeader.dbfFields.Count; ++i)
             {
                 string sName = _dbfFileHeader.dbfFields[i].FieldName;
                 char sdbfFieldType = (char)_dbfFileHeader.dbfFields[i].FieldType;
@@ -102,6 +201,9 @@ namespace MyMapObjectsDemo.DataIOTools
                         sValueType = MyMapObjects.moValueTypeConstant.dSingle;
                         break;
                     case 'B':
+                        sValueType = MyMapObjects.moValueTypeConstant.dDouble;
+                        break;
+                    case 'N':
                         sValueType = MyMapObjects.moValueTypeConstant.dDouble;
                         break;
                     default:
@@ -118,7 +220,7 @@ namespace MyMapObjectsDemo.DataIOTools
         {
             sr.BaseStream.Seek(_dbfFileHeader.HeaderLength, SeekOrigin.Begin);
             UInt16 sRecordLength = _dbfFileHeader.RecordLength;
-            for(Int32 i = 0; i < _dbfFileHeader.RecordNum; ++i)
+            for (Int32 i = 0; i < _dbfFileHeader.RecordNum; ++i)
             {
                 byte[] sRecordContent = sr.ReadBytes(sRecordLength);
                 MyMapObjects.moAttributes sAttributes = new MyMapObjects.moAttributes();
@@ -141,7 +243,11 @@ namespace MyMapObjectsDemo.DataIOTools
                     }
                     else if (sValueType == MyMapObjects.moValueTypeConstant.dDouble)
                     {
-                        double sTempValue = Convert.ToDouble(sTemp);
+                        double sTempValue = 0;
+                        if (sTemp.Length != 0)
+                        {
+                            sTempValue = Convert.ToDouble(sTemp);
+                        }
                         sAttributes.Append(sTempValue);
                     }
                     else
@@ -196,7 +302,7 @@ namespace MyMapObjectsDemo.DataIOTools
             {
                 sw.Write((byte)0x20);   //每一行第一个字节默认为0x20
                 object[] sAttributes = _AttributesList[i].ToArray();
-                for(Int32 j = 0; j < sAttributes.Length; ++j)
+                for (Int32 j = 0; j < sAttributes.Length; ++j)
                 {
                     object sTempValue = sAttributes[j];
                     if (sTempValue != null)

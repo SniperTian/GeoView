@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4FAAAC1F-29F3-42F5-9E2B-60472B5D9DFC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MyMapObjectsDemo</RootNamespace>
-    <AssemblyName>MyMapObjectsDemo</AssemblyName>
+    <RootNamespace>GeoView</RootNamespace>
+    <AssemblyName>GeoView</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_field.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_field.Designer.cs">
+      <DependentUpon>Add_field.cs</DependentUpon>
+    </Compile>
     <Compile Include="AttributeTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,17 +67,35 @@
     <Compile Include="DataIOTools\shpFileHeader.cs" />
     <Compile Include="DataIOTools\shpFileReader.cs" />
     <Compile Include="DataIOTools\shxFile.cs" />
+    <Compile Include="Label.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Label.Designer.cs">
+      <DependentUpon>Label.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Renderer.cs">
+    <Compile Include="PointRenderer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Renderer.Designer.cs">
-      <DependentUpon>Renderer.cs</DependentUpon>
+    <Compile Include="PointRenderer.Designer.cs">
+      <DependentUpon>PointRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolygonRenderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolygonRenderer.Designer.cs">
+      <DependentUpon>PolygonRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PolylineRenderer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PolylineRenderer.Designer.cs">
+      <DependentUpon>PolylineRenderer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,14 +105,26 @@
     <Compile Include="Research.Designer.cs">
       <DependentUpon>Research.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Add_field.resx">
+      <DependentUpon>Add_field.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Label.resx">
+      <DependentUpon>Label.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Renderer.resx">
-      <DependentUpon>Renderer.cs</DependentUpon>
+    <EmbeddedResource Include="PointRenderer.resx">
+      <DependentUpon>PointRenderer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolygonRenderer.resx">
+      <DependentUpon>PolygonRenderer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PolylineRenderer.resx">
+      <DependentUpon>PolylineRenderer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -98,6 +134,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Research.resx">
       <DependentUpon>Research.cs</DependentUpon>
