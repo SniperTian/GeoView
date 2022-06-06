@@ -203,6 +203,7 @@ namespace MyMapObjects
             }
             _Features = sFeatures;
             _SelectedFeatures.Clear();
+            UpdateExtent();
         }
 
         /// <summary>

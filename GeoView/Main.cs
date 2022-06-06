@@ -36,18 +36,22 @@ namespace GeoView
 
         //(2)与地图操作有关的变量
         private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点
-        private Int32 mOperatingLayerIndex = -1;    //当前操作的图层索引
+        private Int32 mOperatingLayerIndex  //当前操作的图层的索引
+        {
+            get { return SelectLayer.SelectedIndex; }
+        }
         private PointF mStartMouseLocation;
         private bool mIsInZoomIn = false;
         private bool mIsInPan = false;
         private bool mIsInSelect = false;
         private bool mIsInMove = false;
+        private bool mSelectedIsMoved = false;  //选择的图形是否被移动
         private bool mIsInIdentify = false;
         private bool mIsInRenderer = false;
-        private bool mReallyModified = false;   //是否真的对要素进行了修改
-        private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
-        private bool mReallyRecord = false;   //对要素的修改是否保存
         private bool mIsInEditPoint = false;    //编辑节点状态
+        private bool mNeedToSave = false;   //是否需要保存数据
+        private bool mPointEditNeedSave = false;//对节点的编辑是否被保存
+        private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         private Int32 mMouseOnPartIndex = -1;   //鼠标位于多边形部件的索引
         private Int32 mMouseOnPointIndex = -1;  //鼠标位于多边形部件顶点的索引
         private bool mIsInMovePoint
@@ -119,6 +123,7 @@ namespace GeoView
         Label mLabel;
 
         #endregion
+
         public Main()
         {
             InitializeComponent();
@@ -135,6 +140,7 @@ namespace GeoView
             ShowMapScale();
         }
 
+        #region 控件
         //编辑
         private void EditSpBtn_Click(object sender, EventArgs e)
         {
@@ -155,15 +161,19 @@ namespace GeoView
             SelectLayer.Enabled = true;
             RefreshSelectLayer();
             MoveFeatureBtn_Click(sender, e);
-            mReallyRecord = false;
+            mNeedToSave = false;
         }
 
         //结束编辑
         private void EndEditItem_Click(object sender, EventArgs e)
         {
-            if (mReallyRecord == true || mReallyModified == true)
+            if (mPointEditNeedSave)
             {
-                DialogResult dr = MessageBox.Show("是否要保存编辑内容", "Saving", MessageBoxButtons.YesNoCancel);
+                SavePointEdit();
+            }
+            if (mNeedToSave)
+            {
+                DialogResult dr = MessageBox.Show("是否保存编辑内容", "Saving", MessageBoxButtons.YesNoCancel);
                 if (dr == DialogResult.Cancel)
                 {
                     return;
@@ -184,7 +194,6 @@ namespace GeoView
             EditPointBtn.Checked = false;
             CreateFeatureBtn.Checked = false;
             SelectLayer.SelectedIndex = -1;
-            mOperatingLayerIndex = -1;
             SelectLayer.Enabled = false;
             EndEditItem.Enabled = false;
             SaveEditItem.Enabled = false;
@@ -194,6 +203,8 @@ namespace GeoView
                 moMap.Layers.GetItem(i).SelectedFeatures.Clear();
                 moMap.Layers.GetItem(i).SelectIndex.Clear();
             }
+            mMovingGeometries.Clear();
+            InitializeSketchingShape();
             mEditingGeometry = null;
             moMap.RedrawMap();
         }
@@ -203,40 +214,38 @@ namespace GeoView
         {
             try
             {
-                if (mReallyModified == true)
+                if (mPointEditNeedSave)
                 {
-                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-                    sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
-                    sLayer.UpdateExtent();
-                    mEditingGeometry = null;
-                    mReallyModified = false;
-                    moMap.RedrawMap();
-                    MoveFeatureBtn_Click(new object(), e);
+                    SavePointEdit();
                 }
-                for (Int32 i = 0; i < moMap.Layers.Count; i++)
+                if (mNeedToSave)
                 {
-                    //图形数据
-                    MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
-                    mGvShapeFiles[i].Geometries.Clear();
-                    for (Int32 j = 0; j < sLayer.Features.Count; j++)
+                    mNeedToSave = false;
+                    for (Int32 i = 0; i < moMap.Layers.Count; i++)
                     {
-                        mGvShapeFiles[i].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
+                        //图形数据
+                        MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
+                        mGvShapeFiles[i].Geometries.Clear();
+                        for (Int32 j = 0; j < sLayer.Features.Count; j++)
+                        {
+                            mGvShapeFiles[i].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
+                        }
+                        mGvShapeFiles[i].UpdateGeometries(mGvShapeFiles[i].Geometries);
+                        string path = mGvShapeFiles[i].DefaultFilePath;
+                        mGvShapeFiles[i].SaveToFile(path);
+                        //属性数据
+                        mDbfFiles[i].Fields = sLayer.AttributeFields;
+                        mDbfFiles[i].AttributesList.Clear();
+                        for (Int32 j = 0; j < sLayer.Features.Count; j++)
+                        {
+                            mDbfFiles[i].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
+                        }
+                        mDbfFiles[i].UpdateAttributesList(mDbfFiles[i].AttributesList);
+                        path = mDbfFiles[i].DefaultPath;
+                        mDbfFiles[i].SaveToFile(path);
                     }
-                    mGvShapeFiles[i].UpdateGeometries(mGvShapeFiles[i].Geometries);
-                    string path = mGvShapeFiles[i].DefaultFilePath;
-                    mGvShapeFiles[i].SaveToFile(path);
-                    //属性数据
-                    mDbfFiles[i].Fields = sLayer.AttributeFields;
-                    mDbfFiles[i].AttributesList.Clear();
-                    for (Int32 j = 0; j < sLayer.Features.Count; j++)
-                    {
-                        mDbfFiles[i].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
-                    }
-                    mDbfFiles[i].UpdateAttributesList(mDbfFiles[i].AttributesList);
-                    path = mDbfFiles[i].DefaultPath;
-                    mDbfFiles[i].SaveToFile(path);
                 }
-                mReallyRecord = false;
+                moMapRightMenu.Items.Clear();
             }
             catch (Exception error)
             {
@@ -248,6 +257,8 @@ namespace GeoView
         //编辑要素
         private void MoveFeatureBtn_Click(object sender, EventArgs e)
         {
+            if (mOperatingLayerIndex == -1) return;
+            SavePointEdit();
             MoveFeatureBtn.Checked = true;
             EditPointBtn.Checked = false;
             CreateFeatureBtn.Checked = false;
@@ -258,27 +269,32 @@ namespace GeoView
         //编辑折点
         private void EditPointBtn_Click(object sender, EventArgs e)
         {
-            if (mOperatingLayerIndex == -1) return;
-            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            if (sLayer.SelectedFeatures.Count != 1)
+            if (EditPointBtn.Checked)
             {
-                MessageBox.Show("请选择且仅选择一个可编辑的要素进行修改！");
-                return;
+                MoveFeatureBtn_Click(sender, e);
             }
-            MoveFeatureBtn.Checked = false;
-            EditPointBtn.Checked = true;
-            CreateFeatureBtn.Checked = false;
-            mMapOpStyle = 3;
-            RightMenuInEdit();
-            ShowEditStrip(sLayer.ShapeType);
-            ShowEditGeometry();
+            else
+            {
+                if (mOperatingLayerIndex == -1) return;
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                if (sLayer.SelectedFeatures.Count != 1)
+                {
+                    MessageBox.Show("请选择且仅选择一个可编辑的要素进行修改！");
+                    return;
+                }
+                MoveFeatureBtn.Checked = false;
+                EditPointBtn.Checked = true;
+                CreateFeatureBtn.Checked = false;
+                mMapOpStyle = 3;
+                RightMenuInEdit();
+                ShowEditStrip(sLayer.ShapeType);
+                ShowEditGeometry();
+            }
         }
         private void EditPointBtn_CheckedChanged(object sender, EventArgs e)
         {
             if (EditPointBtn.Checked == false)
             {
-                mMouseOnPartIndex = -1;
-                mMouseOnPointIndex = -1;
                 HideEditStrip();
             }
         }
@@ -286,13 +302,11 @@ namespace GeoView
         //新建要素
         private void CreateFeatureBtn_Click(object sender, EventArgs e)
         {
+            if (mOperatingLayerIndex == -1) return;
+            SavePointEdit();
             MoveFeatureBtn.Checked = false;
             EditPointBtn.Checked = false;
             CreateFeatureBtn.Checked = true;
-            if (MoveFeatureBtn.Checked)
-            {
-                MoveFeatureBtn.Checked = false;
-            }
             mMapOpStyle = 2;
             RightMenuInSketch();
         }
@@ -324,6 +338,12 @@ namespace GeoView
         //选择操作图层
         private void SelectLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            bool needSave = false;
+            if (mNeedToSave)
+            {
+                EndEditItem_Click(sender, e);
+                needSave = true;
+            }
             if (SelectLayer.SelectedIndex == -1)
             {
                 SelectLayer.DropDownStyle = ComboBoxStyle.DropDown;
@@ -333,10 +353,9 @@ namespace GeoView
             {
                 SelectLayer.DropDownStyle = ComboBoxStyle.DropDownList;
             }
-            mOperatingLayerIndex = SelectLayer.SelectedIndex;
             if (mOperatingLayerIndex != -1 && mGvShapeFiles[mOperatingLayerIndex].SourceFileType == "shp")
             {
-                Int32 goOn = (Int32)MessageBox.Show("对shapefile文件进行编辑操作，会在同一目录下生成同名gvshp文件，操作会保存在该gvshp文件中！若已有同名gvshp文件，会进行覆盖，请知悉！是否继续？",
+                Int32 goOn = (Int32)MessageBox.Show("当前图层为shapefile文件，对其进行编辑操作，会在同一目录下生成同名gvshp文件，操作只会保存在该gvshp文件中！若已有同名gvshp文件，会进行覆盖，请知悉！是否继续？",
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
 
                 if (goOn == 1)
@@ -354,32 +373,38 @@ namespace GeoView
                 else
                 {
                     SelectLayer.SelectedIndex = -1;
-                    mOperatingLayerIndex = -1;
                 }
+            }
+            if (needSave && mOperatingLayerIndex != -1)
+            {
+                BeginEditItem_Click(sender, e);
             }
         }
 
+        #endregion
+
+        #region 鼠标事件
         private void moMap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (mMapOpStyle == 1)
+            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
             {
-                OnEdit_MouseDown(e);
-            }
-            if (mMapOpStyle == 2)
-            {
-                ;
-            }
-            if (mMapOpStyle == 3)
-            {
-                OnEditPoint_MouseDown(e);
+                if (mMapOpStyle == 1)
+                {
+                    OnEdit_MouseDown(e);
+                }
+                if (mMapOpStyle == 2)
+                {
+                    ;
+                }
+                if (mMapOpStyle == 3)
+                {
+                    OnEditPoint_MouseDown(e);
+                }
             }
         }
 
         private void OnEdit_MouseDown(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
-            if (mOperatingLayerIndex == -1) return;
             //判断应该是进行选择还是移动
             mIsInMove = false;
             mIsInSelect = false;
@@ -439,7 +464,6 @@ namespace GeoView
                     }
                 }
             }
-
             if (mIsInMove)
             {
                 OnMoveSelect_MouseDown(e);
@@ -452,15 +476,10 @@ namespace GeoView
         }
         private void OnSelect_MouseDown(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                mStartMouseLocation = e.Location;
-            }
+            mStartMouseLocation = e.Location;
         }
         private void OnMoveSelect_MouseDown(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             Int32 sSelFeatureCount = sLayer.SelectedFeatures.Count;
             if (sSelFeatureCount == 0) return;
@@ -504,13 +523,9 @@ namespace GeoView
             }
             //设置变量
             mStartMouseLocation = e.Location;
-            mReallyModified = false;
         }
         private void OnEditPoint_MouseDown(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
-            if (mOperatingLayerIndex == -1) return;
             MyMapObjects.moGeometryTypeConstant shapeType = moMap.Layers.GetItem(mOperatingLayerIndex).ShapeType;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
@@ -534,7 +549,6 @@ namespace GeoView
             MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mEditingGeometry;
             double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
             MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
-            mReallyModified = false;
             if (mMouseOnPartIndex != -1 && mMouseOnPointIndex != -1)
             {
                 mIsInEditPoint = true;
@@ -598,11 +612,12 @@ namespace GeoView
             //修改移动图形的坐标
             double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
             double sDeltaY = moMap.ToMapDistance(mStartMouseLocation.Y - e.Location.Y);
-            mReallyModified = true;
+            mNeedToSave = true;
             ModifyMovingGeometries(sDeltaX, sDeltaY);
             //刷新地图并绘制移动图形
             moMap.Refresh();
             DrawMovingShape();
+            mSelectedIsMoved = true;
             //重新设置鼠标位置
             mStartMouseLocation = e.Location;
         }
@@ -704,7 +719,7 @@ namespace GeoView
                 MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
                 if (mIsInMovePoint)
                 {
-                    mReallyModified = true;
+                    mPointEditNeedSave = true;
                     MyMapObjects.moPoint newPoint = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex).GetItem(mMouseOnPointIndex);
                     newPoint.X = sPoint.X; newPoint.Y = sPoint.Y;
                     sMultiPolygon.UpdateExtent();
@@ -730,18 +745,19 @@ namespace GeoView
 
         private void moMap_MouseUp(object sender, MouseEventArgs e)
         {
-            if (mMapOpStyle == 1)
+            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
             {
-                OnEdit_MouseUp(e);
+                if (mMapOpStyle == 1)
+                {
+                    OnEdit_MouseUp(e);
+                }
+                else if (mMapOpStyle == 2) {; }
+                else if (mMapOpStyle == 3) { OnEditPoint_MouseUp(e); }
             }
-            else if (mMapOpStyle == 2) {; }
-            else if (mMapOpStyle == 3) { OnEditPoint_MouseUp(e); }
         }
 
         private void OnEdit_MouseUp(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInMove)
             {
                 OnMoveSelect_MouseUp(e);
@@ -751,11 +767,8 @@ namespace GeoView
                 OnSelect_MouseUp(e);
             }
         }
-        //只在当前编辑的图层中进行选择(与demo中有不同)
         private void OnSelect_MouseUp(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInSelect == false)
             {
                 return;
@@ -768,15 +781,13 @@ namespace GeoView
         }
         private void OnMoveSelect_MouseUp(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             if (mIsInMove == false) return;
             mIsInMove = false;
-            if (mReallyModified)
+            if (mSelectedIsMoved)
             {
                 //做相应的数据修改
-                mReallyModified = false;
-                mReallyRecord = true;
+                mSelectedIsMoved = false;
+                mNeedToSave = true;
                 MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
                 for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
                 {
@@ -799,12 +810,9 @@ namespace GeoView
         }
         private void OnEditPoint_MouseUp(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
-            if (mOperatingLayerIndex == -1) return;
             if (mIsInEditPoint == false)
             {
-                EditPointIntoMoveFeature(e);
+                MoveFeatureBtn_Click(new object(), e);
             }
             MyMapObjects.moGeometryTypeConstant shapeType = moMap.Layers.GetItem(mOperatingLayerIndex).ShapeType;
             mIsInEditPoint = false;
@@ -833,7 +841,7 @@ namespace GeoView
             MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
             if (mIsInAddPoint)
             {
-                mReallyModified = true;
+                mPointEditNeedSave = true;
                 MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex);
                 sPoints.Insert(mMouseOnPointIndex + 1, sPoint);
                 sMultiPolygon.UpdateExtent();
@@ -843,7 +851,7 @@ namespace GeoView
             }
             if (mIsInDeletePoint)
             {
-                mReallyModified = true;
+                mPointEditNeedSave = true;
                 MyMapObjects.moPoints sPoints = sMultiPolygon.Parts.GetItem(mMouseOnPartIndex);
                 if (sPoints.Count > 3)
                 {
@@ -872,31 +880,23 @@ namespace GeoView
         {
 
         }
-        private void EditPointIntoMoveFeature(MouseEventArgs e)
-        {
-            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
-            sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
-            sLayer.UpdateExtent();
-            mEditingGeometry = null;
-            moMap.RedrawMap();
-            MoveFeatureBtn_Click(new object(), e);
-        }
 
         private void moMap_MouseClick(object sender, MouseEventArgs e)
         {
-            if (mMapOpStyle == 1)
+            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
             {
-                ;
-            }
-            else if (mMapOpStyle == 2)
-            {
-                OnSketch_MouseClick(e);
+                if (mMapOpStyle == 1)
+                {
+                    ;
+                }
+                else if (mMapOpStyle == 2)
+                {
+                    OnSketch_MouseClick(e);
+                }
             }
         }
         private void OnSketch_MouseClick(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             if (sMapLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
             {
@@ -926,25 +926,24 @@ namespace GeoView
             }
         }
 
-
         private void moMap_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
-            if (mMapOpStyle == 2)
+            if (e.Button != MouseButtons.Left && mOperatingLayerIndex != -1)
             {
-                OnSketch_MouseDoubleClick(e);
+                if (mMapOpStyle == 2)
+                {
+                    OnSketch_MouseDoubleClick(e);
+                }
             }
         }
         private void OnSketch_MouseDoubleClick(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-                return;
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             EndSketchPart(sMapLayer.ShapeType);
             EndSketchGeo(sMapLayer.ShapeType);
         }
 
+        #endregion
         private void moMap_AfterTrackingLayerDraw(object sender, MyMapObjects.moUserDrawingTool drawingTool)
         {
             DrawSketchingShapes(drawingTool);   //绘制描绘图形
@@ -1583,7 +1582,6 @@ namespace GeoView
                 SelectLayer.Items.Add(moMap.Layers.GetItem(i).Name);
             }
             SelectLayer.SelectedIndex = mLastOpLayerIndex;
-            mOperatingLayerIndex = SelectLayer.SelectedIndex;
         }
 
         //寻找新打开图层的插入位置
@@ -1708,10 +1706,10 @@ namespace GeoView
         {
             try
             {
-                if (mReallyModified)
+                if (mPointEditNeedSave)
                 {
                     mEditingGeometry = null;
-                    mReallyModified = false;
+                    mPointEditNeedSave = false;
                     moMap.RedrawMap();
                 }
                 for (Int32 i = 0; i < moMap.Layers.Count; i++)
@@ -1732,7 +1730,7 @@ namespace GeoView
                     moMap.Layers.RemoveAt(i);
                     moMap.Layers.Insert(i, sMapLayer);
                 }
-                mReallyRecord = false;
+                mNeedToSave = false;
             }
             catch (Exception error)
             {
@@ -1744,7 +1742,7 @@ namespace GeoView
         //结束描绘部件
         private void EndSketchPart(MyMapObjects.moGeometryTypeConstant shapeType)
         {
-            mReallyModified = true;
+            mNeedToSave = true;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
                 //判断是否可以结束，即是否最少三个点
@@ -1781,7 +1779,7 @@ namespace GeoView
         //结束描绘图形
         private void EndSketchGeo(MyMapObjects.moGeometryTypeConstant shapeType)
         {
-            mReallyModified = true;
+            mNeedToSave = true;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
                 if (mSketchingShape.Last().Count >= 1 && mSketchingShape.Last().Count < 3)
@@ -1804,6 +1802,9 @@ namespace GeoView
                     MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
                     sFeature.Geometry = sMultiPolygon;
                     sLayer.Features.Add(sFeature);
+                    sLayer.UpdateExtent();
+                    sLayer.SelectedFeatures.Clear();
+                    sLayer.SelectedFeatures.Add(sFeature);
                 }
                 //初始化描绘图形
                 InitializeSketchingShape();
@@ -1832,6 +1833,9 @@ namespace GeoView
                     MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
                     sFeature.Geometry = sMultiPolyline;
                     sLayer.Features.Add(sFeature);
+                    sLayer.UpdateExtent();
+                    sLayer.SelectedFeatures.Clear();
+                    sLayer.SelectedFeatures.Add(sFeature);
                 }
                 //初始化描绘图形
                 InitializeSketchingShape();
@@ -1846,6 +1850,9 @@ namespace GeoView
                     MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
                     sFeature.Geometry = mSketchingPoint[0];
                     sLayer.Features.Add(sFeature);
+                    sLayer.UpdateExtent();
+                    sLayer.SelectedFeatures.Clear();
+                    sLayer.SelectedFeatures.Add(sFeature);
                 }
                 InitializeSketchingShape();
                 moMap.RedrawMap();
@@ -1863,6 +1870,9 @@ namespace GeoView
                     MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
                     sFeature.Geometry = sPoints;
                     sLayer.Features.Add(sFeature);
+                    sLayer.UpdateExtent();
+                    sLayer.SelectedFeatures.Clear();
+                    sLayer.SelectedFeatures.Add(sFeature);
                 }
                 //初始化描绘图形
                 InitializeSketchingShape();
@@ -1874,7 +1884,7 @@ namespace GeoView
         //删除上一个节点
         private void DeleteLastSketchPoint(MyMapObjects.moGeometryTypeConstant shapeType)
         {
-            mReallyModified = true;
+            mNeedToSave = true;
             if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
             {
                 Int32 pointsNum = mSketchingShape.Last().Count;
@@ -2092,6 +2102,31 @@ namespace GeoView
             moMap.RedrawTrackingShapes();
         }
 
+        //保存当前对节点的编辑
+        private void SavePointEdit()
+        {
+            if (mPointEditNeedSave)
+            {
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                sLayer.SelectedFeatures.GetItem(0).Geometry = mEditingGeometry;
+                sLayer.UpdateExtent();
+                mEditingGeometry = null;
+                mMouseOnPartIndex = -1;
+                mMouseOnPointIndex = -1;
+                mPointEditNeedSave = false;
+                mNeedToSave = true;
+                moMap.RedrawMap();
+            }
+            else
+            {
+                mEditingGeometry = null;
+                mMouseOnPartIndex = -1;
+                mMouseOnPointIndex = -1;
+                moMap.RedrawMap();
+            }
+        }
+
+        //判断点是否靠近多边形
         private bool PointCloseToMultiPolygonPoint(MyMapObjects.moPoint sPoint, MyMapObjects.moMultiPolygon sMultiPolygon, double sTolerance)
         {
             if (mIsInMovePoint || mIsInDeletePoint)
