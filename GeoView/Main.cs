@@ -526,45 +526,10 @@ namespace GeoView
         }
         private void OnEditPoint_MouseDown(MouseEventArgs e)
         {
-            MyMapObjects.moGeometryTypeConstant shapeType = moMap.Layers.GetItem(mOperatingLayerIndex).ShapeType;
-            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
-            {
-                MultiPolygonEditing_MouseDown(e);
-            }
-            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
-            {
-                MultiPolylineEditing_MouseDown(e);
-            }
-            else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
-            {
-                PointEditing_MouseDown(e);
-            }
-            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
-            {
-                MultiPoint_MouseDown(e);
-            }
-        }
-        private void MultiPolygonEditing_MouseDown(MouseEventArgs e)
-        {
-            MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mEditingGeometry;
-            double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
-            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
             if (mMouseOnPartIndex != -1 && mMouseOnPointIndex != -1)
             {
                 mIsInEditPoint = true;
             }
-        }
-        private void MultiPolylineEditing_MouseDown(MouseEventArgs e)
-        {
-
-        }
-        private void PointEditing_MouseDown(MouseEventArgs e)
-        {
-
-        }
-        private void MultiPoint_MouseDown(MouseEventArgs e)
-        {
-
         }
 
         private void moMap_MouseMove(object sender, MouseEventArgs e)
@@ -690,7 +655,7 @@ namespace GeoView
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
-                MultiPoint_MouseMove(e);
+                MultiPointEditing_MouseMove(e);
             }
         }
         private void MultiPolygonEditing_MouseMove(MouseEventArgs e)
@@ -732,15 +697,109 @@ namespace GeoView
         }
         private void MultiPolylineEditing_MouseMove(MouseEventArgs e)
         {
-
+            if (mIsInEditPoint == false && mEditingGeometry != null)
+            {
+                MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)mEditingGeometry;
+                double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (PointCloseToMultiPolylinePoint(sPoint, sMultiPolyline, sTolerance))
+                {
+                    if (mIsInMovePoint) this.Cursor = new Cursor("ico/EditMoveVertex.ico");
+                    if (mIsInAddPoint) this.Cursor = new Cursor("ico/AddPoint.ico");
+                    if (mIsInDeletePoint) this.Cursor = new Cursor("ico/DeletePoint.ico");
+                }
+                else
+                {
+                    this.Cursor = Cursors.Default;
+                    mMouseOnPartIndex = -1;
+                    mMouseOnPointIndex = -1;
+                }
+            }
+            else
+            {
+                MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)mEditingGeometry;
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (mIsInMovePoint)
+                {
+                    mPointEditNeedSave = true;
+                    MyMapObjects.moPoint newPoint = sMultiPolyline.Parts.GetItem(mMouseOnPartIndex).GetItem(mMouseOnPointIndex);
+                    newPoint.X = sPoint.X; newPoint.Y = sPoint.Y;
+                    sMultiPolyline.UpdateExtent();
+                    mEditingGeometry = sMultiPolyline;
+                    moMap.RedrawTrackingShapes();
+                }
+                if (mIsInAddPoint) mIsInEditPoint = false;
+                if (mIsInDeletePoint) mIsInEditPoint = false;
+            }
         }
         private void PointEditing_MouseMove(MouseEventArgs e)
         {
-
+            if (mIsInAddPoint || mIsInDeletePoint) return;
+            if (mIsInEditPoint == false && mEditingGeometry != null)
+            {
+                MyMapObjects.moPoint sEditingPoint = (MyMapObjects.moPoint)mEditingGeometry;
+                double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sEditingPoint, sTolerance))
+                {
+                    mMouseOnPartIndex = 0;
+                    mMouseOnPointIndex = 0;
+                    if (mIsInMovePoint) this.Cursor = new Cursor("ico/EditMoveVertex.ico");
+                }
+                else
+                {
+                    this.Cursor = Cursors.Default;
+                    mMouseOnPartIndex = -1;
+                    mMouseOnPointIndex = -1;
+                }
+            }
+            else
+            {
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (mIsInMovePoint)
+                {
+                    mPointEditNeedSave = true;
+                    mEditingGeometry = sPoint;
+                    moMap.RedrawTrackingShapes();
+                }
+            }
         }
-        private void MultiPoint_MouseMove(MouseEventArgs e)
+        private void MultiPointEditing_MouseMove(MouseEventArgs e)
         {
-
+            if (mIsInEditPoint == false && mEditingGeometry != null)
+            {
+                MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mEditingGeometry;
+                double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (PointCloseToPoints(sPoint, sPoints, sTolerance))
+                {
+                    if (mIsInMovePoint) this.Cursor = new Cursor("ico/EditMoveVertex.ico");
+                    if (mIsInAddPoint) this.Cursor = new Cursor("ico/AddPoint.ico");
+                    if (mIsInDeletePoint) this.Cursor = new Cursor("ico/DeletePoint.ico");
+                }
+                else
+                {
+                    this.Cursor = Cursors.Default;
+                    mMouseOnPartIndex = -1;
+                    mMouseOnPointIndex = -1;
+                }
+            }
+            else
+            {
+                MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mEditingGeometry;
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+                if (mIsInMovePoint)
+                {
+                    mPointEditNeedSave = true;
+                    MyMapObjects.moPoint newPoint = sPoints.GetItem(mMouseOnPointIndex);
+                    newPoint.X = sPoint.X; newPoint.Y = sPoint.Y;
+                    sPoints.UpdateExtent();
+                    mEditingGeometry = sPoints;
+                    moMap.RedrawTrackingShapes();
+                }
+                //if (mIsInAddPoint) mIsInEditPoint = false;
+                if (mIsInDeletePoint) mIsInEditPoint = false;
+            }
         }
 
         private void moMap_MouseUp(object sender, MouseEventArgs e)
@@ -830,7 +889,7 @@ namespace GeoView
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
-                MultiPoint_MouseUp(e);
+                MultiPointEditing_MouseUp(e);
             }
             mMouseOnPartIndex = -1;
             mMouseOnPointIndex = -1;
@@ -870,15 +929,74 @@ namespace GeoView
         }
         private void MultiPolylineEditing_MouseUp(MouseEventArgs e)
         {
-
+            MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)mEditingGeometry;
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+            if (mIsInAddPoint)
+            {
+                mPointEditNeedSave = true;
+                MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(mMouseOnPartIndex);
+                sPoints.Insert(mMouseOnPointIndex + 1, sPoint);
+                sMultiPolyline.UpdateExtent();
+                mEditingGeometry = sMultiPolyline;
+                moMap.RedrawTrackingShapes();
+                MovePointBtn_Click(new object(), e);
+            }
+            if (mIsInDeletePoint)
+            {
+                mPointEditNeedSave = true;
+                MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(mMouseOnPartIndex);
+                if (sPoints.Count > 2)
+                {
+                    sPoints.RemoveAt(mMouseOnPointIndex);
+                }
+                else
+                {
+                    MessageBox.Show("无法继续删减，否则会导致要素的几何无效！");
+                    MovePointBtn_Click(new object(), e);
+                    return;
+                }
+                sMultiPolyline.UpdateExtent();
+                mEditingGeometry = sMultiPolyline;
+                moMap.RedrawTrackingShapes();
+            }
         }
         private void PointEditing_MouseUp(MouseEventArgs e)
         {
-
+            if (mIsInAddPoint || mIsInDeletePoint)
+            {
+                MessageBox.Show("点要素无法执行当前操作！");
+                MovePointBtn_Click(new object(), e);
+            }
         }
-        private void MultiPoint_MouseUp(MouseEventArgs e)
+        private void MultiPointEditing_MouseUp(MouseEventArgs e)
         {
-
+            MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mEditingGeometry;
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+            if (mIsInAddPoint)
+            {
+                mPointEditNeedSave = true;
+                sPoints.Insert(mMouseOnPointIndex, sPoint);
+                sPoints.UpdateExtent();
+                mEditingGeometry = sPoints;
+                moMap.RedrawTrackingShapes();
+            }
+            if (mIsInDeletePoint)
+            {
+                mPointEditNeedSave = true;
+                if (sPoints.Count > 1)
+                {
+                    sPoints.RemoveAt(mMouseOnPointIndex);
+                }
+                else
+                {
+                    MessageBox.Show("无法继续删减，否则会导致要素的几何无效！");
+                    MovePointBtn_Click(new object(), e);
+                    return;
+                }
+                sPoints.UpdateExtent();
+                mEditingGeometry = sPoints;
+                moMap.RedrawTrackingShapes();
+            }
         }
 
         private void moMap_MouseClick(object sender, MouseEventArgs e)
@@ -928,7 +1046,7 @@ namespace GeoView
 
         private void moMap_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left && mOperatingLayerIndex != -1)
+            if (mOperatingLayerIndex != -1)
             {
                 if (mMapOpStyle == 2)
                 {
@@ -1997,6 +2115,27 @@ namespace GeoView
                     drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
                 }
             }
+            else if (mEditingGeometry.GetType() == typeof(MyMapObjects.moMultiPolyline))
+            {
+                MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)mEditingGeometry;
+                drawingTool.DrawMultiPolyline(sMultiPolyline, mEditingPolylineSymbol);
+                Int32 sPartCount = sMultiPolyline.Parts.Count;
+                for (Int32 i = 0; i <= sPartCount - 1; i++)
+                {
+                    MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(i);
+                    drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
+                }
+            }
+            else if (mEditingGeometry.GetType() == typeof(MyMapObjects.moPoint))
+            {
+                MyMapObjects.moPoint sPoint = (MyMapObjects.moPoint)mEditingGeometry;
+                drawingTool.DrawPoint(sPoint, mEditingVertexSymbol);
+            }
+            else if (mEditingGeometry.GetType() == typeof(MyMapObjects.moPoints))
+            {
+                MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mEditingGeometry;
+                drawingTool.DrawPoints(sPoints, mEditingVertexSymbol);
+            }
         }
 
         //选择状态右键菜单
@@ -2099,6 +2238,24 @@ namespace GeoView
                 MyMapObjects.moMultiPolygon sDesMultiPolygon = sOriMultiPolygon.Clone();
                 mEditingGeometry = sDesMultiPolygon;
             }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+            {
+                MyMapObjects.moMultiPolyline sOriMultiPolyline = (MyMapObjects.moMultiPolyline)sLayer.SelectedFeatures.GetItem(0).Geometry;
+                MyMapObjects.moMultiPolyline sDesMultiPolyline = sOriMultiPolyline.Clone();
+                mEditingGeometry = sDesMultiPolyline;
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                MyMapObjects.moPoint sOriPoint = (MyMapObjects.moPoint)sLayer.SelectedFeatures.GetItem(0).Geometry;
+                MyMapObjects.moPoint sDesPoint = sOriPoint.Clone();
+                mEditingGeometry = sDesPoint;
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                MyMapObjects.moPoints sOriPoints = (MyMapObjects.moPoints)sLayer.SelectedFeatures.GetItem(0).Geometry;
+                MyMapObjects.moPoints sDesPoints = sOriPoints.Clone();
+                mEditingGeometry = sDesPoints;
+            }
             moMap.RedrawTrackingShapes();
         }
 
@@ -2124,6 +2281,7 @@ namespace GeoView
                 mMouseOnPointIndex = -1;
                 moMap.RedrawMap();
             }
+            this.Cursor = Cursors.Default;
         }
 
         //判断点是否靠近多边形
@@ -2176,6 +2334,72 @@ namespace GeoView
             return false;
         }
 
+        //判断点是否靠近折线
+        private bool PointCloseToMultiPolylinePoint(MyMapObjects.moPoint sPoint,MyMapObjects.moMultiPolyline sMultiPolyline,double sTolerance)
+        {
+            if (mIsInMovePoint || mIsInDeletePoint)
+            {
+                for (Int32 i = 0; i < sMultiPolyline.Parts.Count; i++)
+                {
+                    MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(i);
+                    Int32 j = 0;
+                    for (; j < sPoints.Count; j++)
+                    {
+                        if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sPoints.GetItem(j), sTolerance))
+                        {
+                            mMouseOnPartIndex = i;
+                            mMouseOnPointIndex = j;
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (mIsInAddPoint)
+            {
+                for (Int32 i = 0; i < sMultiPolyline.Parts.Count; i++)
+                {
+                    MyMapObjects.moPoints sPoints = sMultiPolyline.Parts.GetItem(i);
+                    for (Int32 j = 0; j < sPoints.Count - 1; j++)
+                    {
+                        MyMapObjects.moPoints tempPoints = new MyMapObjects.moPoints();
+                        tempPoints.Add(sPoints.GetItem(j));
+                        tempPoints.Add(sPoints.GetItem(j + 1));
+                        tempPoints.UpdateExtent();
+                        if (MyMapObjects.moMapTools.IsPointOnPolyline(sPoint, tempPoints, sTolerance))
+                        {
+                            mMouseOnPartIndex = i;
+                            mMouseOnPointIndex = j;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        
+        //判断点是否靠近多点
+        private bool PointCloseToPoints(MyMapObjects.moPoint sPoint,MyMapObjects.moPoints sPoints,double sTolerance)
+        {
+            if (mIsInMovePoint || mIsInDeletePoint)
+            {
+                for (Int32 i = 0; i < sPoints.Count; i++)
+                {
+                    if (MyMapObjects.moMapTools.IsPointOnPoint(sPoint, sPoints.GetItem(i), sTolerance))
+                    {
+                        mMouseOnPartIndex = 0;
+                        mMouseOnPointIndex = i;
+                        return true;
+                    }
+                }
+            }
+            if (mIsInAddPoint)
+            {
+                mMouseOnPartIndex = 0;
+                mMouseOnPointIndex = sPoints.Count;
+                return true;
+            }
+            return false;
+        }
         #endregion
     }
 }
