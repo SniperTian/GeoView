@@ -38,7 +38,7 @@ namespace GeoView
         private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点
         private Int32 mOperatingLayerIndex  //当前操作的图层的索引
         {
-            get { return SelectLayer.SelectedIndex; }
+            get { return GetOpLayerIndex(); }
         }
         private PointF mStartMouseLocation;
         private bool mIsInZoomIn = false;
@@ -54,6 +54,7 @@ namespace GeoView
         private Int32 mLastOpLayerIndex = -1;   //最近一次操作的图层索引
         private Int32 mMouseOnPartIndex = -1;   //鼠标位于多边形部件的索引
         private Int32 mMouseOnPointIndex = -1;  //鼠标位于多边形部件顶点的索引
+        private List<Int32> mLayerIndex = new List<Int32>();
         //撤销节点编辑所需变量
         private List<Int32> mEditPointOperation = new List<Int32>();
         private List<MyMapObjects.moPoint> mEditPointRecord = new List<MyMapObjects.moPoint>();
@@ -1392,6 +1393,7 @@ namespace GeoView
             Int32 sIndex = e.Node.Index;
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(sIndex);
             sMapLayer.Visible = e.Node.Checked;
+            if (SelectLayer.Enabled == true) RefreshSelectLayer();
             moMap.RedrawMap();
         }
 
@@ -1414,7 +1416,7 @@ namespace GeoView
         {
             if (SelectLayer.Enabled == true)    //编辑状态
             {
-                if (SelectLayer.SelectedIndex != mLastOpLayerIndex) //更换编辑图层
+                if (mOperatingLayerIndex != mLastOpLayerIndex) //更换编辑图层
                 {
                     EndEditItem_Click(sender, e);
                 }
@@ -1883,11 +1885,25 @@ namespace GeoView
         private void RefreshSelectLayer()
         {
             SelectLayer.Items.Clear();
+            mLayerIndex.Clear();
             for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
-                SelectLayer.Items.Add(moMap.Layers.GetItem(i).Name);
+                if (moMap.Layers.GetItem(i).Visible == true)
+                {
+                    SelectLayer.Items.Add(moMap.Layers.GetItem(i).Name);
+                    mLayerIndex.Add(i);
+                }
             }
-            SelectLayer.SelectedIndex = mLastOpLayerIndex;
+            Int32 tempIndex = -1;
+            for(Int32 i = 0; i < mLayerIndex.Count; i++)
+            {
+                if (mLayerIndex[i] == mLastOpLayerIndex)
+                {
+                    tempIndex = i;
+                    break;
+                }
+            }
+            SelectLayer.SelectedIndex = tempIndex;
         }
 
         //寻找新打开图层的插入位置
@@ -2875,6 +2891,15 @@ namespace GeoView
             mEditPointRecord.Clear();
             mPastPartIndex.Clear();
             mPastPointIndex.Clear();
+        }
+
+        private Int32 GetOpLayerIndex()
+        {
+            if (SelectLayer.SelectedIndex == -1) return -1;
+            else
+            {
+                return mLayerIndex[SelectLayer.SelectedIndex];
+            }
         }
         #endregion
 
