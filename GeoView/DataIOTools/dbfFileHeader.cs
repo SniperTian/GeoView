@@ -65,6 +65,14 @@ namespace GeoView.DataIOTools
             }
         }
 
+        public dbfFileHeader()
+        {
+            _FileType = 0x02;
+            _RecordNum = 0;
+            _HeaderLength = 33;
+            _RecordLength = 0;
+        }
+
         #endregion
 
         #region 属性

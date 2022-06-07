@@ -18,6 +18,10 @@ namespace GeoView.DataIOTools
 
         #region 构造函数
 
+        /// <summary>
+        /// 构造函数，用户读取文件
+        /// </summary>
+        /// <param name="filePath"></param>
         public dbfFileManager(string filePath)
         {
             _DefaultFilePath = filePath;
@@ -28,6 +32,14 @@ namespace GeoView.DataIOTools
             ReadAttributes(sr);
             sr.Close();
             sStream.Close();
+        }
+
+        /// <summary>
+        /// 构造函数，用于创建文件
+        /// </summary>
+        public dbfFileManager()
+        {
+            _dbfFileHeader = new dbfFileHeader();
         }
 
         #endregion

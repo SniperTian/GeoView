@@ -1112,6 +1112,26 @@ namespace GeoView
             }
         }
 
+        private void 新建图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //弹出对话框：让用户输入文件存储路径和要素几何类型
+            string sGvFilePath="__.gvshp"; //用户输入的存储路径(包含文件名，以.gvshp结尾);
+            MyMapObjects.moGeometryTypeConstant sGeometryType=MyMapObjects.moGeometryTypeConstant.Point;  //用户指定的图层要素类型
+            string sDbfFilePath= sGvFilePath.Substring(0, sGvFilePath.IndexOf(".gvshp")) + ".gvdbf";
+            //初始化文件读取类
+            DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
+            sGvShpFileManager.SourceFileType = "gvshp";
+            sGvShpFileManager.DefaultFilePath = sGvFilePath;
+            DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager();
+            sDbfFileManager.DefaultPath = sDbfFilePath;
+            MyMapObjects.moField sField = new MyMapObjects.moField("id", MyMapObjects.moValueTypeConstant.dInt32);  //为用户添加id字段
+            sDbfFileManager.CreateField(sField, new MyMapObjects.moAttributes());
+            //添加至文件管理列表
+            mGvShapeFiles.Add(sGvShpFileManager);
+            mDbfFiles.Add(sDbfFileManager);
+            //后续的一些代码：菜单栏列表的更新,等等
+        }
+
         private void 打开地图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog sDialog = new OpenFileDialog();

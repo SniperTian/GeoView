@@ -34,7 +34,6 @@ F:\GeoView\GeoView\obj\Debug\GeoView.exe
 F:\GeoView\GeoView\obj\Debug\GeoView.pdb
 F:\GeoView\GeoView\obj\Debug\GeoView.AttributeTable.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.Main.resources
-F:\GeoView\GeoView\obj\Debug\GeoView.Renderer.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.Research.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.exe.config
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\bin\Debug\GeoView.exe
@@ -122,3 +121,7 @@ E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\G
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.pdb
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Label.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Label.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.Label.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources

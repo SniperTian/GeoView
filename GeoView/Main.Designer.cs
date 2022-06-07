@@ -36,7 +36,7 @@
             this.tssCoordinate = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.读取矢量图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.新建图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,7 +166,7 @@
             // 文件ToolStripMenuItem
             // 
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.读取矢量图层ToolStripMenuItem,
+            this.新建图层ToolStripMenuItem,
             this.打开地图ToolStripMenuItem,
             this.保存ToolStripMenuItem,
             this.另存为ToolStripMenuItem,
@@ -175,35 +175,36 @@
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
-            // 读取矢量图层ToolStripMenuItem
+            // 新建图层ToolStripMenuItem
             // 
-            this.读取矢量图层ToolStripMenuItem.Name = "读取矢量图层ToolStripMenuItem";
-            this.读取矢量图层ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.读取矢量图层ToolStripMenuItem.Text = "新建";
+            this.新建图层ToolStripMenuItem.Name = "新建图层ToolStripMenuItem";
+            this.新建图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.新建图层ToolStripMenuItem.Text = "新建图层";
+            this.新建图层ToolStripMenuItem.Click += new System.EventHandler(this.新建图层ToolStripMenuItem_Click);
             // 
             // 打开地图ToolStripMenuItem
             // 
             this.打开地图ToolStripMenuItem.Name = "打开地图ToolStripMenuItem";
-            this.打开地图ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.打开地图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.打开地图ToolStripMenuItem.Text = "打开";
             this.打开地图ToolStripMenuItem.Click += new System.EventHandler(this.打开地图ToolStripMenuItem_Click);
             // 
             // 保存ToolStripMenuItem
             // 
             this.保存ToolStripMenuItem.Name = "保存ToolStripMenuItem";
-            this.保存ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.保存ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.保存ToolStripMenuItem.Text = "保存";
             // 
             // 另存为ToolStripMenuItem
             // 
             this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
-            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.另存为ToolStripMenuItem.Text = "另存为";
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             // 
             // 编辑ToolStripMenuItem
@@ -561,7 +562,7 @@
             // 
             this.moMapRightMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.moMapRightMenu.Name = "moMapRightMenu";
-            this.moMapRightMenu.Size = new System.Drawing.Size(181, 26);
+            this.moMapRightMenu.Size = new System.Drawing.Size(61, 4);
             this.moMapRightMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.moMapRightMenu_ItemClicked);
             this.moMapRightMenu.VisibleChanged += new System.EventHandler(this.moMapRightMenu_VisibleChanged);
             // 
@@ -728,7 +729,7 @@
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 编辑ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 视图ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 读取矢量图层ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 新建图层ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开地图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 选择ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
