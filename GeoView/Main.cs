@@ -66,17 +66,18 @@ namespace GeoView
         {
             get { return DeletePointBtn.Checked; }
         }
-        //正在移动的图形的集合
-        private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();
+        
+        private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();  //正在移动的图形的集合
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
         private List<MyMapObjects.moPoints> mSketchingShape;    //正在描绘的图形，用一个多点集合存储；
         private List<MyMapObjects.moPoint> mSketchingPoint; //正在描绘的点
+        private List<MyMapObjects.moGeometry> mCopyingGeometries = new List<MyMapObjects.moGeometry>();
+        private MyMapObjects.moGeometryTypeConstant mCopyingType;
 
 
         //(3)与文件操作相关的变量
         private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
         private List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
-        private MyMapObjects.moLayers mDataBeforeEdit;
 
         //(4)与图层渲染有关的变量
         private Int32 mPointRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
@@ -197,6 +198,7 @@ namespace GeoView
             SelectLayer.Enabled = false;
             EndEditItem.Enabled = false;
             SaveEditItem.Enabled = false;
+            mNeedToSave = false;
             mMapOpStyle = 0;
             for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
@@ -204,6 +206,7 @@ namespace GeoView
                 moMap.Layers.GetItem(i).SelectIndex.Clear();
             }
             mMovingGeometries.Clear();
+            moMapRightMenu.Items.Clear();
             InitializeSketchingShape();
             mEditingGeometry = null;
             moMap.RedrawMap();
@@ -245,7 +248,6 @@ namespace GeoView
                         mDbfFiles[i].SaveToFile(path);
                     }
                 }
-                moMapRightMenu.Items.Clear();
             }
             catch (Exception error)
             {
@@ -1082,6 +1084,31 @@ namespace GeoView
             else if (mMapOpStyle == 2)
             {
                 RightOperateInSketch(e);
+            }
+            else if (mMapOpStyle == 3)
+            {
+                RightOperateInEditPoint(e);
+            }
+        }
+
+        private void moMapRightMenu_VisibleChanged(object sender, EventArgs e)
+        {
+            if (mOperatingLayerIndex == -1) return;
+            if (mMapOpStyle == 1)
+            {
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                if (sLayer.SelectedFeatures.Count == 0)
+                {
+                    moMapRightMenu.Items[0].Enabled = false;
+                    moMapRightMenu.Items[2].Enabled = false;
+                }
+                else
+                {
+                    moMapRightMenu.Items[0].Enabled = true;
+                    moMapRightMenu.Items[2].Enabled = true;
+                }
+                if (mCopyingGeometries.Count == 0) moMapRightMenu.Items[1].Enabled = false;
+                else moMapRightMenu.Items[1].Enabled = true;
             }
         }
 
@@ -2155,7 +2182,9 @@ namespace GeoView
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("结束部件");
             moMapRightMenu.Items.Add("完成草图");
-            moMapRightMenu.Items.Add("删除节点");
+            moMapRightMenu.Items.Add("撤销节点");
+            moMapRightMenu.Items.Add("撤销部件");
+            moMapRightMenu.Items.Add("撤销草图");
         }
 
         //编辑折点状态右键菜单
@@ -2163,6 +2192,8 @@ namespace GeoView
         {
             if (mOperatingLayerIndex == -1) return;
             moMapRightMenu.Items.Clear();
+            moMapRightMenu.Items.Add("完成节点编辑");
+            moMapRightMenu.Items.Add("撤销上一步操作");
         }
 
         //选择状态右键菜单操作
@@ -2172,8 +2203,70 @@ namespace GeoView
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             if (e.ClickedItem.Text == "删除")
             {
+                mNeedToSave = true;
                 sLayer.RemoveSelection();
                 moMap.RedrawMap();
+            }
+            if (e.ClickedItem.Text == "复制")
+            {
+                mCopyingGeometries.Clear();
+                if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+                {
+                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolygon;
+                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                    {
+                        MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                        mCopyingGeometries.Add(sMultiPolygon.Clone());
+                    }
+                }
+                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+                {
+                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolyline;
+                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                    {
+                        MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                        mCopyingGeometries.Add(sMultiPolyline.Clone());
+                    }
+                }
+                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+                {
+                    mCopyingType = MyMapObjects.moGeometryTypeConstant.Point;
+                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                    {
+                        MyMapObjects.moPoint sPoint = (MyMapObjects.moPoint)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                        mCopyingGeometries.Add(sPoint.Clone());
+                    }
+                }
+                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+                {
+                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPoint;
+                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                    {
+                        MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                        mCopyingGeometries.Add(sPoints.Clone());
+                    }
+                }
+            }
+            if (e.ClickedItem.Text == "粘贴")
+            {
+                if (mCopyingType == sLayer.ShapeType)
+                {
+                    mNeedToSave = true;
+                    sLayer.SelectedFeatures.Clear();
+                    for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
+                    {
+                        MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                        sFeature.Geometry = mCopyingGeometries[i];
+                        sLayer.Features.Add(sFeature);
+                    }
+                    mCopyingGeometries.Clear();
+                    sLayer.UpdateExtent();
+                }
+                else
+                {
+                    MessageBox.Show("图层类型与复制图形的几何类型不一致，无法粘贴！");
+                    return;
+                }
             }
         }
 
@@ -2194,6 +2287,12 @@ namespace GeoView
             {
                 DeleteLastSketchPoint(sLayer.ShapeType);
             }
+        }
+
+        //边界节点状态下右键菜单操作
+        private void RightOperateInEditPoint(ToolStripItemClickedEventArgs e)
+        {
+            
         }
 
         //显示编辑节点工具栏
