@@ -1306,6 +1306,87 @@ namespace GeoView
             }
         }
 
+        private void layersTree_DragDrop(object sender, DragEventArgs e)
+        {
+            if (layersTree.Nodes.Count <= 1) //结点数量少于2
+            {
+                return;
+            }
+            TreeNode moveNode = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
+            //根据鼠标坐标确定要移动到的目标节点
+            int sIndex1 = moveNode.Index;
+            Point pt = ((TreeView)(sender)).PointToClient(new Point(e.X, e.Y));
+            //寻找目标结点号
+            int sIndex2 = 0;
+            int sNodesNum = layersTree.Nodes.Count;
+            Rectangle sFirstRect = layersTree.Nodes[0].Bounds;
+            Rectangle sLastRect = layersTree.Nodes[sNodesNum - 1].Bounds;
+            if (pt.Y <= sFirstRect.Y)
+            {
+                sIndex2 = 0;
+            }
+            else if (pt.Y >= (sLastRect.Y + sLastRect.Height))
+            {
+                sIndex2 = sNodesNum - 1;
+            }
+            else
+            {
+                for (int i = 0; i < sNodesNum; ++i)
+                {
+                    Rectangle sCurRect = layersTree.Nodes[i].Bounds;
+                    if ((pt.Y > sCurRect.Y) && (pt.Y <= (sCurRect.Y + sCurRect.Height)))
+                    {
+                        sIndex2 = i;
+                        break;
+                    }
+                }
+            }
+            if (sIndex1 == sIndex2) //没有交换顺序
+            {
+                return;
+            }
+            MyMapObjects.moMapLayer sMaplayer1 = moMap.Layers.GetItem(sIndex1);
+            DataIOTools.gvShpFileManager sGvShp1 = mGvShapeFiles[sIndex1];
+            DataIOTools.dbfFileManager sDbf1 = mDbfFiles[sIndex1];
+            MyMapObjects.moMapLayer sMaplayer2 = moMap.Layers.GetItem(sIndex2);
+            DataIOTools.gvShpFileManager sGvShp2 = mGvShapeFiles[sIndex2];
+            DataIOTools.dbfFileManager sDbf2 = mDbfFiles[sIndex2];
+            moMap.Layers.RemoveAt(sIndex1);
+            mGvShapeFiles.RemoveAt(sIndex1);
+            mDbfFiles.RemoveAt(sIndex1);
+            moMap.Layers.Insert(sIndex1, sMaplayer2);
+            mGvShapeFiles.Insert(sIndex1, sGvShp2);
+            mDbfFiles.Insert(sIndex1, sDbf2);
+            moMap.Layers.RemoveAt(sIndex2);
+            mGvShapeFiles.RemoveAt(sIndex2);
+            mDbfFiles.RemoveAt(sIndex2);
+            moMap.Layers.Insert(sIndex2, sMaplayer1);
+            mGvShapeFiles.Insert(sIndex2, sGvShp1);
+            mDbfFiles.Insert(sIndex2, sDbf1);
+            RefreshLayersTree();    //刷新图层列表
+            moMap.RedrawMap();  //刷新地图
+        }
+
+        private void layersTree_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode"))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void layersTree_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                DoDragDrop(e.Item, DragDropEffects.Move);
+            }
+        }
+
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
