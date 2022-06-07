@@ -125,3 +125,4 @@ F:\GeoView\GeoView\obj\Debug\GeoView.Label.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete

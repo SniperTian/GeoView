@@ -1110,6 +1110,17 @@ namespace GeoView
                 if (mCopyingGeometries.Count == 0) moMapRightMenu.Items[1].Enabled = false;
                 else moMapRightMenu.Items[1].Enabled = true;
             }
+            if (mMapOpStyle == 2)
+            {
+                if (mSketchingPoint.Count == 0 && mSketchingShape.Count == 1 && mSketchingShape[0].Count == 0)
+                {
+                    for (Int32 i = 0; i < 5; i++) moMapRightMenu.Items[i].Enabled = false;
+                }
+                else
+                {
+                    for (Int32 i = 0; i < 5; i++) moMapRightMenu.Items[i].Enabled = true;
+                }
+            }
         }
 
         private void 新建图层ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2054,16 +2065,40 @@ namespace GeoView
             {
                 Int32 pointsNum = mSketchingShape.Last().Count;
                 if (pointsNum == 0)
-                    return;
-                mSketchingShape.Last().RemoveAt(pointsNum - 1);
+                {
+                    Int32 partsNum = mSketchingShape.Count;
+                    if (partsNum > 1)
+                    {
+                        mSketchingShape.RemoveAt(partsNum - 1);
+                        Int32 newPointsNum = mSketchingShape.Last().Count;
+                        mSketchingShape.Last().RemoveAt(newPointsNum - 1);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else mSketchingShape.Last().RemoveAt(pointsNum - 1);
                 moMap.RedrawTrackingShapes();
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
             {
                 Int32 pointsNum = mSketchingShape.Last().Count;
                 if (pointsNum == 0)
-                    return;
-                mSketchingShape.Last().RemoveAt(pointsNum - 1);
+                {
+                    Int32 partsNum = mSketchingShape.Count;
+                    if (partsNum > 1)
+                    {
+                        mSketchingShape.RemoveAt(partsNum - 1);
+                        Int32 newPointsNum = mSketchingShape.Last().Count;
+                        mSketchingShape.Last().RemoveAt(newPointsNum - 1);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else mSketchingShape.Last().RemoveAt(pointsNum - 1);
                 moMap.RedrawTrackingShapes();
             }
             else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
@@ -2078,7 +2113,64 @@ namespace GeoView
                 moMap.RedrawTrackingShapes();
             }
         }
-        
+
+        //撤销上一个部件
+        private void DeleteLastSketchPart(MyMapObjects.moGeometryTypeConstant shapeType)
+        {
+            mNeedToSave = true;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+            {
+                Int32 pointsNum = mSketchingShape.Last().Count;
+                Int32 partsNum = mSketchingShape.Count;
+                if (partsNum == 1) InitializeSketchingShape();
+                else
+                {
+                    if (pointsNum == 0)
+                    {
+                        if (partsNum == 2) InitializeSketchingShape();
+                        else mSketchingShape.RemoveAt(partsNum - 1);
+                    }
+                    else mSketchingShape.RemoveAt(partsNum - 1);
+                }
+                moMap.RedrawTrackingShapes();
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+            {
+                Int32 pointsNum = mSketchingShape.Last().Count;
+                Int32 partsNum = mSketchingShape.Count;
+                if (partsNum == 1) InitializeSketchingShape();
+                else
+                {
+                    if (pointsNum == 0)
+                    {
+                        if (partsNum == 2) InitializeSketchingShape();
+                        else mSketchingShape.RemoveAt(partsNum - 1);
+                    }
+                    else mSketchingShape.RemoveAt(partsNum - 1);
+                }
+                moMap.RedrawTrackingShapes();
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                ;
+            }
+            else if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                Int32 pointsNum = mSketchingPoint.Count;
+                if (pointsNum == 0) return;
+                mSketchingPoint.RemoveAt(pointsNum - 1);
+                moMap.RedrawTrackingShapes();
+            }
+        }
+
+        //撤销上一个草图
+        private void DeleteLastSketchGeo()
+        {
+            mNeedToSave = true;
+            InitializeSketchingShape();
+            moMap.RedrawTrackingShapes();
+        }
+
         //绘制正在描绘的图形
         private void DrawSketchingShapes(MyMapObjects.moUserDrawingTool drawingTool)
         {
@@ -2202,9 +2294,9 @@ namespace GeoView
             moMapRightMenu.Items.Clear();
             moMapRightMenu.Items.Add("结束部件");
             moMapRightMenu.Items.Add("完成草图");
-            moMapRightMenu.Items.Add("撤销节点");
-            moMapRightMenu.Items.Add("撤销部件");
-            moMapRightMenu.Items.Add("撤销草图");
+            moMapRightMenu.Items.Add("撤销绘制中节点");
+            moMapRightMenu.Items.Add("撤销绘制中部件");
+            moMapRightMenu.Items.Add("撤销绘制中草图");
         }
 
         //编辑折点状态右键菜单
@@ -2303,16 +2395,24 @@ namespace GeoView
             {
                 EndSketchGeo(sLayer.ShapeType);
             }
-            else if (e.ClickedItem.Text == "删除节点")
+            else if (e.ClickedItem.Text == "撤销绘制中节点")
             {
                 DeleteLastSketchPoint(sLayer.ShapeType);
             }
+            else if (e.ClickedItem.Text == "撤销绘制中部件")
+            {
+                DeleteLastSketchPart(sLayer.ShapeType);
+            }
+            else if (e.ClickedItem.Text == "撤销绘制中草图")
+            {
+                DeleteLastSketchGeo();
+            }
         }
 
-        //边界节点状态下右键菜单操作
+        //编辑节点状态下右键菜单操作
         private void RightOperateInEditPoint(ToolStripItemClickedEventArgs e)
         {
-            
+
         }
 
         //显示编辑节点工具栏
