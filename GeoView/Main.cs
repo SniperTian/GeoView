@@ -1393,8 +1393,15 @@ namespace GeoView
             Int32 sIndex = e.Node.Index;
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(sIndex);
             sMapLayer.Visible = e.Node.Checked;
+            bool forceToEnd = false;
+            if (e.Node.Index == mOperatingLayerIndex && SelectLayer.Enabled == true)
+            {
+                EndEditItem_Click(sender, e);
+                forceToEnd = true;
+            }
             if (SelectLayer.Enabled == true) RefreshSelectLayer();
             moMap.RedrawMap();
+            if (forceToEnd) BeginEditItem_Click(sender, e);
         }
 
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1903,6 +1910,7 @@ namespace GeoView
                     break;
                 }
             }
+            if (tempIndex == -1 && mLayerIndex.Count > 0) tempIndex = 0;
             SelectLayer.SelectedIndex = tempIndex;
         }
 
