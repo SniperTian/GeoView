@@ -1387,6 +1387,14 @@ namespace GeoView
             }
         }
 
+        private void layersTree_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            Int32 sIndex = e.Node.Index;
+            MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(sIndex);
+            sMapLayer.Visible = e.Node.Checked;
+            moMap.RedrawMap();
+        }
+
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -2869,5 +2877,6 @@ namespace GeoView
             mPastPointIndex.Clear();
         }
         #endregion
+
     }
 }

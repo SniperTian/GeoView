@@ -527,6 +527,7 @@
             // 
             // layersTree
             // 
+            this.layersTree.AllowDrop = true;
             this.layersTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.layersTree.CheckBoxes = true;
@@ -534,7 +535,7 @@
             this.layersTree.Name = "layersTree";
             this.layersTree.Size = new System.Drawing.Size(290, 587);
             this.layersTree.TabIndex = 5;
-            this.layersTree.AllowDrop = true;
+            this.layersTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.layersTree_AfterCheck);
             this.layersTree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.layersTree_ItemDrag);
             this.layersTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.layersTree_DragDrop);
             this.layersTree.DragEnter += new System.Windows.Forms.DragEventHandler(this.layersTree_DragEnter);
