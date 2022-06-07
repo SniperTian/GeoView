@@ -188,6 +188,7 @@
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 25);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
@@ -207,6 +208,8 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "AttributeTable";
             this.Text = "属性表";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AttributeTable_FormClosed);
+            this.Load += new System.EventHandler(this.AttributeTable_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

@@ -67,13 +67,14 @@ namespace GeoView
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.IntegralHeight = false;
             this.comboBox1.Items.AddRange(new object[] {
             "Int16",
             "Int32",
             "Int64",
             "Single",
             "Double",
-            "String"});
+            "Text(文本)"});
             this.comboBox1.Location = new System.Drawing.Point(34, 152);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(173, 20);
