@@ -429,9 +429,9 @@ namespace GeoView
         #region MouseDown
         private void moMap_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
+            if (e.Button == MouseButtons.Left)
             {
-                if (mMapOpStyle == 1)
+                if (mMapOpStyle == 1 && mOperatingLayerIndex != -1)
                 {
                     OnEdit_MouseDown(e);
                 }
@@ -439,7 +439,7 @@ namespace GeoView
                 {
                     ;
                 }
-                if (mMapOpStyle == 3)
+                if (mMapOpStyle == 3 && mOperatingLayerIndex != -1)
                 {
                     OnEditPoint_MouseDown(e);
                 }
@@ -932,9 +932,9 @@ namespace GeoView
         #region MouseUp
         private void moMap_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
+            if (e.Button == MouseButtons.Left)
             {
-                if (mMapOpStyle == 1)
+                if (mMapOpStyle == 1 && mOperatingLayerIndex != -1)
                 {
                     OnEdit_MouseUp(e);
                 }
@@ -942,7 +942,7 @@ namespace GeoView
                 {
                     ;
                 }
-                else if (mMapOpStyle == 3)
+                else if (mMapOpStyle == 3 && mOperatingLayerIndex != -1)
                 {
                     OnEditPoint_MouseUp(e);
                 }
@@ -1202,13 +1202,13 @@ namespace GeoView
         #region MouseClick,MouseDoubleClick,MouseWheel
         private void moMap_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
+            if (e.Button == MouseButtons.Left)
             {
                 if (mMapOpStyle == 1)
                 {
                     ;
                 }
-                else if (mMapOpStyle == 2)
+                else if (mMapOpStyle == 2 && mOperatingLayerIndex != -1)
                 {
                     OnSketch_MouseClick(e);
                 }
