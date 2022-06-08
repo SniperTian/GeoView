@@ -506,9 +506,9 @@
             this.layersTree.TabIndex = 5;
             this.layersTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.layersTree_AfterCheck);
             this.layersTree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.layersTree_ItemDrag);
+            this.layersTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.layersTree_NodeMouseDoubleClick);
             this.layersTree.DragDrop += new System.Windows.Forms.DragEventHandler(this.layersTree_DragDrop);
             this.layersTree.DragEnter += new System.Windows.Forms.DragEventHandler(this.layersTree_DragEnter);
-            this.layersTree.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.layersTree_MouseDoubleClick);
             this.layersTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.layersTree_MouseDown);
             // 
             // moMap

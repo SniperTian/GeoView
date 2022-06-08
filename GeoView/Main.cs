@@ -431,38 +431,9 @@ namespace GeoView
         }
 
         //双击选择图层
-        private void layersTree_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void layersTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            Point pt = ((TreeView)(sender)).PointToClient(new Point(e.X, e.Y));
-            //寻找目标结点号
-            int sIndex = -1;
-            int sNodesNum = layersTree.Nodes.Count;
-            Rectangle sFirstRect = layersTree.Nodes[0].Bounds;
-            Rectangle sLastRect = layersTree.Nodes[sNodesNum - 1].Bounds;
-            if (pt.Y <= sFirstRect.Y)
-            {
-                sIndex = 0;
-            }
-            else if (pt.Y >= (sLastRect.Y + sLastRect.Height))
-            {
-                sIndex = sNodesNum - 1;
-            }
-            else
-            {
-                for (int i = 0; i < sNodesNum; ++i)
-                {
-                    Rectangle sCurRect = layersTree.Nodes[i].Bounds;
-                    if ((pt.Y > sCurRect.Y) && (pt.Y <= (sCurRect.Y + sCurRect.Height)))
-                    {
-                        sIndex = i;
-                        break;
-                    }
-                }
-            }
-            if (sIndex != -1)
-            {
-                mLastOpLayerIndex = sIndex;
-            }
+            mLastOpLayerIndex = e.Node.Index;
         }
 
         #endregion
@@ -3169,6 +3140,5 @@ namespace GeoView
         }
 
         #endregion
-
     }
 }
