@@ -272,6 +272,7 @@
             this.UniqueValues.Name = "UniqueValues";
             this.UniqueValues.Size = new System.Drawing.Size(131, 124);
             this.UniqueValues.TabIndex = 20;
+            this.UniqueValues.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.UniqueValues_MouseDoubleClick);
             // 
             // label2
             // 
