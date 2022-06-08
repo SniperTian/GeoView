@@ -124,7 +124,6 @@ namespace MyMapObjects
         {
             moMapDrawingTools.DrawPolygon(_MyGraphics, _Extent, _MapScale, _dpm, _mpu, points, symbol);
         }
-
         /// <summary>
         /// 以指定符号绘制指定复合折线
         /// </summary>

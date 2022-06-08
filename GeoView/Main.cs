@@ -406,8 +406,13 @@ namespace GeoView
         //选择
         private void btnSelect_Click(object sender, EventArgs e)
         {
+            if (mOperatingLayerIndex == -1)
+            {
+                MessageBox.Show("请选中图层后,再进行选择要素操作!");
+                return;
+            }
             mMapOpStyle = 7;
-            this.Cursor = new Cursor("ico/EditSelect.ico");
+            //this.Cursor = new Cursor("ico/EditSelect.ico");
         }
 
         //放大
@@ -653,7 +658,7 @@ namespace GeoView
             {
                 ;
             }
-            if (mMapOpStyle == 7)
+            if (mMapOpStyle == 7 && mOperatingLayerIndex != -1)
             {
                 OnSelect_MouseMove(e);
             }
@@ -958,7 +963,7 @@ namespace GeoView
                 {
                     ;
                 }
-                else if (mMapOpStyle == 7)
+                else if (mMapOpStyle == 7 && mOperatingLayerIndex != -1)
                 {
                     OnSelect_MouseUp(e);
                 }
@@ -1650,7 +1655,7 @@ namespace GeoView
         {
             mIsInRenderer = false;
             MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);//待渲染的图层
-            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point || sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
             {
                 mPointRenderer = new PointRenderer(moMap.Layers.GetItem(mLastOpLayerIndex));
                 mPointRenderer.Owner = this;

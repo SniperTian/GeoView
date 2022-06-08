@@ -118,8 +118,7 @@ namespace MyMapObjects
                     DrawPolygonBySimpleFill(g, extent, mapScale, dpm, mpu, points, sSymbol);
                 }
             }
-        }
-
+        }      
         //绘制复合折线
         internal static void DrawMultiPolyline(Graphics g, moRectangle extent, double mapScale, double dpm, double mpu, moMultiPolyline multiPolyline, moSymbol symbol)
         {

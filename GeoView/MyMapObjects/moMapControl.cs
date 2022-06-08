@@ -489,11 +489,11 @@ namespace MyMapObjects
                     moPoint sPoint = (moPoint)shapes[i];
                     moMapDrawingTools.DrawPoint(g, sExtent, sMapScale, dpm, mpu, sPoint, mFlashPointSymbol);
                 }
-                //else if (shapes[i].GetType() == typeof(moPoints))
-                //{
-                //    moPoints sPoints = (moPoints)shapes[i];
-                //    moMapDrawingTools.DrawPoints(g, sExtent, sMapScale, dpm, mpu, sPoints, mFlashPointSymbol);
-                //}
+                else if (shapes[i].GetType() == typeof(moPoints))
+                {
+                    moPoints sPoints = (moPoints)shapes[i];
+                    moMapDrawingTools.DrawPoints(g, sExtent, sMapScale, dpm, mpu, sPoints, mFlashPointSymbol);
+                }
                 else if (shapes[i].GetType() == typeof(moRectangle))
                 {
                     moRectangle sRect = (moRectangle)shapes[i];
