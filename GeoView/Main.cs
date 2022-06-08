@@ -33,6 +33,7 @@ namespace GeoView
         private MyMapObjects.moSimpleMarkerSymbol mEditingVertexSymbol; //正在编辑的图形顶点的符号
         private MyMapObjects.moSimpleLineSymbol mElasticSymbol; //橡皮筋符号
         private bool mShowLngLat = false;   //是否显示经纬度
+        private bool mEditMoMap = false;
 
         //(2)与地图操作有关的变量
         private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别；9.移动多边形
@@ -171,6 +172,7 @@ namespace GeoView
             RefreshSelectLayer();
             MoveFeatureBtn_Click(sender, e);
             mNeedToSave = false;
+            mEditMoMap = true;
         }
 
         //结束编辑
@@ -217,6 +219,7 @@ namespace GeoView
             moMapRightMenu.Items.Clear();
             InitializeSketchingShape();
             mEditingGeometry = null;
+            mEditMoMap = false;
             moMap.RedrawMap();
         }
 
@@ -425,6 +428,41 @@ namespace GeoView
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
             mMapOpStyle = 6;
+        }
+
+        //双击选择图层
+        private void layersTree_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Point pt = ((TreeView)(sender)).PointToClient(new Point(e.X, e.Y));
+            //寻找目标结点号
+            int sIndex = -1;
+            int sNodesNum = layersTree.Nodes.Count;
+            Rectangle sFirstRect = layersTree.Nodes[0].Bounds;
+            Rectangle sLastRect = layersTree.Nodes[sNodesNum - 1].Bounds;
+            if (pt.Y <= sFirstRect.Y)
+            {
+                sIndex = 0;
+            }
+            else if (pt.Y >= (sLastRect.Y + sLastRect.Height))
+            {
+                sIndex = sNodesNum - 1;
+            }
+            else
+            {
+                for (int i = 0; i < sNodesNum; ++i)
+                {
+                    Rectangle sCurRect = layersTree.Nodes[i].Bounds;
+                    if ((pt.Y > sCurRect.Y) && (pt.Y <= (sCurRect.Y + sCurRect.Height)))
+                    {
+                        sIndex = i;
+                        break;
+                    }
+                }
+            }
+            if (sIndex != -1)
+            {
+                mLastOpLayerIndex = sIndex;
+            }
         }
 
         #endregion
@@ -3119,14 +3157,18 @@ namespace GeoView
 
         private Int32 GetOpLayerIndex()
         {
-            if (SelectLayer.SelectedIndex == -1) return -1;
+            if (SelectLayer.SelectedIndex == -1)
+            {
+                if (mEditMoMap == true) return -1;
+                else return mLastOpLayerIndex;
+            }
             else
             {
                 return mLayerIndex[SelectLayer.SelectedIndex];
             }
         }
+
         #endregion
 
-        
     }
 }
