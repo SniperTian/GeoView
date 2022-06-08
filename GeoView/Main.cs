@@ -430,6 +430,12 @@ namespace GeoView
             mMapOpStyle = 6;
         }
 
+        //识别
+        private void btnIdentify_Click(object sender, EventArgs e)
+        {
+            mMapOpStyle = 8;
+        }
+
         //双击选择图层
         private void layersTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -449,29 +455,33 @@ namespace GeoView
                 {
                     OnEdit_MouseDown(e);
                 }
-                if (mMapOpStyle == 2)
+                else if (mMapOpStyle == 2)
                 {
                     ;
                 }
-                if (mMapOpStyle == 3 && mOperatingLayerIndex != -1)
+                else if (mMapOpStyle == 3 && mOperatingLayerIndex != -1)
                 {
                     OnEditPoint_MouseDown(e);
                 }
-                if (mMapOpStyle == 4)
+                else if (mMapOpStyle == 4)
                 {
                     OnPan_MouseDown(e);
                 }
-                if (mMapOpStyle == 5)
+                else if (mMapOpStyle == 5)
                 {
                     OnZoomIn_MouseDown(e);
                 }
-                if (mMapOpStyle == 6)
+                else if (mMapOpStyle == 6)
                 {
                     ;
                 }
-                if (mMapOpStyle == 7)
+                else if (mMapOpStyle == 7)
                 {
                     OnNoEditSelect_MouseDown(e);
+                }
+                else if (mMapOpStyle == 8)
+                {
+                    OnIdentify_MouseDown(e);
                 }
             }
         }
@@ -637,6 +647,14 @@ namespace GeoView
                 mIsInSelect = true;
             }
         }
+        private void OnIdentify_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInIdentify = true;
+            }
+        }
         #endregion
 
         #region MouseMove
@@ -647,29 +665,33 @@ namespace GeoView
             {
                 OnEdit_MouseMove(e);
             }
-            if (mMapOpStyle == 2)
+            else if (mMapOpStyle == 2)
             {
                 OnSketch_MouseMove(e);
             }
-            if (mMapOpStyle == 3)
+            else if (mMapOpStyle == 3)
             {
                 OnEditPoint_MouseMove(e);
             }
-            if (mMapOpStyle == 4)
+            else if (mMapOpStyle == 4)
             {
                 OnPan_MouseMove(e);
             }
-            if (mMapOpStyle == 5)
+            else if (mMapOpStyle == 5)
             {
                 OnZoomIn_MouseMove(e);
             }
-            if (mMapOpStyle == 6)
+            else if (mMapOpStyle == 6)
             {
                 ;
             }
-            if (mMapOpStyle == 7 && mOperatingLayerIndex != -1)
+            else if (mMapOpStyle == 7 && mOperatingLayerIndex != -1)
             {
                 OnSelect_MouseMove(e);
+            }
+            else if(mMapOpStyle == 8)
+            {
+                OnIdentify_MouseMove(e);
             }
         }
         private void OnEdit_MouseMove(MouseEventArgs e)
@@ -941,6 +963,17 @@ namespace GeoView
             MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
             sDrawingTool.DrawRectangle(sRect, mZoomBoxSymbol);
         }
+        private void OnIdentify_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInIdentify == false)
+            {
+                return;
+            }
+            moMap.Refresh();
+            MyMapObjects.moRectangle sRect = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
+            sDrawingTool.DrawRectangle(sRect, mSelectBoxSymbol);
+        }
         #endregion
 
         #region MouseUp
@@ -975,6 +1008,10 @@ namespace GeoView
                 else if (mMapOpStyle == 7 && mOperatingLayerIndex != -1)
                 {
                     OnSelect_MouseUp(e);
+                }
+                else if(mMapOpStyle == 8)
+                {
+                    OnIdentify_MouseUp(e);
                 }
             }
         }
@@ -1210,6 +1247,40 @@ namespace GeoView
             }
             this.Cursor = System.Windows.Forms.Cursors.Default;
 
+        }
+        private void OnIdentify_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInIdentify == false)
+            {
+                return;
+            }
+            mIsInIdentify = false;
+            moMap.Refresh();
+            MyMapObjects.moRectangle sBox = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
+            if (moMap.Layers.Count == 0)
+            {
+                return;
+            }
+            else
+            {
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+                MyMapObjects.moFeatures sFeatures = sLayer.SearchByBox(sBox, sTolerance);
+                Int32 sSelFeatureCount = sFeatures.Count;
+                if (sSelFeatureCount > 0)
+                {
+                    MyMapObjects.moGeometry[] sGeometries = new MyMapObjects.moGeometry[sSelFeatureCount];
+                    for (Int32 i = 0; i < sSelFeatureCount; i++)
+                    {
+                        sGeometries[i] = sFeatures.GetItem(i).Geometry;
+                    }
+                    moMap.FlashShapes(sGeometries, 5, 800);
+                }
+            }
+            AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
+            datafram_windows.Owner = this;
+            datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
+            datafram_windows.Show();
         }
         #endregion
 
@@ -3140,5 +3211,7 @@ namespace GeoView
         }
 
         #endregion
+
+        
     }
 }
