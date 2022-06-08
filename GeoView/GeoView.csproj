@@ -58,6 +58,12 @@
     <Compile Include="AttributeTable.Designer.cs">
       <DependentUpon>AttributeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreateLayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateLayer.Designer.cs">
+      <DependentUpon>CreateLayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataIOTools\dbfField.cs" />
     <Compile Include="DataIOTools\dbfFileHeader.cs" />
     <Compile Include="DataIOTools\dbfFileManager.cs" />
@@ -110,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateLayer.resx">
+      <DependentUpon>CreateLayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Label.resx">
       <DependentUpon>Label.cs</DependentUpon>
