@@ -15,8 +15,9 @@ namespace GeoView
         #region 字段
 
         Main father_form = new Main();//表示父窗口
-        public int layer_selectindex;//表示第一个列表选中的图层
-        public int field_selectindex;//表示被选中的字段
+        private int layer_selectindex;//表示第一个列表选中的图层
+        private int field_selectindex;//表示被选中的字段
+        private DataTable dataTable;//数据表
 
 
         #endregion
@@ -58,6 +59,51 @@ namespace GeoView
                     (this.father_form.moMap.Layers.GetItem(layer_selectindex).AttributeFields.GetItem(i).Name);
                 //将字段名字添加到下拉框
             }
+        }
+
+        //加载数据表
+        public void Load_datatable()
+        {
+            if (layer_selectindex < 0)
+                return;
+            //建表
+            dataTable = new DataTable();
+            //做一个中间值便于表示
+            MyMapObjects.moMapLayer layer_temp = this.father_form.moMap.Layers.GetItem(layer_selectindex);
+            //建立字段
+            for (Int32 i = 0; i < layer_temp.AttributeFields.Count; i++)
+            {
+                if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(double));
+                }
+                else if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt16)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(Int16));
+                }
+                else if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(Int32));
+                }
+                else if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt64)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(Int64));
+                }
+                else if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dSingle)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(Single));
+                }
+                else if (layer_temp.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dText)
+                {
+                    dataTable.Columns.Add(layer_temp.AttributeFields.GetItem(i).Name, typeof(string));
+                }
+            }
+            //读取字段数据,按行读取
+            for (Int32 i = 0; i < layer_temp.Features.Count; i++)
+            {
+                dataTable.Rows.Add(layer_temp.Features.GetItem(i).Attributes.ToArray());
+            }
+
         }
         #endregion
 
@@ -162,6 +208,7 @@ namespace GeoView
             this.UniqueValues.Items.Clear();//重新选择了图层必然唯一值框要清零
             this.Fields_List.Items.Clear();//清零字段显示图层
             Load_fieldslist();//重新加载下拉框
+            Load_datatable();//重新建立数据表
             field_selectindex = -1;//同时重新清零上次选中的字段
         }
 
@@ -199,7 +246,15 @@ namespace GeoView
             field_selectindex = index;//选中这个条目
             this.Fields_List.SelectedIndex = index;//选中这个条目
         }
-
+        //双击唯一值时，直接将文本投入下面框
+        private void UniqueValues_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = this.UniqueValues.IndexFromPoint(e.Location);
+            if (index == System.Windows.Forms.ListBox.NoMatches)
+                return;
+            this.UniqueValues.SelectedIndex = index;//选中这个条目
+            this.SQL_text.AppendText(this.UniqueValues.Items[index].ToString()+" ");
+        }
 
         //唯一值
         private void button17_Click(object sender, EventArgs e)
@@ -209,17 +264,54 @@ namespace GeoView
         //验证
         private void button21_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
+                MessageBox.Show("语句合法，验证成功");
+            }
+            catch
+            {
+                MessageBox.Show("非法SQL语句，请重新输入");
+            }
         }
         //确定
         private void button20_Click(object sender, EventArgs e)
         {
-
+            DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
+            this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
+            if (dataRows.Length > 0)
+            {
+                for (int i = 0; i < dataRows.Length; i++)
+                {
+                    this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
+                        this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                }
+                //重新绘制要素图层
+                this.father_form.moMap.RedrawTrackingShapes();
+                //这里要有一句代码，更新属性表
+            }
+            else
+                MessageBox.Show("未查询到符合条件要素！");
+            this.Close();
         }
         //应用
         private void button19_Click(object sender, EventArgs e)
         {
-
+            DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
+            this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
+            if (dataRows.Length > 0)
+            {
+                for (int i = 0; i < dataRows.Length; i++)
+                {
+                    this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
+                        this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                }
+                //重新绘制要素图层
+                this.father_form.moMap.RedrawTrackingShapes();
+                //这里要有一句代码，更新属性表
+            }
+            else           
+                MessageBox.Show("未查询到符合条件要素！");
         }
         //关闭
         private void button18_Click(object sender, EventArgs e)
@@ -228,5 +320,6 @@ namespace GeoView
         }
 
         #endregion
+
     }
 }
