@@ -391,34 +391,42 @@ namespace GeoView
             }
         }
 
+        //漫游
         private void btnPan_Click(object sender, EventArgs e)
         {
-
+            mMapOpStyle = 4;
         }
 
+        //全范围显示
         private void btnShowExtent_Click(object sender, EventArgs e)
         {
-
+            moMap.FullExtent();
         }
 
+        //选择
         private void btnSelect_Click(object sender, EventArgs e)
         {
-
+            mMapOpStyle = 7;
+            this.Cursor = new Cursor("ico/EditSelect.ico");
         }
 
+        //放大
         private void btnZoomIn_Click(object sender, EventArgs e)
         {
-
+            mMapOpStyle = 5;
         }
 
+        //缩小
         private void btnZoomOut_Click(object sender, EventArgs e)
         {
-
+            mMapOpStyle = 6;
         }
 
         #endregion
 
         #region 鼠标事件
+
+        #region MouseDown
         private void moMap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
@@ -435,9 +443,24 @@ namespace GeoView
                 {
                     OnEditPoint_MouseDown(e);
                 }
+                if (mMapOpStyle == 4)
+                {
+                    OnPan_MouseDown(e);
+                }
+                if (mMapOpStyle == 5)
+                {
+                    OnZoomIn_MouseDown(e);
+                }
+                if (mMapOpStyle == 6)
+                {
+                    ;
+                }
+                if (mMapOpStyle == 7)
+                {
+                    OnSelect_MouseDown(e);
+                }
             }
         }
-
         private void OnEdit_MouseDown(MouseEventArgs e)
         {
             //判断应该是进行选择还是移动
@@ -573,7 +596,29 @@ namespace GeoView
                 }
             }
         }
+        private void OnPan_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInPan = true;
+                this.Cursor = new Cursor("ico/PanUp.ico");
+            }
+        }
+        private void OnZoomIn_MouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInZoomIn = true;
+                this.Cursor = new Cursor("ico/ZoomIn.ico");
 
+            }
+        }
+
+        #endregion
+
+        #region MouseMove
         private void moMap_MouseMove(object sender, MouseEventArgs e)
         {
             ShowCoordinate(e.Location);
@@ -589,8 +634,23 @@ namespace GeoView
             {
                 OnEditPoint_MouseMove(e);
             }
+            if (mMapOpStyle == 4)
+            {
+                OnPan_MouseMove(e);
+            }
+            if (mMapOpStyle == 5)
+            {
+                OnZoomIn_MouseMove(e);
+            }
+            if (mMapOpStyle == 6)
+            {
+                ;
+            }
+            if (mMapOpStyle == 7)
+            {
+                OnSelect_MouseMove(e);
+            }
         }
-
         private void OnEdit_MouseMove(MouseEventArgs e)
         {
             if (mIsInMove)
@@ -843,7 +903,26 @@ namespace GeoView
                 if (mIsInDeletePoint) mIsInEditPoint = false;
             }
         }
+        private void OnPan_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInPan == false)
+                return;
+            moMap.PanMapImageTo(e.Location.X - mStartMouseLocation.X, e.Location.Y - mStartMouseLocation.Y);
+        }
+        private void OnZoomIn_MouseMove(MouseEventArgs e)
+        {
+            if (mIsInZoomIn == false)
+            {
+                return;
+            }
+            moMap.Refresh();
+            MyMapObjects.moRectangle sRect = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+            MyMapObjects.moUserDrawingTool sDrawingTool = moMap.GetDrawingTool();
+            sDrawingTool.DrawRectangle(sRect, mZoomBoxSymbol);
+        }
+        #endregion
 
+        #region MouseUp
         private void moMap_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
@@ -852,11 +931,32 @@ namespace GeoView
                 {
                     OnEdit_MouseUp(e);
                 }
-                else if (mMapOpStyle == 2) {; }
-                else if (mMapOpStyle == 3) { OnEditPoint_MouseUp(e); }
+                else if (mMapOpStyle == 2)
+                {
+                    ;
+                }
+                else if (mMapOpStyle == 3)
+                {
+                    OnEditPoint_MouseUp(e);
+                }
+                else if (mMapOpStyle == 4)
+                {
+                    OnPan_MouseUp(e);
+                }
+                else if (mMapOpStyle == 5)
+                {
+                    OnZoomIn_MouseUp(e);
+                }
+                else if (mMapOpStyle == 6)
+                {
+                    ;
+                }
+                else if (mMapOpStyle == 7)
+                {
+                    OnSelect_MouseUp(e);
+                }
             }
         }
-
         private void OnEdit_MouseUp(MouseEventArgs e)
         {
             if (mIsInMove)
@@ -1060,7 +1160,39 @@ namespace GeoView
                 moMap.RedrawTrackingShapes();
             }
         }
+        private void OnPan_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInPan == false)
+                return;
+            mIsInPan = false;
+            double sDeltaX = moMap.ToMapDistance(e.Location.X - mStartMouseLocation.X);
+            double sDeltaY = moMap.ToMapDistance(mStartMouseLocation.Y - e.Location.Y);
+            moMap.PanDelta(sDeltaX, sDeltaY);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+        private void OnZoomIn_MouseUp(MouseEventArgs e)
+        {
+            if (mIsInZoomIn == false)
+            {
+                return;
+            }
+            mIsInZoomIn = false;
+            if (mStartMouseLocation.X == e.Location.X && mStartMouseLocation.Y == e.Location.Y)
+            {
+                MyMapObjects.moPoint sPoint = moMap.ToMapPoint(mStartMouseLocation.X, mStartMouseLocation.Y);
+                moMap.ZoomByCenter(sPoint, mZoomRatioFixed);
+            }
+            else
+            {
+                MyMapObjects.moRectangle sBox = GetMapRectByTwoPoints(mStartMouseLocation, e.Location);
+                moMap.ZoomToExtent(sBox);
+            }
+            this.Cursor = System.Windows.Forms.Cursors.Default;
 
+        }
+        #endregion
+
+        #region MouseClick,MouseDoubleClick,MouseWheel
         private void moMap_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && mOperatingLayerIndex != -1)
@@ -1072,6 +1204,22 @@ namespace GeoView
                 else if (mMapOpStyle == 2)
                 {
                     OnSketch_MouseClick(e);
+                }
+                else if (mMapOpStyle == 4)
+                {
+                    ;
+                }
+                else if (mMapOpStyle == 5)
+                {
+                    ;
+                }
+                else if (mMapOpStyle == 6)
+                {
+                    OnZoomOut_MouseClick(e);
+                }
+                else if (mMapOpStyle == 7)
+                {
+                    ;
                 }
             }
         }
@@ -1105,7 +1253,15 @@ namespace GeoView
                 moMap.RedrawTrackingShapes();
             }
         }
+        private void OnZoomOut_MouseClick(MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("ico/ZoomOut.ico");
 
+            //单点缩小
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(e.Location.X, e.Location.Y);
+            moMap.ZoomByCenter(sPoint, 1 / mZoomRatioFixed);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+        }
         private void moMap_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (mOperatingLayerIndex != -1)
@@ -1122,7 +1278,6 @@ namespace GeoView
             EndSketchPart(sMapLayer.ShapeType);
             EndSketchGeo(sMapLayer.ShapeType);
         }
-
         private void moMap_MouseWheel(object sender, MouseEventArgs e)
         {
             double sX = moMap.ClientRectangle.Width / 2;
@@ -1133,8 +1288,11 @@ namespace GeoView
             else
                 moMap.ZoomByCenter(sPoint, 1 / mZoomRatioMouseWheel);
         }
+        #endregion
 
         #endregion
+
+        #region 右键菜单、图层树
         private void moMap_AfterTrackingLayerDraw(object sender, MyMapObjects.moUserDrawingTool drawingTool)
         {
             DrawSketchingShapes(drawingTool);   //绘制描绘图形
@@ -1787,6 +1945,7 @@ namespace GeoView
             mLabelFont = font;
         }
 
+        #endregion
 
         #region 图层渲染相关
         public void GetPointRenderer(Int32 renderMode, Int32 symbolStyle, Color simpleRendererColor, Double simpleRendererSize,
