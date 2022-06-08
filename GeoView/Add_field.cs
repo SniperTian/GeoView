@@ -32,7 +32,7 @@ namespace GeoView
         //确认添加
         private void 确认添加_Click_1(object sender, EventArgs e)
         {
-            string type_str = this.comboBox1.SelectedIndex.ToString();
+            string type_str = this.comboBox1.SelectedItem.ToString();
             switch (type_str)
             {
                 case "Int16":
