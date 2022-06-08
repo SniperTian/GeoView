@@ -33,10 +33,12 @@
             this.textLayerName = new System.Windows.Forms.TextBox();
             this.textSavePath = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.btnSavePath = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cboLayerType = new System.Windows.Forms.ComboBox();
+            this.btnConfirm = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.sfd = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -81,6 +83,7 @@
             this.btnSavePath.Size = new System.Drawing.Size(25, 23);
             this.btnSavePath.TabIndex = 4;
             this.btnSavePath.UseVisualStyleBackColor = true;
+            this.btnSavePath.Click += new System.EventHandler(this.btnSavePath_Click);
             // 
             // label3
             // 
@@ -101,11 +104,33 @@
             this.cboLayerType.Size = new System.Drawing.Size(234, 20);
             this.cboLayerType.TabIndex = 6;
             // 
+            // btnConfirm
+            // 
+            this.btnConfirm.Location = new System.Drawing.Point(142, 226);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(75, 23);
+            this.btnConfirm.TabIndex = 7;
+            this.btnConfirm.Text = "确定";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(291, 225);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 8;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // CreateLayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(487, 304);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.cboLayerType);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnSavePath);
@@ -126,9 +151,11 @@
         private System.Windows.Forms.TextBox textLayerName;
         private System.Windows.Forms.TextBox textSavePath;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button btnSavePath;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboLayerType;
+        private System.Windows.Forms.Button btnConfirm;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.SaveFileDialog sfd;
     }
 }

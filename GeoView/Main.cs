@@ -1456,6 +1456,9 @@ namespace GeoView
 
         private void 新建图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CreateLayer newLayer = new CreateLayer();
+            newLayer.Owner = this;
+            newLayer.ShowDialog();
             //弹出对话框：让用户输入文件存储路径和要素几何类型
             string sGvFilePath="__.gvshp"; //用户输入的存储路径(包含文件名，以.gvshp结尾);
             MyMapObjects.moGeometryTypeConstant sGeometryType=MyMapObjects.moGeometryTypeConstant.Point;  //用户指定的图层要素类型
@@ -1472,6 +1475,12 @@ namespace GeoView
             mGvShapeFiles.Add(sGvShpFileManager);
             mDbfFiles.Add(sDbfFileManager);
             //后续的一些代码：菜单栏列表的更新,等等
+        }
+
+        //在该函数中接收新建图层的参数
+        public void GetCreateLayerInfo(string layerName, MyMapObjects.moGeometryTypeConstant layerType, string savePath)
+        {
+            ;
         }
 
         private void 打开地图ToolStripMenuItem_Click(object sender, EventArgs e)
