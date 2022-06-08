@@ -35,7 +35,7 @@ namespace GeoView
         private bool mShowLngLat = false;   //是否显示经纬度
 
         //(2)与地图操作有关的变量
-        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点
+        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别；9.移动多边形
         private Int32 mOperatingLayerIndex  //当前操作的图层的索引
         {
             get { return GetOpLayerIndex(); }
@@ -135,6 +135,7 @@ namespace GeoView
         public Main()
         {
             InitializeComponent();
+            this.MouseWheel += moMap_MouseWheel;
             GvToolsInitial();
         }
 
@@ -388,6 +389,31 @@ namespace GeoView
             {
                 BeginEditItem_Click(sender, e);
             }
+        }
+
+        private void btnPan_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnShowExtent_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnZoomIn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnZoomOut_Click(object sender, EventArgs e)
+        {
+
         }
 
         #endregion
@@ -1095,6 +1121,17 @@ namespace GeoView
             MyMapObjects.moMapLayer sMapLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
             EndSketchPart(sMapLayer.ShapeType);
             EndSketchGeo(sMapLayer.ShapeType);
+        }
+
+        private void moMap_MouseWheel(object sender, MouseEventArgs e)
+        {
+            double sX = moMap.ClientRectangle.Width / 2;
+            double sY = moMap.ClientRectangle.Height / 2;
+            MyMapObjects.moPoint sPoint = moMap.ToMapPoint(sX, sY);
+            if (e.Delta > 0)
+                moMap.ZoomByCenter(sPoint, mZoomRatioMouseWheel);
+            else
+                moMap.ZoomByCenter(sPoint, 1 / mZoomRatioMouseWheel);
         }
 
         #endregion
@@ -2919,5 +2956,6 @@ namespace GeoView
         }
         #endregion
 
+        
     }
 }
