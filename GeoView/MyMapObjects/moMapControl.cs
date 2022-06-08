@@ -499,6 +499,11 @@ namespace MyMapObjects
                     moRectangle sRect = (moRectangle)shapes[i];
                     moMapDrawingTools.DrawRectangle(g, sExtent, sMapScale, dpm, mpu, sRect, mFlashFillSymbol);
                 }
+                else if (shapes[i].GetType() == typeof(moMultiPoint))
+                {
+                    moMultiPoint sMultiPoint = (moMultiPoint)shapes[i];
+                    moMapDrawingTools.DrawMultiPoint(g, sExtent, sMapScale, dpm, mpu, sMultiPoint, mFlashPointSymbol);
+                }
                 else if (shapes[i].GetType() == typeof(moMultiPolyline))
                 {
                     moMultiPolyline sMultiPolyline = (moMultiPolyline)shapes[i];

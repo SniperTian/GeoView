@@ -352,6 +352,38 @@ namespace MyMapObjects
                         placedLabelExtents.Add(sLabelExtent);
                     }
                 }
+                /*
+                else if (sFeature.ShapeType == moGeometryTypeConstant.MultiPoint)
+                {
+                    //（1）复制符号
+                    moTextSymbol sTextSymbol;  //最终绘制注记所采用的符号
+                    sTextSymbol = _LabelRenderer.TextSymbol.Clone();    //复制符号
+                    //（2）计算定位点并设置符号
+                    PointF sSrcLabelPoint;   //定位点的屏幕坐标
+                    moMultiPoint sMultiPoint = (moMultiPoint)sFeature.Geometry;
+                    for (Int32 m = 0; m < sMultiPoint.Parts.Count; m++)
+                    {
+                        Int32 sPointCount = sMultiPoint.Parts.GetItem(m).Count;
+                        for (int n=0;n< sPointCount;n++)
+                        {
+                            PointF sSrcPoint = FromMapPoint(extent, mapScale, dpm, mpu, sMultiPoint.Parts.GetItem(m).GetItem(n));    //点要素的屏幕坐标
+                            moSimpleMarkerSymbol sMarkerSymbol = (moSimpleMarkerSymbol)sFeature.Symbol;
+                            float sSymbolSize = (float)(sMarkerSymbol.Size / 1000 * dpm);        //符号的屏幕尺寸
+                                                                                                 //右上方并设置符号
+                            sSrcLabelPoint = new PointF(sSrcPoint.X + sSymbolSize / 2, sSrcPoint.Y - sSymbolSize / 2);
+                            sTextSymbol.Alignment = moTextSymbolAlignmentConstant.BottomLeft;
+                            //（3）计算注记的屏幕范围矩形
+                            RectangleF sLabelExtent = GetLabelExtent(g, dpm, sSrcLabelPoint, sLabelText, sTextSymbol);
+                            //（4）冲突检测
+                            if (HasConflict(sLabelExtent, placedLabelExtents) == false)
+                            {   //没有冲突，则绘制并将当前注记范围矩形加入placedLabelExtents
+                                moMapDrawingTools.DrawLabel(g, dpm, sLabelExtent.Location, sLabelText, sTextSymbol);
+                                placedLabelExtents.Add(sLabelExtent);
+                            }
+                        }
+                    }                   
+                }
+                */
                 else if (sFeature.ShapeType == moGeometryTypeConstant.MultiPolyline)
                 {   //线要素，为每个部分的中点配置一个注记
                     //（1）获取符号，线要素无需复制符号

@@ -59,6 +59,7 @@
     <Compile Include="moMapDrawingTools.cs" />
     <Compile Include="moMapLayer.cs" />
     <Compile Include="moMapTools.cs" />
+    <Compile Include="moMultiPoint.cs" />
     <Compile Include="moMultiPolygon.cs" />
     <Compile Include="moMultiPolyline.cs" />
     <Compile Include="moParts.cs" />

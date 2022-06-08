@@ -119,7 +119,18 @@ namespace MyMapObjects
                 }
             }
         }
-
+        
+        //绘制复合点
+        internal static void DrawMultiPoint(Graphics g, moRectangle extent, double mapScale, double dpm, double mpu, moMultiPoint multiPoint, moSymbol symbol)
+        {
+            if (symbol.SymbolType == moSymbolTypeConstant.SimpleMarkerSymbol)
+            {
+                moSimpleMarkerSymbol sSymbol = (moSimpleMarkerSymbol)symbol;
+                if (sSymbol.Visible == true)
+                    DrawMultiPointBySimplePoint(g, extent, mapScale, dpm, mpu, multiPoint, sSymbol);
+            }
+        }
+        
         //绘制复合折线
         internal static void DrawMultiPolyline(Graphics g, moRectangle extent, double mapScale, double dpm, double mpu, moMultiPolyline multiPolyline, moSymbol symbol)
         {
@@ -233,6 +244,28 @@ namespace MyMapObjects
             sPen.DashStyle = (DashStyle)symbol.Style;
             g.DrawPath(sPen, sGraphicPath);
             sPen.Dispose();
+        }
+
+        //采用简单点符号绘制复合点
+        private static void DrawMultiPointBySimplePoint(Graphics g, moRectangle extent, double mapScale, double dpm,
+            double mpu, moMultiPoint multiPoint, moSimpleMarkerSymbol symbol)
+        {
+            double sOffsetX = extent.MinX, sOffsetY = extent.MaxY;  //获取投影坐标系相对屏幕坐标系的平移量
+            //（1）转换为屏幕坐标
+            Int32 sPartCount = multiPoint.Parts.Count;        //点集的数目
+            GraphicsPath sGraphicPath = new GraphicsPath();     //定义复合多边形，用于屏幕绘制
+            for (Int32 i = 0; i <= sPartCount - 1; i++)
+            {
+                Int32 sPointCount = multiPoint.Parts.GetItem(i).Count;  //当前点集的顶点数目
+                PointF[] sScreenPoints = new PointF[sPointCount];
+                for (Int32 j = 0; j <= sPointCount - 1; j++)
+                {
+                    moPoint sCurPoint = multiPoint.Parts.GetItem(i).GetItem(j);
+                    DrawPointBySimpleMarker(g, extent, mapScale, dpm, mpu, sCurPoint, symbol);
+                }
+                sGraphicPath.StartFigure();
+                
+            }
         }
 
         //采用简单线符号绘制复合折线
