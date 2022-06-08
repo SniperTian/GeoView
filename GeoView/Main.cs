@@ -36,7 +36,7 @@ namespace GeoView
         private bool mEditMoMap = false;
 
         //(2)与地图操作有关的变量
-        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别；9.移动多边形
+        private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别
         private Int32 mOperatingLayerIndex  //当前操作的图层的索引
         {
             get { return GetOpLayerIndex(); }
@@ -1275,9 +1275,11 @@ namespace GeoView
                         sGeometries[i] = sFeatures.GetItem(i).Geometry;
                     }
                     moMap.FlashShapes(sGeometries, 5, 800);
+
                 }
             }
             AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
+            //需要在弹出的属性表中仅显示选中要素
             datafram_windows.Owner = this;
             datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
             datafram_windows.Show();
