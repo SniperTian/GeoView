@@ -457,7 +457,7 @@ namespace GeoView
                 }
                 if (mMapOpStyle == 7)
                 {
-                    OnSelect_MouseDown(e);
+                    OnNoEditSelect_MouseDown(e);
                 }
             }
         }
@@ -615,7 +615,14 @@ namespace GeoView
 
             }
         }
-
+        private void OnNoEditSelect_MouseDown(MouseEventArgs e) 
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mStartMouseLocation = e.Location;
+                mIsInSelect = true;
+            }
+        }
         #endregion
 
         #region MouseMove
