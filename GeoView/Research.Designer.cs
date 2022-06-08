@@ -57,6 +57,7 @@
             this.button21 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.button23 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Layer_SelectBox
@@ -354,11 +355,22 @@
             this.label3.TabIndex = 28;
             this.label3.Text = "字段列表";
             // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(256, 409);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(56, 19);
+            this.button23.TabIndex = 29;
+            this.button23.Text = "Clear";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
             // Research
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 561);
+            this.Controls.Add(this.button23);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button22);
             this.Controls.Add(this.button20);
@@ -427,5 +439,6 @@
         private System.Windows.Forms.Button button22;
         private System.Windows.Forms.ListBox Fields_List;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button23;
     }
 }

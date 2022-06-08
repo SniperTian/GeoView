@@ -275,5 +275,19 @@ namespace GeoView
             refresh();//重新加载一下
         }
         #endregion
+
+        //单击属性表头的时候会发生
+        private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            this.dataGridView1.Rows[e.RowIndex].Selected = true;//表示选中了这一行
+            this.father_form.moMap.Layers.GetItem(select_index).SelectedFeatures.Clear();
+            for(int i=0;i<this.dataGridView1.RowCount;i++ )
+            {
+                if (this.dataGridView1.Rows[i].Selected)
+                    this.father_form.moMap.Layers.GetItem(select_index).SelectedFeatures.Add(layer_show.Features.GetItem(i));
+                //添加一下被选中要素
+            }
+            this.father_form.moMap.RedrawTrackingShapes();
+        }
     }
 }

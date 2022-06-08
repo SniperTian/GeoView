@@ -259,7 +259,32 @@ namespace GeoView
         //唯一值
         private void button17_Click(object sender, EventArgs e)
         {
-
+            if (field_selectindex < 0)
+                return;//如果没有选择字段，就return
+            this.UniqueValues.Items.Clear();
+            MyMapObjects.moMapLayer layer_temp = this.father_form.moMap.Layers.GetItem(layer_selectindex);
+            for (int i=0;i < layer_temp.Features.Count;i++)
+            {
+                if(layer_temp.AttributeFields.GetItem(field_selectindex).ValueType==MyMapObjects.moValueTypeConstant.dText)
+                {
+                    UniqueValues.Items.Add("\"".ToString() + layer_temp.Features.GetItem(i).Attributes.GetItem(field_selectindex).ToString() + "\"");
+                }
+                else 
+                {
+                    UniqueValues.Items.Add(layer_temp.Features.GetItem(i).Attributes.GetItem(field_selectindex).ToString());
+                }
+            }
+            for (int i = 0; i < UniqueValues.Items.Count; i++)
+            {
+                for (int j = i + 1; j < UniqueValues.Items.Count; j++)
+                {
+                    if (UniqueValues.Items[i].Equals(UniqueValues.Items[j]))
+                    {
+                        UniqueValues.Items.RemoveAt(j);
+                        j--;
+                    }
+                }
+            }
         }
         //验证
         private void button21_Click(object sender, EventArgs e)
@@ -321,5 +346,10 @@ namespace GeoView
 
         #endregion
 
+        //清空函数
+        private void button23_Click(object sender, EventArgs e)
+        {
+            this.SQL_text.Clear();
+        }
     }
 }
