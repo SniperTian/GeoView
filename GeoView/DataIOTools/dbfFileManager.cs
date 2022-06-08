@@ -125,10 +125,11 @@ namespace GeoView.DataIOTools
                 string error = "新增属性值数与记录数不一致!";
                 throw new Exception(error);
             }
+            /*
             for (Int32 i = 0; i < sAttributesArray.Length; ++i)
             {
                 _AttributesList[i].Append(sAttributesArray[i]);
-            }
+            }*/
         }
 
         /// <summary>
@@ -148,11 +149,12 @@ namespace GeoView.DataIOTools
             _dbfFileHeader.dbfFields.RemoveAt(index);
             //（2）修改字段集合
             _Fields.RemoveAt(index);
+            /*
             //（3）修改记录的属性值
             for (Int32 i = 0; i < _AttributesList.Count; ++i)
             {
                 _AttributesList[i].RemoveAt(index);
-            }
+            }*/
         }
 
         /// <summary>

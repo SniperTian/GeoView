@@ -724,8 +724,6 @@
         }
 
         #endregion
-
-        private MyMapObjects.moMapControl moMap;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel tssStatus;
         private System.Windows.Forms.ToolStripStatusLabel tssMapScale;
@@ -790,5 +788,6 @@
         private System.Windows.Forms.ToolStripButton AddPointBtn;
         private System.Windows.Forms.ToolStripButton DeletePointBtn;
         private System.Windows.Forms.ToolStripLabel EditPointStripLabel1;
+        public MyMapObjects.moMapControl moMap;
     }
 }

@@ -125,3 +125,23 @@ F:\GeoView\GeoView\obj\Debug\GeoView.Label.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PointRenderer.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
 F:\GeoView\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\bin\Debug\GeoView.exe.config
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\bin\Debug\GeoView.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\bin\Debug\GeoView.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\bin\Debug\MyMapObjects.dll
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\bin\Debug\MyMapObjects.pdb
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.csproj.AssemblyReference.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.Add_field.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.AttributeTable.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.Label.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.Main.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.PointRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.PolygonRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.PolylineRenderer.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.Properties.Resources.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.Research.resources
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.csproj.GenerateResource.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.csproj.CoreCompileInputs.cache
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.csproj.CopyComplete
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.exe
+D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\main\GeoView\obj\Debug\GeoView.pdb

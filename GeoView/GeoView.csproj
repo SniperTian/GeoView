@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_field.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_field.Designer.cs">
+      <DependentUpon>Add_field.cs</DependentUpon>
+    </Compile>
     <Compile Include="AttributeTable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     <Compile Include="Research.Designer.cs">
       <DependentUpon>Research.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Add_field.resx">
+      <DependentUpon>Add_field.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AttributeTable.resx">
       <DependentUpon>AttributeTable.cs</DependentUpon>
     </EmbeddedResource>

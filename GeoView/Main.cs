@@ -83,8 +83,8 @@ namespace GeoView
 
 
         //(3)与文件操作相关的变量
-        private List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
-        private List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
+        public List<DataIOTools.gvShpFileManager> mGvShapeFiles = new List<DataIOTools.gvShpFileManager>();    //管理要素文件
+        public List<DataIOTools.dbfFileManager> mDbfFiles = new List<DataIOTools.dbfFileManager>();    //管理属性文件
 
         //(4)与图层渲染有关的变量
         private Int32 mPointRendererMode = 0; //渲染方式,0:简单渲染,1:唯一值渲染,2:分级渲染
@@ -1411,7 +1411,10 @@ namespace GeoView
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
+            datafram_windows.Owner = this;
+            datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
+            datafram_windows.Show();
         }
 
         private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
