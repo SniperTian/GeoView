@@ -1416,6 +1416,11 @@ namespace GeoView
             datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
             datafram_windows.Show();
         }
+        private void 按属性选择ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Research research_select = new Research(this);//导入本窗口就可以了
+            research_select.Show();//展示
+        }
 
         private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
