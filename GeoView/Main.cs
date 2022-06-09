@@ -459,6 +459,7 @@ namespace GeoView
             }
             mLastOpLayerIndex = e.Node.Index;
             e.Node.BackColor = Color.LightGray;
+            清除所选要素ToolStripMenuItem_Click(sender, e);
         }
 
         #endregion
