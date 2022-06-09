@@ -453,7 +453,12 @@ namespace GeoView
         //双击选择图层
         private void layersTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            foreach(TreeNode n in layersTree.Nodes)
+            {
+                n.BackColor = Color.Empty;
+            }
             mLastOpLayerIndex = e.Node.Index;
+            e.Node.BackColor = Color.LightGray;
         }
 
         #endregion
