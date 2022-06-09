@@ -1292,12 +1292,10 @@ namespace GeoView
                     moMap.FlashShapes(sGeometries, 5, 800);
 
                 }
+                Identify mIdentify = new Identify(moMap.Layers.GetItem(mLastOpLayerIndex), sFeatures);
+                mIdentify.Owner = this;
+                mIdentify.Show();
             }
-            AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
-            //需要在弹出的属性表中仅显示选中要素
-            datafram_windows.Owner = this;
-            datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
-            datafram_windows.Show();
         }
         #endregion
 
