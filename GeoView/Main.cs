@@ -1574,7 +1574,14 @@ namespace GeoView
                     string errorMsg = "要素数与属性数不一致!";
                     throw new Exception(errorMsg);
                 }
-
+                //设置主字段
+                for (Int32 i = 0; i < sFields.Count; i++)
+                {
+                    if (sFields.GetItem(i).Name == "id" && sFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
+                    {
+                        sFields.PrimaryField = "id";
+                    }
+                }
                 //(4)添加至图层并加载
                 MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(layerName, sGeometryType, sFields);
                 //加载要素
