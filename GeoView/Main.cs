@@ -151,6 +151,27 @@ namespace GeoView
         }
 
         #region 控件
+
+        //保存图片
+        private void btnSaveProject_Click(object sender, EventArgs e)
+        {
+            if (moMap.Layers.Count == 0) MessageBox.Show("请先导入图层！");
+            else
+            {
+                SaveFileDialog save_file = new SaveFileDialog();
+                save_file.OverwritePrompt = true;
+                save_file.RestoreDirectory = true;
+                save_file.Title = "保存bmp图片";
+                save_file.Filter = "BMP文件(*.bmp)|*.bmp";
+                if (save_file.ShowDialog() == DialogResult.OK)
+                {
+                    string file_name = save_file.FileName;
+                    moMap.BmpMap.Save(file_name, System.Drawing.Imaging.ImageFormat.Bmp);
+                }
+            }
+        }
+
+
         //编辑
         private void EditSpBtn_Click(object sender, EventArgs e)
         {
@@ -3239,8 +3260,8 @@ namespace GeoView
             }
         }
 
-        #endregion
 
+        #endregion
 
     }
 }

@@ -333,6 +333,7 @@
             this.btnSaveProject.Name = "btnSaveProject";
             this.btnSaveProject.Size = new System.Drawing.Size(28, 28);
             this.btnSaveProject.Text = "保存";
+            this.btnSaveProject.Click += new System.EventHandler(this.btnSaveProject_Click);
             // 
             // toolStripSeparator1
             // 

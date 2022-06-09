@@ -125,6 +125,11 @@ namespace MyMapObjects
             get { return mMapDrawingReference.OffsetY; }
         }
 
+        public Bitmap BmpMap
+        {
+            get { return mBufferMap1; }
+        }
+
         #endregion
 
         #region 方法
