@@ -1041,6 +1041,7 @@ namespace GeoView
             double sTolerance = moMap.ToMapDistance(mSelectingTolerance);
             moMap.SelectLayerByBox(sBox, sTolerance, mOperatingLayerIndex); //该方法只在当前图层中选择，与demo中不同
             moMap.RedrawTrackingShapes();
+            RedrawAttribute();
         }
         private void OnMoveSelect_MouseUp(MouseEventArgs e)
         {
