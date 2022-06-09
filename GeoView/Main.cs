@@ -1713,7 +1713,26 @@ namespace GeoView
 
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (mEditMoMap == true && mOperatingLayerIndex == mLastOpLayerIndex)
+            {
+                EndEditItem_Click(sender, e);
+                moMap.Layers.RemoveAt(mLastOpLayerIndex);
+                mGvShapeFiles.RemoveAt(mLastOpLayerIndex);
+                mDbfFiles.RemoveAt(mLastOpLayerIndex);
+                mLastOpLayerIndex = -1;
+                RefreshLayersTree();
+                RefreshSelectLayer();
+                moMap.RedrawMap();
+            }
+            else
+            {
+                moMap.Layers.RemoveAt(mLastOpLayerIndex);
+                mGvShapeFiles.RemoveAt(mLastOpLayerIndex);
+                mDbfFiles.RemoveAt(mLastOpLayerIndex);
+                mLastOpLayerIndex = -1;
+                RefreshLayersTree();
+                moMap.RedrawMap();
+            }
         }
 
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1721,8 +1740,10 @@ namespace GeoView
             AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
             All_tables.Add(datafram_windows);//将新打开的添加进去
             datafram_windows.Owner = this;
+            datafram_windows.StartPosition = FormStartPosition.CenterScreen;
             datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
             datafram_windows.Show();
+            datafram_windows.Refresh_dataform_select();
         }
         private void 按属性选择ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1749,7 +1770,7 @@ namespace GeoView
 
         private void 属性ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void 图层渲染ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2180,7 +2201,7 @@ namespace GeoView
                 MyMapObjects.moPoint sLngLat = moMap.ProjectionCS.TransferToLngLat(sPoint);
                 double sX = Math.Round(sLngLat.X, 4);
                 double sY = Math.Round(sLngLat.Y, 4);
-                tssCoordinate.Text = "X:" + sX.ToString() + ",Y:" + sY.ToString();
+                tssCoordinate.Text = "X:" + sX.ToString() + "° ,Y:" + sY.ToString() + "°";
             }
         }
 
@@ -3322,7 +3343,26 @@ namespace GeoView
 
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            btnSaveProject_Click(sender, e);
+        }
 
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void 显示地理坐标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mShowLngLat == false)
+            {
+                mShowLngLat = true;
+                显示地理坐标ToolStripMenuItem.Text = "显示投影坐标";
+            }
+            else
+            {
+                mShowLngLat = false;
+                显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
+            }
         }
     }
 }

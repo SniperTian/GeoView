@@ -83,6 +83,12 @@
     <Compile Include="Label.Designer.cs">
       <DependentUpon>Label.cs</DependentUpon>
     </Compile>
+    <Compile Include="LayerAttributes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayerAttributes.Designer.cs">
+      <DependentUpon>LayerAttributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Label.resx">
       <DependentUpon>Label.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LayerAttributes.resx">
+      <DependentUpon>LayerAttributes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

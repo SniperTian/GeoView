@@ -179,6 +179,7 @@
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
             this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
             // 选择ToolStripMenuItem
             // 
@@ -638,6 +639,7 @@
             this.显示地理坐标ToolStripMenuItem.Name = "显示地理坐标ToolStripMenuItem";
             this.显示地理坐标ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
+            this.显示地理坐标ToolStripMenuItem.Click += new System.EventHandler(this.显示地理坐标ToolStripMenuItem_Click);
             // 
             // Main
             // 
