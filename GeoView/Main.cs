@@ -256,29 +256,7 @@ namespace GeoView
                 if (mNeedToSave)
                 {
                     mNeedToSave = false;
-                    for (Int32 i = 0; i < moMap.Layers.Count; i++)
-                    {
-                        //图形数据
-                        MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
-                        mGvShapeFiles[i].Geometries.Clear();
-                        for (Int32 j = 0; j < sLayer.Features.Count; j++)
-                        {
-                            mGvShapeFiles[i].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
-                        }
-                        mGvShapeFiles[i].UpdateGeometries(mGvShapeFiles[i].Geometries);
-                        string path = mGvShapeFiles[i].DefaultFilePath;
-                        mGvShapeFiles[i].SaveToFile(path);
-                        //属性数据
-                        mDbfFiles[i].Fields = sLayer.AttributeFields;
-                        mDbfFiles[i].AttributesList.Clear();
-                        for (Int32 j = 0; j < sLayer.Features.Count; j++)
-                        {
-                            mDbfFiles[i].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
-                        }
-                        mDbfFiles[i].UpdateAttributesList(mDbfFiles[i].AttributesList);
-                        path = mDbfFiles[i].DefaultPath;
-                        mDbfFiles[i].SaveToFile(path);
-                    }
+                    SaveMapLayer(mOperatingLayerIndex);
                 }
             }
             catch (Exception error)
@@ -3215,22 +3193,6 @@ namespace GeoView
             }
         }
 
-        //粘贴到新建图层
-        public void PasteToNew()
-        {
-            mNeedToSave = true;
-            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
-            sLayer.SelectedFeatures.Clear();
-            for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
-            {
-                MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
-                sFeature.Geometry = mCopyingGeometries[i];
-                sLayer.Features.Add(sFeature);
-            }
-            mCopyingGeometries.Clear();
-            sLayer.UpdateExtent();
-        }
-
         //复制
         private void CopySelectedFeatures()
         {
@@ -3298,6 +3260,47 @@ namespace GeoView
                 return;
             }
         }
+
+        //粘贴到新建图层
+        public void PasteToNew()
+        {
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            sLayer.SelectedFeatures.Clear();
+            for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
+            {
+                MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                sFeature.Geometry = mCopyingGeometries[i];
+                sLayer.Features.Add(sFeature);
+            }
+            mCopyingGeometries.Clear();
+            sLayer.UpdateExtent();
+            SaveMapLayer(mLastOpLayerIndex);
+        }
+
+        private void SaveMapLayer(Int32 index)
+        {
+            //图形数据
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(index);
+            mGvShapeFiles[index].Geometries.Clear();
+            for (Int32 j = 0; j < sLayer.Features.Count; j++)
+            {
+                mGvShapeFiles[index].Geometries.Add(sLayer.Features.GetItem(j).Geometry);
+            }
+            mGvShapeFiles[index].UpdateGeometries(mGvShapeFiles[index].Geometries);
+            string path = mGvShapeFiles[index].DefaultFilePath;
+            mGvShapeFiles[index].SaveToFile(path);
+            //属性数据
+            mDbfFiles[index].Fields = sLayer.AttributeFields;
+            mDbfFiles[index].AttributesList.Clear();
+            for (Int32 j = 0; j < sLayer.Features.Count; j++)
+            {
+                mDbfFiles[index].AttributesList.Add(sLayer.Features.GetItem(j).Attributes);
+            }
+            mDbfFiles[index].UpdateAttributesList(mDbfFiles[index].AttributesList);
+            path = mDbfFiles[index].DefaultPath;
+            mDbfFiles[index].SaveToFile(path);
+        }
+
         #endregion
 
     }
