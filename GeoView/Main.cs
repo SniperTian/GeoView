@@ -34,6 +34,7 @@ namespace GeoView
         private MyMapObjects.moSimpleLineSymbol mElasticSymbol; //橡皮筋符号
         private bool mShowLngLat = false;   //是否显示经纬度
         private bool mEditMoMap = false;
+        public List<AttributeTable> All_tables = new List<AttributeTable>();//所有属性表的集合
 
         //(2)与地图操作有关的变量
         private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别
@@ -151,14 +152,8 @@ namespace GeoView
         }
         public void RedrawAttribute()
         {
-            foreach (Form f in Application.OpenForms)
-            {
-                if (f.Name == "dataGridView1")
-                {
-                    //f.refresh();
-                    break;
-                }
-            }
+            for (int i = 0; i < All_tables.Count; i++)
+                All_tables[i].refresh();//将每个列表进行一个无脑刷新
         }
         #region 控件
 
@@ -1713,6 +1708,7 @@ namespace GeoView
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
+            All_tables.Add(datafram_windows);//将新打开的添加进去
             datafram_windows.Owner = this;
             datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
             datafram_windows.Show();

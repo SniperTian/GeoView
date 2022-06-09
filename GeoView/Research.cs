@@ -302,41 +302,57 @@ namespace GeoView
         //确定
         private void button20_Click(object sender, EventArgs e)
         {
-            DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
-            this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
-            if (dataRows.Length > 0)
+            try
             {
-                for (int i = 0; i < dataRows.Length; i++)
+                DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
+                this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
+                if (dataRows.Length > 0)
                 {
-                    this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
-                        this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                    for (int i = 0; i < dataRows.Length; i++)
+                    {
+                        this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
+                            this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                    }
+                    //重新绘制要素图层
+                    this.father_form.moMap.RedrawTrackingShapes();
+                    //这里要有一句代码，更新属性表
+                    this.father_form.RedrawAttribute();
                 }
-                //重新绘制要素图层
-                this.father_form.moMap.RedrawTrackingShapes();
-                //这里要有一句代码，更新属性表
+                else
+                    MessageBox.Show("未查询到符合条件要素！");
+                this.Close();
             }
-            else
-                MessageBox.Show("未查询到符合条件要素！");
-            this.Close();
+            catch
+            {
+                MessageBox.Show("非法SQL语句，请重新输入");
+            }
         }
         //应用
         private void button19_Click(object sender, EventArgs e)
         {
-            DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
-            this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
-            if (dataRows.Length > 0)
+            try
             {
-                for (int i = 0; i < dataRows.Length; i++)
+                DataRow[] dataRows = dataTable.Select(SQL_text.Text.ToString());
+                this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Clear();//清除被选中数据
+                if (dataRows.Length > 0)
                 {
-                    this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
-                        this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                    for (int i = 0; i < dataRows.Length; i++)
+                    {
+                        this.father_form.moMap.Layers.GetItem(layer_selectindex).SelectedFeatures.Add(
+                            this.father_form.moMap.Layers.GetItem(layer_selectindex).Features.GetItem(dataTable.Rows.IndexOf(dataRows[i])));//更新被选中数据
+                    }
+                    //重新绘制要素图层
+                    this.father_form.moMap.RedrawTrackingShapes();
+                    this.father_form.RedrawAttribute();
+                    //这里要有一句代码，更新属性表
                 }
-                //重新绘制要素图层
-                this.father_form.moMap.RedrawTrackingShapes();
-                //这里要有一句代码，更新属性表
+                else
+                    MessageBox.Show("未查询到符合条件要素！");
             }
-            else           
-                MessageBox.Show("未查询到符合条件要素！");
+            catch
+            {
+                MessageBox.Show("非法SQL语句，请重新输入");
+            }
         }
         //关闭
         private void button18_Click(object sender, EventArgs e)
