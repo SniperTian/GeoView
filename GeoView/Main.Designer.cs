@@ -37,6 +37,7 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shpTogvshpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,6 @@
             this.MovePointBtn = new System.Windows.Forms.ToolStripButton();
             this.AddPointBtn = new System.Windows.Forms.ToolStripButton();
             this.DeletePointBtn = new System.Windows.Forms.ToolStripButton();
-            this.shpTogvshpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
@@ -158,28 +158,35 @@
             // 新建图层ToolStripMenuItem
             // 
             this.新建图层ToolStripMenuItem.Name = "新建图层ToolStripMenuItem";
-            this.新建图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.新建图层ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.新建图层ToolStripMenuItem.Text = "新建图层";
             this.新建图层ToolStripMenuItem.Click += new System.EventHandler(this.新建图层ToolStripMenuItem_Click);
             // 
             // 打开地图ToolStripMenuItem
             // 
             this.打开地图ToolStripMenuItem.Name = "打开地图ToolStripMenuItem";
-            this.打开地图ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开地图ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.打开地图ToolStripMenuItem.Text = "打开";
             this.打开地图ToolStripMenuItem.Click += new System.EventHandler(this.打开地图ToolStripMenuItem_Click);
+            // 
+            // shpTogvshpToolStripMenuItem
+            // 
+            this.shpTogvshpToolStripMenuItem.Name = "shpTogvshpToolStripMenuItem";
+            this.shpTogvshpToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.shpTogvshpToolStripMenuItem.Text = "shp转gvshp";
+            this.shpTogvshpToolStripMenuItem.Click += new System.EventHandler(this.shpTogvshpToolStripMenuItem_Click);
             // 
             // 另存为ToolStripMenuItem
             // 
             this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
-            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.另存为ToolStripMenuItem.Text = "另存为图片";
             this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -212,27 +219,30 @@
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
             // 缩放至所选要素ToolStripMenuItem
             // 
             this.缩放至所选要素ToolStripMenuItem.Name = "缩放至所选要素ToolStripMenuItem";
-            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.缩放至所选要素ToolStripMenuItem.Text = "缩放至所选要素";
+            this.缩放至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.缩放至所选要素ToolStripMenuItem_Click);
             // 
             // 平移至所选要素ToolStripMenuItem
             // 
             this.平移至所选要素ToolStripMenuItem.Name = "平移至所选要素ToolStripMenuItem";
-            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.平移至所选要素ToolStripMenuItem.Text = "平移至所选要素";
+            this.平移至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.平移至所选要素ToolStripMenuItem_Click);
             // 
             // 清除所选要素ToolStripMenuItem
             // 
             this.清除所选要素ToolStripMenuItem.Name = "清除所选要素ToolStripMenuItem";
-            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.清除所选要素ToolStripMenuItem.Text = "清除所选要素";
+            this.清除所选要素ToolStripMenuItem.Click += new System.EventHandler(this.清除所选要素ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -642,13 +652,6 @@
             this.DeletePointBtn.Text = "删除折点";
             this.DeletePointBtn.Visible = false;
             this.DeletePointBtn.Click += new System.EventHandler(this.DeletePointBtn_Click);
-            // 
-            // shpTogvshpToolStripMenuItem
-            // 
-            this.shpTogvshpToolStripMenuItem.Name = "shpTogvshpToolStripMenuItem";
-            this.shpTogvshpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.shpTogvshpToolStripMenuItem.Text = "shp转gvshp";
-            this.shpTogvshpToolStripMenuItem.Click += new System.EventHandler(this.shpTogvshpToolStripMenuItem_Click);
             // 
             // Main
             // 

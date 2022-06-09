@@ -75,7 +75,7 @@ namespace GeoView
         {
             get { return DeletePointBtn.Checked; }
         }
-        
+
         private List<MyMapObjects.moGeometry> mMovingGeometries = new List<MyMapObjects.moGeometry>();  //正在移动的图形的集合
         private MyMapObjects.moGeometry mEditingGeometry;   //正在编辑的图形
         private List<MyMapObjects.moPoints> mSketchingShape;    //正在描绘的图形，用一个多点集合存储；
@@ -274,7 +274,7 @@ namespace GeoView
         //清空选择
         private void ClearSelectionBtn_Click(object sender, EventArgs e)
         {
-            for(Int32 i = 0; i < moMap.Layers.Count; i++)
+            for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
                 moMap.Layers.GetItem(i).SelectedFeatures.Clear();
                 moMap.RedrawMap();
@@ -653,7 +653,7 @@ namespace GeoView
 
             }
         }
-        private void OnNoEditSelect_MouseDown(MouseEventArgs e) 
+        private void OnNoEditSelect_MouseDown(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -703,7 +703,7 @@ namespace GeoView
             {
                 OnSelect_MouseMove(e);
             }
-            else if(mMapOpStyle == 8)
+            else if (mMapOpStyle == 8)
             {
                 OnIdentify_MouseMove(e);
             }
@@ -1023,7 +1023,7 @@ namespace GeoView
                 {
                     OnSelect_MouseUp(e);
                 }
-                else if(mMapOpStyle == 8)
+                else if (mMapOpStyle == 8)
                 {
                     OnIdentify_MouseUp(e);
                 }
@@ -1524,7 +1524,7 @@ namespace GeoView
             {
                 //检查是否存在同名图层
                 string layerName = Path.GetFileNameWithoutExtension(sFileName);
-                for(Int32 i = 0; i < moMap.Layers.Count; i++)
+                for (Int32 i = 0; i < moMap.Layers.Count; i++)
                 {
                     if (layerName == moMap.Layers.GetItem(i).Name)
                     {
@@ -1574,7 +1574,14 @@ namespace GeoView
                     string errorMsg = "要素数与属性数不一致!";
                     throw new Exception(errorMsg);
                 }
-                
+                //设置主字段
+                for (Int32 i = 0; i < sFields.Count; i++)
+                {
+                    if (sFields.GetItem(i).Name == "id" && sFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
+                    {
+                        sFields.PrimaryField = "id";
+                    }
+                }
                 //(4)添加至图层并加载
                 MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(layerName, sGeometryType, sFields);
                 //加载要素
@@ -1603,9 +1610,9 @@ namespace GeoView
                 layersTree.SelectedNode = currentNode;
                 mLastOpLayerIndex = currentNode.Index;  //鼠标单击或右键菜单对应的图层索引
             }
-            else 
+            else
             {
-                if(e.Button == MouseButtons.Right)
+                if (e.Button == MouseButtons.Right)
                 {
                     mLastOpLayerIndex = -1;
                 }
@@ -2079,7 +2086,7 @@ namespace GeoView
             mLabel = new Label(sLayer);
             mLabel.Owner = this;
             mLabel.ShowDialog();
-            MyMapObjects.moLabelRenderer sLabelRenderer = new MyMapObjects.moLabelRenderer();            
+            MyMapObjects.moLabelRenderer sLabelRenderer = new MyMapObjects.moLabelRenderer();
             sLabelRenderer.Field = sLayer.AttributeFields.GetItem(mLabelFieldIndex).Name;
             sLabelRenderer.TextSymbol.Font = mLabelFont;
             sLabelRenderer.TextSymbol.FontColor = mLabelColor;
@@ -2089,7 +2096,7 @@ namespace GeoView
             moMap.RedrawMap();
         }
 
-        public void GetLabel(bool visible,bool useMask,Int32 fieldIndex,Color color,Font font)
+        public void GetLabel(bool visible, bool useMask, Int32 fieldIndex, Color color, Font font)
         {
             mLabelVisible = visible;
             mLabelUseMask = useMask;
@@ -2234,7 +2241,7 @@ namespace GeoView
         private void RefreshLayersTree()
         {
             layersTree.Nodes.Clear();
-            for(Int32 i = 0; i < moMap.Layers.Count; i++)
+            for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
                 TreeNode layerNode = new TreeNode();
                 layerNode.Text = moMap.Layers.GetItem(i).Name;
@@ -2259,7 +2266,7 @@ namespace GeoView
                 }
             }
             Int32 tempIndex = -1;
-            for(Int32 i = 0; i < mLayerIndex.Count; i++)
+            for (Int32 i = 0; i < mLayerIndex.Count; i++)
             {
                 if (mLayerIndex[i] == mLastOpLayerIndex)
                 {
@@ -2275,7 +2282,7 @@ namespace GeoView
         private Int32 SearchInsertIndex(MyMapObjects.moGeometryTypeConstant shapeType)
         {
             Int32 index = 0;
-            for(; index < moMap.Layers.Count; index++)
+            for (; index < moMap.Layers.Count; index++)
             {
                 if (shapeType < moMap.Layers.GetItem(index).ShapeType)
                 {
@@ -2347,7 +2354,7 @@ namespace GeoView
                 else if (mMovingGeometries[i].GetType() == typeof(MyMapObjects.moPoints))
                 {
                     MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)mMovingGeometries[i];
-                    for(Int32 j = 0; j < sPoints.Count; j++)
+                    for (Int32 j = 0; j < sPoints.Count; j++)
                     {
                         MyMapObjects.moPoint sPoint = sPoints.GetItem(j);
                         sPoint.X = sPoint.X + deltaX;
@@ -2370,7 +2377,7 @@ namespace GeoView
                     MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)mMovingGeometries[i];
                     sDrawingTool.DrawMultiPolygon(sMultiPolygon, mMovingPolygonSymbol);
                 }
-                else if(mMovingGeometries[i].GetType() == typeof(MyMapObjects.moMultiPolyline))
+                else if (mMovingGeometries[i].GetType() == typeof(MyMapObjects.moMultiPolyline))
                 {
                     MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)mMovingGeometries[i];
                     sDrawingTool.DrawMultiPolyline(sMultiPolyline, mMovingPolylineSymbol);
@@ -2886,7 +2893,7 @@ namespace GeoView
             {
                 MoveFeatureBtn_Click(new object(), e);
             }
-            if (e.ClickedItem.Text== "撤销上一步操作")
+            if (e.ClickedItem.Text == "撤销上一步操作")
             {
                 Int32 editOp = mEditPointOperation.Last();
                 if (editOp == 1)
@@ -3141,7 +3148,7 @@ namespace GeoView
         }
 
         //判断点是否靠近折线
-        private bool PointCloseToMultiPolylinePoint(MyMapObjects.moPoint sPoint,MyMapObjects.moMultiPolyline sMultiPolyline,double sTolerance)
+        private bool PointCloseToMultiPolylinePoint(MyMapObjects.moPoint sPoint, MyMapObjects.moMultiPolyline sMultiPolyline, double sTolerance)
         {
             if (mIsInMovePoint || mIsInDeletePoint)
             {
@@ -3182,9 +3189,9 @@ namespace GeoView
             }
             return false;
         }
-        
+
         //判断点是否靠近多点
-        private bool PointCloseToPoints(MyMapObjects.moPoint sPoint,MyMapObjects.moPoints sPoints,double sTolerance)
+        private bool PointCloseToPoints(MyMapObjects.moPoint sPoint, MyMapObjects.moPoints sPoints, double sTolerance)
         {
             if (mIsInMovePoint || mIsInDeletePoint)
             {
@@ -3389,6 +3396,78 @@ namespace GeoView
             ShpToGvshp sTransform = new ShpToGvshp();
             sTransform.Owner = this;
             sTransform.ShowDialog();
+        }
+
+        private void 缩放至所选要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mLastOpLayerIndex == -1)
+            {
+                return;
+            }
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            Int32 sCount = sLayer.SelectedFeatures.Count;
+            if (sCount == 0)
+            {
+                return;
+            }
+            double sMinX = double.MaxValue;
+            double sMaxX = double.MinValue;
+            double sMinY = double.MaxValue;
+            double sMaxY = double.MinValue;
+            for (Int32 i = 0; i < sCount; i++)
+            {
+                MyMapObjects.moRectangle sRect = sLayer.SelectedFeatures.GetItem(i).GetEnvelope();
+                sMinX = Math.Min(sMinX, sRect.MinX);
+                sMinY = Math.Min(sMinY, sRect.MinY);
+                sMaxX = Math.Max(sMaxX, sRect.MaxX);
+                sMaxY = Math.Max(sMaxY, sRect.MaxY);
+            }
+            MyMapObjects.moRectangle nRect = new MyMapObjects.moRectangle(sMinX, sMaxX, sMinY, sMaxY);
+            moMap.SetExtent(nRect);
+        }
+
+        private void 平移至所选要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mLastOpLayerIndex == -1)
+            {
+                return;
+            }
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            Int32 sCount = sLayer.SelectedFeatures.Count;
+            if (sCount == 0)
+            {
+                return;
+            }
+            double sMinX = double.MaxValue;
+            double sMaxX = double.MinValue;
+            double sMinY = double.MaxValue;
+            double sMaxY = double.MinValue;
+            for (Int32 i = 0; i < sCount; i++)
+            {
+                MyMapObjects.moRectangle sRect = sLayer.SelectedFeatures.GetItem(i).GetEnvelope();
+                sMinX = Math.Min(sMinX, sRect.MinX);
+                sMinY = Math.Min(sMinY, sRect.MinY);
+                sMaxX = Math.Max(sMaxX, sRect.MaxX);
+                sMaxY = Math.Max(sMaxY, sRect.MaxY);
+            }
+            double sX = (sMinX + sMaxX) / 2;
+            double sY = (sMinY + sMaxY) / 2;
+            MyMapObjects.moRectangle sExtent = moMap.GetExtent();
+            double mX = (sExtent.MinX + sExtent.MaxX) / 2;
+            double mY = (sExtent.MinY + sExtent.MaxY) / 2;
+
+            moMap.PanDelta(mX - sX, mY - sY);
+        }
+
+        private void 清除所选要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mLastOpLayerIndex == -1)
+            {
+                return;
+            }
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            sLayer.SelectedFeatures.Clear();
+            moMap.RedrawMap();
         }
     }
 }
