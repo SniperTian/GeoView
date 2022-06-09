@@ -3469,5 +3469,10 @@ namespace GeoView
             sLayer.SelectedFeatures.Clear();
             moMap.RedrawMap();
         }
+
+        private void btnOpenProject_Click(object sender, EventArgs e)
+        {
+            打开地图ToolStripMenuItem_Click(sender,e);
+        }
     }
 }
