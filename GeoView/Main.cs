@@ -1424,11 +1424,13 @@ namespace GeoView
                 {
                     moMapRightMenu.Items[0].Enabled = false;
                     moMapRightMenu.Items[2].Enabled = false;
+                    moMapRightMenu.Items[3].Enabled = false;
                 }
                 else
                 {
                     moMapRightMenu.Items[0].Enabled = true;
                     moMapRightMenu.Items[2].Enabled = true;
+                    moMapRightMenu.Items[3].Enabled = true;
                 }
                 if (mCopyingGeometries.Count == 0) moMapRightMenu.Items[1].Enabled = false;
                 else moMapRightMenu.Items[1].Enabled = true;
@@ -2738,6 +2740,7 @@ namespace GeoView
             moMapRightMenu.Items.Add("复制");
             moMapRightMenu.Items.Add("粘贴");
             moMapRightMenu.Items.Add("删除");
+            moMapRightMenu.Items.Add("复制到新建图层");
         }
 
         //描绘状态右键菜单
@@ -2832,6 +2835,10 @@ namespace GeoView
                     MessageBox.Show("图层类型与复制图形的几何类型不一致，无法粘贴！");
                     return;
                 }
+            }
+            if (e.ClickedItem.Text == "复制到新建图层")
+            {
+                return;
             }
         }
 

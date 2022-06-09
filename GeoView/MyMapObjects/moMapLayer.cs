@@ -617,7 +617,7 @@ namespace MyMapObjects
                         for(Int32 j = 0; j < _Features.Count; j++)
                         {
                             Int32 temp = (Int32)_Features.GetItem(j).Attributes.GetItem(i);
-                            if (temp > sValue)
+                            if (temp >= sValue)
                             {
                                 sValue = temp + 1;
                             }
