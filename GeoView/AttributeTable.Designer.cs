@@ -213,6 +213,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "AttributeTable";
             this.Text = "属性表";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AttributeTable_FormClosing);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

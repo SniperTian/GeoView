@@ -63,6 +63,7 @@
             // Layer_SelectBox
             // 
             this.Layer_SelectBox.DropDownHeight = 120;
+            this.Layer_SelectBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Layer_SelectBox.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Layer_SelectBox.FormattingEnabled = true;
             this.Layer_SelectBox.IntegralHeight = false;

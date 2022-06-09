@@ -35,7 +35,7 @@ namespace GeoView
         private bool mShowLngLat = false;   //是否显示经纬度
         private bool mEditMoMap = false;
         public List<AttributeTable> All_tables = new List<AttributeTable>();//所有属性表的集合
-
+        public int Fid_table_windows = 0;//给属性表们进行一个唯一赋值
         //(2)与地图操作有关的变量
         private Int32 mMapOpStyle = 0;  //0：无，1：编辑（可选择可移动）,2:描绘要素；3.编辑节点；4.漫游；5.放大；6.缩小；7.选择；8.识别
         private Int32 mOperatingLayerIndex  //当前操作的图层的索引
@@ -1736,12 +1736,15 @@ namespace GeoView
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AttributeTable datafram_windows = new AttributeTable(this, mLastOpLayerIndex);
-            All_tables.Add(datafram_windows);//将新打开的添加进去
             datafram_windows.Owner = this;
-            datafram_windows.StartPosition = FormStartPosition.CenterScreen;
             datafram_windows.Name = moMap.Layers.GetItem(mLastOpLayerIndex).Name;
             datafram_windows.Show();
+            datafram_windows.SetDesktopLocation(this.Location.X + (this.Width - datafram_windows.Width) / 2,
+                this.Location.Y + (this.Height - datafram_windows.Height) / 2);
             datafram_windows.Refresh_dataform_select();
+            All_tables.Add(datafram_windows);//将新打开的添加进去
+            datafram_windows.Windows_index = Fid_table_windows;
+            Fid_table_windows++;
         }
         private void 按属性选择ToolStripMenuItem_Click(object sender, EventArgs e)
         {

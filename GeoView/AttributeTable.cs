@@ -14,6 +14,7 @@ namespace GeoView
     public partial class AttributeTable : Form
     {
         #region 字段
+        public int Windows_index;//表示这个窗口是几号windows
         public MyMapObjects.moMapLayer layer_show;//展示图层
         public int select_index;//表示最近选择图层序号
         private int field_delete_index;//表示即将删除的字段序号
@@ -453,6 +454,22 @@ namespace GeoView
                 return;
             Show_select = true;
             refresh();
+        }
+        /// <summary>
+        /// 关闭窗口前必须处理一下
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AttributeTable_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            for (int i = 0; i < this.father_form.All_tables.Count; i++)
+            {
+                if (this.father_form.All_tables[i].Windows_index == this.Windows_index)
+                {
+                    father_form.All_tables.RemoveAt(i);
+                    break;
+                }
+            }
         }
     }
 }
