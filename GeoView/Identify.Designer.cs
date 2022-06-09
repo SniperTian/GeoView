@@ -59,6 +59,7 @@
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(293, 118);
             this.treeView.TabIndex = 2;
+            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
             // table
             // 

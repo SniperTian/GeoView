@@ -142,6 +142,9 @@
     <EmbeddedResource Include="CreateLayer.resx">
       <DependentUpon>CreateLayer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Identify.resx">
+      <DependentUpon>Identify.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Label.resx">
       <DependentUpon>Label.cs</DependentUpon>
     </EmbeddedResource>
