@@ -399,7 +399,10 @@ namespace GeoView
                 }
                 else
                 {
+                    Int32 temp = mLastOpLayerIndex;
+                    mLastOpLayerIndex = -1;
                     SelectLayer.SelectedIndex = -1;
+                    mLastOpLayerIndex = temp;
                 }
             }
             if (needSave && mOperatingLayerIndex != -1)
@@ -2266,6 +2269,8 @@ namespace GeoView
                 layersTree.Nodes.Add(layerNode);
             }
             layersTree.Refresh();
+            mMapOpStyle = 0;
+            layersTree.Nodes[mOperatingLayerIndex].BackColor = Color.LightGray;
         }
 
         //刷新图层下拉框
