@@ -1472,13 +1472,16 @@ namespace GeoView
             DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
             sGvShpFileManager.SourceFileType = "gvshp";
             sGvShpFileManager.DefaultFilePath = sGvFilePath;
+            sGvShpFileManager.SaveToFile(sGvShpFileManager.DefaultFilePath);
             DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager();
             sDbfFileManager.DefaultPath = sDbfFilePath;
             MyMapObjects.moField sField = new MyMapObjects.moField("id", MyMapObjects.moValueTypeConstant.dInt32);  //为用户添加id字段
             sDbfFileManager.CreateField(sField, new MyMapObjects.moAttributes());
+            sDbfFileManager.SaveToFile(sDbfFileManager.DefaultPath);
             //添加至图层并加载
             MyMapObjects.moFields sFields = new MyMapObjects.moFields();
             sFields.Append(sField);
+            sFields.PrimaryField = sField.Name;
             MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(layerName, sGeometryType, sFields);
             //加载要素
             MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
