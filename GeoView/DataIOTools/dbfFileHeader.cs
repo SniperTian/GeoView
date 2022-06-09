@@ -70,7 +70,7 @@ namespace GeoView.DataIOTools
             _FileType = 0x02;
             _RecordNum = 0;
             _HeaderLength = 33;
-            _RecordLength = 0;
+            _RecordLength = 1;
         }
 
         #endregion
