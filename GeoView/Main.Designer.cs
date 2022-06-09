@@ -500,9 +500,9 @@
             this.layersTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.layersTree.CheckBoxes = true;
-            this.layersTree.Location = new System.Drawing.Point(0, 56);
+            this.layersTree.Location = new System.Drawing.Point(12, 56);
             this.layersTree.Name = "layersTree";
-            this.layersTree.Size = new System.Drawing.Size(290, 587);
+            this.layersTree.Size = new System.Drawing.Size(280, 587);
             this.layersTree.TabIndex = 5;
             this.layersTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.layersTree_AfterCheck);
             this.layersTree.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.layersTree_ItemDrag);
@@ -520,10 +520,10 @@
             this.moMap.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.moMap.ContextMenuStrip = this.moMapRightMenu;
             this.moMap.FlashColor = System.Drawing.Color.Green;
-            this.moMap.Location = new System.Drawing.Point(304, 56);
+            this.moMap.Location = new System.Drawing.Point(298, 56);
             this.moMap.Name = "moMap";
             this.moMap.SelectionColor = System.Drawing.Color.Cyan;
-            this.moMap.Size = new System.Drawing.Size(738, 587);
+            this.moMap.Size = new System.Drawing.Size(736, 587);
             this.moMap.TabIndex = 0;
             this.moMap.MapScaleChanged += new MyMapObjects.moMapControl.MapScaleChangedHandle(this.moMap_MapScaleChanged);
             this.moMap.AfterTrackingLayerDraw += new MyMapObjects.moMapControl.AfterTrackingLayerDrawHandle(this.moMap_AfterTrackingLayerDraw);
@@ -677,6 +677,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Main";
             this.Text = "GeoView";
             this.Load += new System.EventHandler(this.Main_Load);
