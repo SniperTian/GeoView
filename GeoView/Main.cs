@@ -1294,7 +1294,7 @@ namespace GeoView
                 }
                 Identify mIdentify = new Identify(moMap.Layers.GetItem(mLastOpLayerIndex), sFeatures);
                 mIdentify.Owner = this;
-                mIdentify.Show();
+                mIdentify.ShowDialog();
             }
         }
         #endregion
@@ -1756,6 +1756,8 @@ namespace GeoView
         private void 按属性选择ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Research research_select = new Research(this);//导入本窗口就可以了
+            research_select.Owner = this;
+
             research_select.Show();//展示
         }
 
@@ -3473,6 +3475,16 @@ namespace GeoView
         private void btnOpenProject_Click(object sender, EventArgs e)
         {
             打开地图ToolStripMenuItem_Click(sender,e);
+        }
+
+        private void geoView帮助ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("想想ArcGIS,QGIS怎么做");
+        }
+
+        private void 关于GeoViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("GeoView由曹仁君、贺群超、田力、王宇航联合开发");
         }
     }
 }

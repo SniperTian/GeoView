@@ -33,7 +33,11 @@ namespace GeoView
                 MyMapObjects.moAttributes sAttributes = sFeature.Attributes;
                 mSelectedNode.Nodes.Add(Convert.ToString(sAttributes.GetItem(0)));
             }
-            mSelectedNode = treeView.Nodes[0].Nodes[0];
+            if (mFeatures.Count > 0)
+            {
+                mSelectedNode = treeView.Nodes[0].Nodes[0];
+
+            }
             treeView.Nodes[0].Expand();
             ShowTable(0);
         }
@@ -45,10 +49,12 @@ namespace GeoView
             table.DataSource = dataTable_select;
             dataTable_select.Columns.Add("字段", typeof(string));
             dataTable_select.Columns.Add("值", typeof(string));
-
-            for (Int32 i = 0; i < sFieldCount; i++)
+            if (nodeIndex < mFeatures.Count)
             {
-                dataTable_select.Rows.Add(mLayer.AttributeFields.GetItem(i).Name, Convert.ToString(mFeatures.GetItem(nodeIndex).Attributes.GetItem(i)));
+                for (Int32 i = 0; i < sFieldCount; i++)
+                {
+                    dataTable_select.Rows.Add(mLayer.AttributeFields.GetItem(i).Name, Convert.ToString(mFeatures.GetItem(nodeIndex).Attributes.GetItem(i)));
+                }
             }
         }
 

@@ -219,28 +219,28 @@
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
             // 缩放至所选要素ToolStripMenuItem
             // 
             this.缩放至所选要素ToolStripMenuItem.Name = "缩放至所选要素ToolStripMenuItem";
-            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.缩放至所选要素ToolStripMenuItem.Text = "缩放至所选要素";
             this.缩放至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.缩放至所选要素ToolStripMenuItem_Click);
             // 
             // 平移至所选要素ToolStripMenuItem
             // 
             this.平移至所选要素ToolStripMenuItem.Name = "平移至所选要素ToolStripMenuItem";
-            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.平移至所选要素ToolStripMenuItem.Text = "平移至所选要素";
             this.平移至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.平移至所选要素ToolStripMenuItem_Click);
             // 
             // 清除所选要素ToolStripMenuItem
             // 
             this.清除所选要素ToolStripMenuItem.Name = "清除所选要素ToolStripMenuItem";
-            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.清除所选要素ToolStripMenuItem.Text = "清除所选要素";
             this.清除所选要素ToolStripMenuItem.Click += new System.EventHandler(this.清除所选要素ToolStripMenuItem_Click);
             // 
@@ -256,14 +256,16 @@
             // geoView帮助ToolStripMenuItem
             // 
             this.geoView帮助ToolStripMenuItem.Name = "geoView帮助ToolStripMenuItem";
-            this.geoView帮助ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.geoView帮助ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.geoView帮助ToolStripMenuItem.Text = "GeoView 帮助";
+            this.geoView帮助ToolStripMenuItem.Click += new System.EventHandler(this.geoView帮助ToolStripMenuItem_Click);
             // 
             // 关于GeoViewToolStripMenuItem
             // 
             this.关于GeoViewToolStripMenuItem.Name = "关于GeoViewToolStripMenuItem";
-            this.关于GeoViewToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.关于GeoViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.关于GeoViewToolStripMenuItem.Text = "关于 GeoView";
+            this.关于GeoViewToolStripMenuItem.Click += new System.EventHandler(this.关于GeoViewToolStripMenuItem_Click);
             // 
             // toolsBar
             // 
