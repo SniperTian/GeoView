@@ -3392,11 +3392,32 @@ namespace GeoView
             if (mShowLngLat == false)
             {
                 mShowLngLat = true;
+                string text = tssCoordinate.Text;
+                if (text != "")
+                {
+                    string[] temp = text.Split(',');
+                    string posx = temp[0].Split(':')[1];
+                    string posy = temp[1].Split(':')[1];
+                    MyMapObjects.moPoint mousePoint = moMap.FromMapPoint(Convert.ToDouble(posx), Convert.ToDouble(posy));
+                    ShowCoordinate(new PointF((float)mousePoint.X, (float)mousePoint.Y));
+                }
                 显示地理坐标ToolStripMenuItem.Text = "显示投影坐标";
             }
             else
             {
                 mShowLngLat = false;
+                string text = tssCoordinate.Text;
+                if (text != "")
+                {
+                    string[] temp = text.Split(',');
+                    string posx = temp[0].Split(':')[1].Split('°')[0];
+                    string posy = temp[1].Split(':')[1].Split('°')[0];
+                    MyMapObjects.moPoint sPoint = new MyMapObjects.moPoint(Convert.ToDouble(posx), Convert.ToDouble(posy));
+                    MyMapObjects.moPoint mousePoint = moMap.ProjectionCS.TransferToProjCo(sPoint);
+                    double sX = Math.Round(mousePoint.X);
+                    double sY = Math.Round(mousePoint.Y);
+                    tssCoordinate.Text = "X:" + sX.ToString() + ",Y:" + sY.ToString();
+                }
                 显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
             }
         }

@@ -401,10 +401,15 @@ namespace GeoView
             {
                 return;//就毫无反应
             }
-            if (e.ColumnIndex<0)
+            if (e.ColumnIndex < 0)
             {
                 this.Refresh_mainform_select();//更新窗体显示事件
             }
+            else
+            {
+                this.Refresh_dataform_select();//确保不要因为到处乱动就影响了选中要素
+            }
+
         }
         //全部选择
         private void toolStripButton5_Click(object sender, EventArgs e)
