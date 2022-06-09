@@ -21,14 +21,16 @@ namespace GeoView
         public MyMapObjects.moValueTypeConstant newfieldtype;//分别表示新字段名字和类型
 
         private bool EnablechangeArribute;//表示是否可以编辑属性，默认状态下是flase不可编辑
-        public bool EnableaddField;//表示是否可以编辑字段
+        public bool EnableaddField;//表示是否可以编辑字段，在这种情况下什么都不能干，只能看
         private bool Select_delete_able;//表示是否可以删除字段
         private bool Arributesave;//表示属性表发生了变化需要进行保存
         private bool Fieldaddsave;//表示字段增加发生变化需要保存
         private bool Fielddelsave;//表示字段删除发生变化，需要保存
+        private bool Show_select;//是否仅显示选中字段
         public bool Addfieldsucess;//表示有没有成功的添加字段,好像没用，先留着吧
 
         private DataTable dataTable;//数据表
+        private DataTable dataTable_select;//选中数据的数据表
         Main father_form = new Main();//表示父窗口
 
         private delegate void myInvoke();//定义委托
@@ -51,8 +53,10 @@ namespace GeoView
             Arributesave = false;
             Fieldaddsave = false;
             Fielddelsave = false;//表示一开始谁都没动
+            EnableaddField = false;//表示一开始是普通显示
             field_delete_index = -1;
             Load_frame();
+            this.Nameshow.Text = layer_show.Name;
             //myThread = new Thread(Load_frame);//实例化线程
             //ma.Set();// 信号打开，不阻塞当前线程
             //myThread.Start();
@@ -97,42 +101,86 @@ namespace GeoView
         /// </summary>
         public void Load_frame()
         {
-            dataTable = new DataTable();
-            this.dataGridView1.DataSource = dataTable;
-            for (Int32 i = 0; i < layer_show.AttributeFields.Count; i++)
+            if (Show_select)
             {
-                if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
+                dataTable_select = new DataTable();
+                this.dataGridView1.DataSource = dataTable_select;
+                for (Int32 i = 0; i < layer_show.AttributeFields.Count; i++)
                 {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(double));
+                    if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(double));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt16)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int16));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int32));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt64)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int64));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dSingle)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Single));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dText)
+                    {
+                        dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(string));
+                    }
+                    this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
-                else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt16)
+                for (Int32 i = 0; i < layer_show.SelectedFeatures.Count; i++)
                 {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int16));
+                    dataTable_select.Rows.Add(layer_show.SelectedFeatures.GetItem(i).Attributes.ToArray());
                 }
-                else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
-                {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int32));
-                }
-                else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt64)
-                {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int64));
-                }
-                else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dSingle)
-                {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Single));
-                }
-                else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dText)
-                {
-                    dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(string));
-                }
-                this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                dataGridView1.DefaultCellStyle.BackColor = Color.BlueViolet;//所有的都设置成蓝的
+                dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
+                //表示如果是仅仅展示选中字段
             }
-            //读取字段数据,按行读取
-            for (Int32 i = 0; i < layer_show.Features.Count; i++)
+            else
             {
-                dataTable.Rows.Add(layer_show.Features.GetItem(i).Attributes.ToArray());
+                dataTable = new DataTable();
+                this.dataGridView1.DataSource = dataTable;
+                for (Int32 i = 0; i < layer_show.AttributeFields.Count; i++)
+                {
+                    if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(double));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt16)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int16));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt32)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int32));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dInt64)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Int64));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dSingle)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(Single));
+                    }
+                    else if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dText)
+                    {
+                        dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(string));
+                    }
+                    this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+                //读取字段数据,按行读取
+                for (Int32 i = 0; i < layer_show.Features.Count; i++)
+                {
+                    dataTable.Rows.Add(layer_show.Features.GetItem(i).Attributes.ToArray());
+                }
+                dataGridView1.DefaultCellStyle.BackColor = Color.White;//所有的都设置成蓝的
+                dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
             }
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
         }
 
 
@@ -156,6 +204,43 @@ namespace GeoView
             refresh();//重新加载一下
             EnableaddField = false;
         }
+        /// <summary>
+        /// 更新标签
+        /// </summary>
+        public void Refresh_scaletext_select()
+        {
+            this.Scaleshow.Text = (this.dataGridView1.SelectedRows.Count.ToString() + " / " + this.dataGridView1.Rows.Count.ToString() + "已选择");
+            //更新lable标签显示
+        }
+
+
+        /// <summary>
+        /// 更新本窗体内的显示，由图表更改属性表
+        /// </summary>
+        public void Refresh_dataform_select()
+        {
+            int index = -1;
+            for (int i=0;i<layer_show.SelectedFeatures.Count;i++)
+            {
+                index = layer_show.Features.Find(layer_show.SelectedFeatures.GetItem(i));
+                this.dataGridView1.Rows[index].Selected = true;//将该序号设置为亮
+            }
+            Refresh_scaletext_select();//更新一波标签
+        }
+
+        /// <summary>
+        /// 更新main窗体内的显示,由选中行更改图标
+        /// </summary>
+        public void Refresh_mainform_select()
+        {
+            layer_show.SelectedFeatures.Clear();//清空
+            for (int i = 0; i < this.dataGridView1.SelectedRows.Count; i++)
+            {
+                layer_show.SelectedFeatures.Add(layer_show.Features.GetItem(this.dataGridView1.SelectedRows[i].HeaderCell.RowIndex));
+            }
+            this.father_form.moMap.RedrawTrackingShapes();
+            Refresh_scaletext_select();//更新一波标签
+        }
 
 
 
@@ -166,6 +251,11 @@ namespace GeoView
         //按了编辑键
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            if (Show_select)
+            {
+                MessageBox.Show("部分字段显示模式下不可编辑");
+                return;
+            }
             if (EnablechangeArribute == true)
                 return;
             EnablechangeArribute = true;//表示可以进行编辑
@@ -176,6 +266,11 @@ namespace GeoView
         //按了停止编辑键
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+            if (Show_select)
+            {
+                MessageBox.Show("部分字段显示模式下不可编辑");
+                return;
+            }
             if (EnablechangeArribute == false)
                 return;
             EnablechangeArribute = false;
@@ -192,6 +287,11 @@ namespace GeoView
         //单击删除所选字段
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
+            if (Show_select)
+            {
+                MessageBox.Show("部分字段显示模式下不可删除字段");
+                return;
+            }
             if (EnablechangeArribute == true)
             {
                 MessageBox.Show("请退出属性编辑模式后再进行尝试");
@@ -228,6 +328,11 @@ namespace GeoView
         //单击添加字段
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            if(Show_select)
+            {
+                MessageBox.Show("部分字段显示模式下不可添加字段");
+                return;
+            }
             if (EnablechangeArribute == true)
             {
                 MessageBox.Show("请退出属性编辑模式后再进行尝试");
@@ -274,20 +379,80 @@ namespace GeoView
             Arributesave = true;
             refresh();//重新加载一下
         }
-        #endregion
 
         //单击属性表头的时候会发生
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            this.dataGridView1.Rows[e.RowIndex].Selected = true;//表示选中了这一行
-            this.father_form.moMap.Layers.GetItem(select_index).SelectedFeatures.Clear();
-            for(int i=0;i<this.dataGridView1.RowCount;i++ )
+            if (Show_select)
             {
-                if (this.dataGridView1.Rows[i].Selected)
-                    this.father_form.moMap.Layers.GetItem(select_index).SelectedFeatures.Add(layer_show.Features.GetItem(i));
-                //添加一下被选中要素
+                return;//就毫无反应
             }
-            this.father_form.moMap.RedrawTrackingShapes();
+            this.dataGridView1.Rows[e.RowIndex].Selected = true;//表示选中了这一行
+            this.Refresh_mainform_select();
+        }
+        //用于操作鼠标点选或者拖动要素
+        private void dataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (Show_select)
+            {
+                return;//就毫无反应
+            }
+            if (e.ColumnIndex<0)
+            {
+                this.Refresh_mainform_select();//更新窗体显示事件
+            }
+        }
+        //全部选择
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            if (Show_select)
+            {
+                Show_select = false;//要是全部都显示的话，就不用再操作了，直接回归最初本味
+                refresh();
+            }
+            for (int i=0;i<this.dataGridView1.Rows.Count;i++)
+            {
+                this.dataGridView1.Rows[i].Selected = true;
+            }
+            this.Refresh_mainform_select();
+        }
+        //清除选择
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            if (Show_select)
+            {
+                layer_show.SelectedFeatures.Clear();
+                this.father_form.moMap.RedrawTrackingShapes();//重新绘制一下
+                refresh();//此时应该是没有要素了
+            }
+            else
+            {
+                for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
+                {
+                    this.dataGridView1.Rows[i].Selected = false;
+                }
+                this.Refresh_mainform_select();
+            }
+        }
+
+        #endregion
+        //显示所有记录
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            if (Show_select == false)
+                return;
+            Show_select = false;
+            refresh();
+            this.Refresh_dataform_select();
+
+        }
+        //显示选中记录
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            if (Show_select == true)
+                return;
+            Show_select = true;
+            refresh();
         }
     }
 }

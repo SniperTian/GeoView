@@ -41,8 +41,8 @@
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tssStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tssMapScale = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Nameshow = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Scaleshow = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -116,6 +116,7 @@
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(60, 22);
             this.toolStripButton5.Text = "全部选择";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
             // toolStripButton6
             // 
@@ -125,6 +126,7 @@
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.Size = new System.Drawing.Size(60, 22);
             this.toolStripButton6.Text = "清除选择";
+            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
             // toolStripButton7
             // 
@@ -149,6 +151,7 @@
             this.toolStripButton8.Name = "toolStripButton8";
             this.toolStripButton8.Size = new System.Drawing.Size(84, 22);
             this.toolStripButton8.Text = "显示所有记录";
+            this.toolStripButton8.Click += new System.EventHandler(this.toolStripButton8_Click);
             // 
             // toolStripButton9
             // 
@@ -158,33 +161,35 @@
             this.toolStripButton9.Name = "toolStripButton9";
             this.toolStripButton9.Size = new System.Drawing.Size(84, 22);
             this.toolStripButton9.Text = "显示选择记录";
+            this.toolStripButton9.Click += new System.EventHandler(this.toolStripButton9_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tssStatus,
-            this.tssMapScale});
+            this.Nameshow,
+            this.Scaleshow});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // tssStatus
+            // Nameshow
             // 
-            this.tssStatus.Name = "tssStatus";
-            this.tssStatus.Size = new System.Drawing.Size(40, 17);
-            this.tssStatus.Text = "name";
+            this.Nameshow.Name = "Nameshow";
+            this.Nameshow.Size = new System.Drawing.Size(40, 17);
+            this.Nameshow.Text = "name";
             // 
-            // tssMapScale
+            // Scaleshow
             // 
-            this.tssMapScale.AutoSize = false;
-            this.tssMapScale.Name = "tssMapScale";
-            this.tssMapScale.Size = new System.Drawing.Size(90, 17);
-            this.tssMapScale.Text = "0/0已选择";
+            this.Scaleshow.AutoSize = false;
+            this.Scaleshow.Name = "Scaleshow";
+            this.Scaleshow.Size = new System.Drawing.Size(90, 17);
+            this.Scaleshow.Text = "0/0已选择";
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -193,6 +198,7 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(800, 403);
             this.dataGridView1.TabIndex = 2;
+            this.dataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseUp);
             this.dataGridView1.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.dataGridView1_CellParsing_1);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick_1);
             this.dataGridView1.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_RowHeaderMouseClick);
@@ -228,11 +234,11 @@
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel tssMapScale;
+        private System.Windows.Forms.ToolStripStatusLabel Scaleshow;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.ToolStripStatusLabel tssStatus;
+        private System.Windows.Forms.ToolStripStatusLabel Nameshow;
         private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

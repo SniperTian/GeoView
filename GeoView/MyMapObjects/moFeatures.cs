@@ -76,6 +76,22 @@ namespace MyMapObjects
         }
 
         /// <summary>
+        /// 获取该要素所处的位置
+        /// </summary>
+        /// <param name="feature"></param>
+        /// <returns></returns>
+        public int Find(moFeature feature)
+        {
+            string temp = feature.Attributes.ToString();
+            for(int i=0;i<this.Count;i++)
+            {
+                if (this.GetItem(i).Attributes.ToString() == temp)
+                    return i;
+            }
+            return -1;
+        }
+
+        /// <summary>
         /// 清除所有元素
         /// </summary>
         public void Clear()
