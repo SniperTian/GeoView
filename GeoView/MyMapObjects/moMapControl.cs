@@ -227,6 +227,25 @@ namespace MyMapObjects
             }
         }
 
+        public void SetExtent(moRectangle sFullExtent)
+        {
+            if (sFullExtent.IsEmpty == false)
+            {
+                Rectangle sClientRect = this.ClientRectangle;
+                mMapDrawingReference.ZoomExtentToWindow(sFullExtent, sClientRect.Width, sClientRect.Height);
+                this.UseWaitCursor = true;
+                DrawBufferMap1();
+                DrawBufferMap2();
+                this.UseWaitCursor = false;
+                Refresh();
+                //触发事件
+                if (MapScaleChanged != null)
+                {
+                    MapScaleChanged(this);
+                }
+            }
+        }
+
         /// <summary>
         /// 设置地图试图
         /// </summary>

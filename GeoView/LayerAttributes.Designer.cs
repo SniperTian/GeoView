@@ -34,6 +34,7 @@ namespace GeoView
             // 
             // AttibutesText
             // 
+            this.AttibutesText.Enabled = false;
             this.AttibutesText.Location = new System.Drawing.Point(39, 29);
             this.AttibutesText.Name = "AttibutesText";
             this.AttibutesText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
@@ -48,6 +49,7 @@ namespace GeoView
             this.ClientSize = new System.Drawing.Size(557, 314);
             this.Controls.Add(this.AttibutesText);
             this.Name = "LayerAttributes";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图层属性";
             this.ResumeLayout(false);
 

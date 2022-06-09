@@ -1751,7 +1751,10 @@ namespace GeoView
 
         private void 缩放至图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            sLayer.UpdateExtent();
+            MyMapObjects.moRectangle sRect = sLayer.Extent;
+            moMap.SetExtent(sRect);
         }
 
         private void 编辑要素ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1768,7 +1771,22 @@ namespace GeoView
 
         private void 属性ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            LayerAttributes newLayer = new LayerAttributes();
+            newLayer.Owner = this;
+
+            string text = "";
+            text += "图层名称：" + sLayer.Name + "\n";
+            string shapeType = "Point";
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon) shapeType = "MultiPolygon";
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline) shapeType = "MultiPolyline";
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint) shapeType = "MultiPoint";
+            text += "要素类型：" + shapeType + "\n";
+            text += "要素数量：" + sLayer.Features.Count + "\n";
+            text += "字段数量：" + sLayer.AttributeFields.Count;
+
+            newLayer.SetText(text);
+            newLayer.ShowDialog();
         }
 
         private void 图层渲染ToolStripMenuItem_Click(object sender, EventArgs e)

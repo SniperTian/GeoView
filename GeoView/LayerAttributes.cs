@@ -16,5 +16,10 @@ namespace GeoView
         {
             InitializeComponent();
         }
+
+        public void SetText(string text)
+        {
+            AttibutesText.Text = text;
+        }
     }
 }
