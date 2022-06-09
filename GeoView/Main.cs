@@ -271,6 +271,16 @@ namespace GeoView
             }
         }
 
+        //清空选择
+        private void ClearSelectionBtn_Click(object sender, EventArgs e)
+        {
+            for(Int32 i = 0; i < moMap.Layers.Count; i++)
+            {
+                moMap.Layers.GetItem(i).SelectedFeatures.Clear();
+                moMap.RedrawMap();
+            }
+        }
+
         //编辑要素
         private void MoveFeatureBtn_Click(object sender, EventArgs e)
         {
