@@ -168,3 +168,5 @@ D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\Ge
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.Add_field.resources
 D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.Add_field.resources
 E:\Documents\大三下\GIS设计和应用\ProjectOne\GeoView\GeoView\obj\Debug\GeoView.CreateLayer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.CreateLayer.resources
+D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoView.csproj.CopyComplete

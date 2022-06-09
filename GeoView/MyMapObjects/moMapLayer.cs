@@ -595,16 +595,51 @@ namespace MyMapObjects
                 if (sField.ValueType == moValueTypeConstant.dInt16)
                 {
                     Int16 sValue = 0;
+                    if (sField.Name == _AttributeFields.PrimaryField)
+                    {
+                        for (Int32 j = 0; j < _Features.Count; j++)
+                        {
+                            Int16 temp = (Int16)_Features.GetItem(j).Attributes.GetItem(i);
+                            if (temp > sValue)
+                            {
+                                sValue = temp;
+                            }
+                        }
+                    }
+                    sValue += 1;
                     sAttributes.Append(sValue);
                 }
                 else if (sField.ValueType == moValueTypeConstant.dInt32)
                 {
                     Int32 sValue = 0;
+                    if(sField.Name == _AttributeFields.PrimaryField)
+                    {
+                        for(Int32 j = 0; j < _Features.Count; j++)
+                        {
+                            Int32 temp = (Int32)_Features.GetItem(j).Attributes.GetItem(i);
+                            if (temp > sValue)
+                            {
+                                sValue = temp + 1;
+                            }
+                        }
+                    }
                     sAttributes.Append(sValue);
                 }
                 else if (sField.ValueType == moValueTypeConstant.dInt64)
                 {
                     Int64 sValue = 0;
+                    if (sField.Name == _AttributeFields.PrimaryField)
+                    {
+                        for (Int32 j = 0; j < _Features.Count; j++)
+                        {
+                            Int64 temp = (Int64)_Features.GetItem(j).Attributes.GetItem(i);
+                            if (temp > sValue)
+                            {
+                                sValue = temp;
+                            }
+                        }
+                    }
+                    sValue += 1;
                     sAttributes.Append(sValue);
                 }
                 else if (sField.ValueType == moValueTypeConstant.dSingle)

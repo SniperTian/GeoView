@@ -1459,10 +1459,15 @@ namespace GeoView
             CreateLayer newLayer = new CreateLayer();
             newLayer.Owner = this;
             newLayer.ShowDialog();
-            //弹出对话框：让用户输入文件存储路径和要素几何类型
-            string sGvFilePath="__.gvshp"; //用户输入的存储路径(包含文件名，以.gvshp结尾);
-            MyMapObjects.moGeometryTypeConstant sGeometryType=MyMapObjects.moGeometryTypeConstant.Point;  //用户指定的图层要素类型
-            string sDbfFilePath= sGvFilePath.Substring(0, sGvFilePath.IndexOf(".gvshp")) + ".gvdbf";
+        }
+
+        //在该函数中接收新建图层的参数
+        public void GetCreateLayerInfo(string layerName, MyMapObjects.moGeometryTypeConstant layerType, string savePath)
+        {
+            string sGvFilePath = savePath; //用户输入的存储路径(包含文件名，以.gvshp结尾);
+            if (sGvFilePath.IndexOf(".gvshp") == -1) sGvFilePath += ".gvshp";
+            MyMapObjects.moGeometryTypeConstant sGeometryType = layerType;  //用户指定的图层要素类型
+            string sDbfFilePath = sGvFilePath.Substring(0, sGvFilePath.IndexOf(".gvshp")) + ".gvdbf";
             //初始化文件读取类
             DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
             sGvShpFileManager.SourceFileType = "gvshp";
@@ -1471,16 +1476,15 @@ namespace GeoView
             sDbfFileManager.DefaultPath = sDbfFilePath;
             MyMapObjects.moField sField = new MyMapObjects.moField("id", MyMapObjects.moValueTypeConstant.dInt32);  //为用户添加id字段
             sDbfFileManager.CreateField(sField, new MyMapObjects.moAttributes());
-            //添加至文件管理列表
-            mGvShapeFiles.Add(sGvShpFileManager);
-            mDbfFiles.Add(sDbfFileManager);
-            //后续的一些代码：菜单栏列表的更新,等等
-        }
+            //添加至图层并加载
+            MyMapObjects.moFields sFields = new MyMapObjects.moFields();
+            sFields.Append(sField);
+            MyMapObjects.moMapLayer sMapLayer = new MyMapObjects.moMapLayer(layerName, sGeometryType, sFields);
+            //加载要素
+            MyMapObjects.moFeatures sFeatures = new MyMapObjects.moFeatures();
+            sMapLayer.Features = sFeatures;
 
-        //在该函数中接收新建图层的参数
-        public void GetCreateLayerInfo(string layerName, MyMapObjects.moGeometryTypeConstant layerType, string savePath)
-        {
-            ;
+            ThingsAfterNewLayer(sMapLayer, sGvShpFileManager, sDbfFileManager);
         }
 
         private void 打开地图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1563,22 +1567,7 @@ namespace GeoView
                     sFeatures.Add(sFeature);
                 }
                 sMapLayer.Features = sFeatures;
-
-                //相关数据更新
-                Int32 index = SearchInsertIndex(sMapLayer.ShapeType);
-                mLastOpLayerIndex = index;
-                moMap.Layers.Insert(index, sMapLayer);
-                mGvShapeFiles.Insert(index, sGvShpFileManager);   //添加至要素文件管理列表
-                mDbfFiles.Insert(index, sDbfFileManager); //添加至属性文件管理列表
-                RefreshLayersTree();    //刷新图层列表
-                if (moMap.Layers.Count == 1)
-                {
-                    moMap.FullExtent();
-                }
-                else
-                {
-                    moMap.RedrawMap();
-                }
+                ThingsAfterNewLayer(sMapLayer, sGvShpFileManager, sDbfFileManager);
             }
             catch (Exception error)
             {
@@ -3221,8 +3210,27 @@ namespace GeoView
             }
         }
 
+        private void ThingsAfterNewLayer(MyMapObjects.moMapLayer sMapLayer, DataIOTools.gvShpFileManager sGvShpFileManager, DataIOTools.dbfFileManager sDbfFileManager)
+        {
+            //相关数据更新
+            Int32 index = SearchInsertIndex(sMapLayer.ShapeType);
+            mLastOpLayerIndex = index;
+            moMap.Layers.Insert(index, sMapLayer);
+            mGvShapeFiles.Insert(index, sGvShpFileManager);   //添加至要素文件管理列表
+            mDbfFiles.Insert(index, sDbfFileManager); //添加至属性文件管理列表
+            RefreshLayersTree();    //刷新图层列表
+            if (moMap.Layers.Count == 1)
+            {
+                moMap.FullExtent();
+            }
+            else
+            {
+                moMap.RedrawMap();
+            }
+        }
+
         #endregion
 
-        
+
     }
 }
