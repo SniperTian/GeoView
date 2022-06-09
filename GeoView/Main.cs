@@ -1292,9 +1292,12 @@ namespace GeoView
                     moMap.FlashShapes(sGeometries, 5, 800);
 
                 }
-                Identify mIdentify = new Identify(moMap.Layers.GetItem(mLastOpLayerIndex), sFeatures);
-                mIdentify.Owner = this;
-                mIdentify.ShowDialog();
+                if (sSelFeatureCount > 0)
+                {
+                    Identify mIdentify = new Identify(moMap.Layers.GetItem(mLastOpLayerIndex), sFeatures);
+                    mIdentify.Owner = this;
+                    mIdentify.ShowDialog();
+                }
             }
         }
         #endregion
@@ -3463,12 +3466,11 @@ namespace GeoView
 
         private void 清除所选要素ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mLastOpLayerIndex == -1)
+            for (Int32 i = 0; i < moMap.Layers.Count; i++)
             {
-                return;
-            }
-            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
-            sLayer.SelectedFeatures.Clear();
+                MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(i);
+                sLayer.SelectedFeatures.Clear();
+            }        
             moMap.RedrawMap();
         }
 
@@ -3485,6 +3487,6 @@ namespace GeoView
         private void 关于GeoViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("GeoView由曹仁君、贺群超、田力、王宇航联合开发");
-        }
+        }   
     }
 }
