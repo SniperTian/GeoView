@@ -3320,5 +3320,9 @@ namespace GeoView
 
         #endregion
 
+        private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
