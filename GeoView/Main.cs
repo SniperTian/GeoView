@@ -2761,7 +2761,7 @@ namespace GeoView
             moMapRightMenu.Items.Add("复制");
             moMapRightMenu.Items.Add("粘贴");
             moMapRightMenu.Items.Add("删除");
-            moMapRightMenu.Items.Add("复制到新建图层");
+            moMapRightMenu.Items.Add("复制并粘贴到新建图层");
         }
 
         //描绘状态右键菜单
@@ -2798,68 +2798,20 @@ namespace GeoView
             }
             if (e.ClickedItem.Text == "复制")
             {
-                mCopyingGeometries.Clear();
-                if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
-                {
-                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolygon;
-                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
-                    {
-                        MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)sLayer.SelectedFeatures.GetItem(i).Geometry;
-                        mCopyingGeometries.Add(sMultiPolygon.Clone());
-                    }
-                }
-                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
-                {
-                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolyline;
-                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
-                    {
-                        MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)sLayer.SelectedFeatures.GetItem(i).Geometry;
-                        mCopyingGeometries.Add(sMultiPolyline.Clone());
-                    }
-                }
-                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
-                {
-                    mCopyingType = MyMapObjects.moGeometryTypeConstant.Point;
-                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
-                    {
-                        MyMapObjects.moPoint sPoint = (MyMapObjects.moPoint)sLayer.SelectedFeatures.GetItem(i).Geometry;
-                        mCopyingGeometries.Add(sPoint.Clone());
-                    }
-                }
-                else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
-                {
-                    mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPoint;
-                    for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
-                    {
-                        MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)sLayer.SelectedFeatures.GetItem(i).Geometry;
-                        mCopyingGeometries.Add(sPoints.Clone());
-                    }
-                }
+                CopySelectedFeatures();
             }
             if (e.ClickedItem.Text == "粘贴")
             {
-                if (mCopyingType == sLayer.ShapeType)
-                {
-                    mNeedToSave = true;
-                    sLayer.SelectedFeatures.Clear();
-                    for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
-                    {
-                        MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
-                        sFeature.Geometry = mCopyingGeometries[i];
-                        sLayer.Features.Add(sFeature);
-                    }
-                    mCopyingGeometries.Clear();
-                    sLayer.UpdateExtent();
-                }
-                else
-                {
-                    MessageBox.Show("图层类型与复制图形的几何类型不一致，无法粘贴！");
-                    return;
-                }
+                PasteSelectedFeatures();
             }
-            if (e.ClickedItem.Text == "复制到新建图层")
+            if (e.ClickedItem.Text == "复制并粘贴到新建图层")
             {
-                return;
+                CopySelectedFeatures();
+                MyMapObjects.moGeometryTypeConstant shapeType = moMap.Layers.GetItem(mOperatingLayerIndex).ShapeType;
+                CreateLayer newLayer = new CreateLayer();
+                newLayer.Owner = this;
+                newLayer.FixedType(shapeType);
+                newLayer.ShowDialog();
             }
         }
 
@@ -3220,6 +3172,7 @@ namespace GeoView
             return false;
         }
 
+        //删除编辑记录
         private void DeleteEditPointRecord()
         {
             mEditPointOperation.Clear();
@@ -3228,6 +3181,7 @@ namespace GeoView
             mPastPointIndex.Clear();
         }
 
+        //获取当前操作图层索引
         private Int32 GetOpLayerIndex()
         {
             if (SelectLayer.SelectedIndex == -1)
@@ -3241,6 +3195,7 @@ namespace GeoView
             }
         }
 
+        //添加新图层后触发事件
         private void ThingsAfterNewLayer(MyMapObjects.moMapLayer sMapLayer, DataIOTools.gvShpFileManager sGvShpFileManager, DataIOTools.dbfFileManager sDbfFileManager)
         {
             //相关数据更新
@@ -3260,7 +3215,89 @@ namespace GeoView
             }
         }
 
+        //粘贴到新建图层
+        public void PasteToNew()
+        {
+            mNeedToSave = true;
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mLastOpLayerIndex);
+            sLayer.SelectedFeatures.Clear();
+            for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
+            {
+                MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                sFeature.Geometry = mCopyingGeometries[i];
+                sLayer.Features.Add(sFeature);
+            }
+            mCopyingGeometries.Clear();
+            sLayer.UpdateExtent();
+        }
 
+        //复制
+        private void CopySelectedFeatures()
+        {
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            mCopyingGeometries.Clear();
+            if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon)
+            {
+                mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolygon;
+                for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                {
+                    MyMapObjects.moMultiPolygon sMultiPolygon = (MyMapObjects.moMultiPolygon)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                    mCopyingGeometries.Add(sMultiPolygon.Clone());
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline)
+            {
+                mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPolyline;
+                for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                {
+                    MyMapObjects.moMultiPolyline sMultiPolyline = (MyMapObjects.moMultiPolyline)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                    mCopyingGeometries.Add(sMultiPolyline.Clone());
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.Point)
+            {
+                mCopyingType = MyMapObjects.moGeometryTypeConstant.Point;
+                for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                {
+                    MyMapObjects.moPoint sPoint = (MyMapObjects.moPoint)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                    mCopyingGeometries.Add(sPoint.Clone());
+                }
+            }
+            else if (sLayer.ShapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint)
+            {
+                mCopyingType = MyMapObjects.moGeometryTypeConstant.MultiPoint;
+                for (Int32 i = 0; i < sLayer.SelectedFeatures.Count; i++)
+                {
+                    MyMapObjects.moPoints sPoints = (MyMapObjects.moPoints)sLayer.SelectedFeatures.GetItem(i).Geometry;
+                    mCopyingGeometries.Add(sPoints.Clone());
+                }
+            }
+        }
+
+        //粘贴
+        private void PasteSelectedFeatures()
+        {
+            mNeedToSave = true;
+            MyMapObjects.moMapLayer sLayer = moMap.Layers.GetItem(mOperatingLayerIndex);
+            if (mCopyingType == sLayer.ShapeType)
+            {
+                mNeedToSave = true;
+                sLayer.SelectedFeatures.Clear();
+                for (Int32 i = 0; i < mCopyingGeometries.Count; i++)
+                {
+                    MyMapObjects.moFeature sFeature = sLayer.GetNewFeature();
+                    sFeature.Geometry = mCopyingGeometries[i];
+                    sLayer.Features.Add(sFeature);
+                }
+                mCopyingGeometries.Clear();
+                sLayer.UpdateExtent();
+            }
+            else
+            {
+                MessageBox.Show("图层类型与复制图形的几何类型不一致，无法粘贴！");
+                return;
+            }
+        }
         #endregion
 
     }

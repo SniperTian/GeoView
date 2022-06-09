@@ -79,6 +79,7 @@ namespace GeoView
             {
                 Main main = (Main)this.Owner;
                 main.GetCreateLayerInfo(mLayerName, mLayerType, mSavePath);
+                if (cboLayerType.Enabled == false) main.PasteToNew();
                 this.Close();
             }
             
@@ -91,6 +92,17 @@ namespace GeoView
 
         #endregion
 
+        #region 私有函数
 
+        public void FixedType(MyMapObjects.moGeometryTypeConstant shapeType)
+        {
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.Point) cboLayerType.SelectedIndex = 0;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPoint) cboLayerType.SelectedIndex = 1;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolyline) cboLayerType.SelectedIndex = 2;
+            if (shapeType == MyMapObjects.moGeometryTypeConstant.MultiPolygon) cboLayerType.SelectedIndex = 3;
+            cboLayerType.Enabled = false;
+        }
+
+        #endregion
     }
 }
