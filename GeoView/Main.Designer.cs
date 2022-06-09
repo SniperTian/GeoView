@@ -219,28 +219,28 @@
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
             // 缩放至所选要素ToolStripMenuItem
             // 
             this.缩放至所选要素ToolStripMenuItem.Name = "缩放至所选要素ToolStripMenuItem";
-            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.缩放至所选要素ToolStripMenuItem.Text = "缩放至所选要素";
             this.缩放至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.缩放至所选要素ToolStripMenuItem_Click);
             // 
             // 平移至所选要素ToolStripMenuItem
             // 
             this.平移至所选要素ToolStripMenuItem.Name = "平移至所选要素ToolStripMenuItem";
-            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.平移至所选要素ToolStripMenuItem.Text = "平移至所选要素";
             this.平移至所选要素ToolStripMenuItem.Click += new System.EventHandler(this.平移至所选要素ToolStripMenuItem_Click);
             // 
             // 清除所选要素ToolStripMenuItem
             // 
             this.清除所选要素ToolStripMenuItem.Name = "清除所选要素ToolStripMenuItem";
-            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.清除所选要素ToolStripMenuItem.Text = "清除所选要素";
             this.清除所选要素ToolStripMenuItem.Click += new System.EventHandler(this.清除所选要素ToolStripMenuItem_Click);
             // 
@@ -301,6 +301,7 @@
             this.btnOpenProject.Name = "btnOpenProject";
             this.btnOpenProject.Size = new System.Drawing.Size(28, 28);
             this.btnOpenProject.Text = "打开";
+            this.btnOpenProject.Click += new System.EventHandler(this.btnOpenProject_Click);
             // 
             // btnSaveProject
             // 
