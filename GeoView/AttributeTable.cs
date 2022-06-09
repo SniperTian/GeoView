@@ -135,13 +135,14 @@ namespace GeoView
                     }
                     dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
-                for (Int32 i = layer_show.SelectedFeatures.Count-1; i >=0; i--)
+                for (Int32 i = layer_show.SelectedFeatures.Count - 1; i >= 0; i--)
                 {
                     dataTable_select.Rows.Add(layer_show.SelectedFeatures.GetItem(i).Attributes.ToArray());
                 }
                 dataGridView1.DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;//所有的都设置成蓝的
                 dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
                 //表示如果是仅仅展示选中字段
+                Refresh_scaletext_select();
             }
             else
             {
@@ -197,8 +198,8 @@ namespace GeoView
                 return;
             MyMapObjects.moField moFieldtemp = new MyMapObjects.moField(newfieldname, newfieldtype);
             //this.father_form.moMap.Layers.GetItem(select_index).AttributeFields.Append(moFieldtemp);
-            MyMapObjects.moAttributes moAttributestemp= new MyMapObjects.moAttributes();
-            List<object> temp_array=new List<object>();
+            MyMapObjects.moAttributes moAttributestemp = new MyMapObjects.moAttributes();
+            List<object> temp_array = new List<object>();
             for (int i = 0; i < this.father_form.moMap.Layers.GetItem(select_index).Features.Count; i++)
                 temp_array.Add(0);
             moAttributestemp.FromArray(temp_array.ToArray());
@@ -213,7 +214,7 @@ namespace GeoView
         /// </summary>
         public void Refresh_scaletext_select()
         {
-            this.Scaleshow.Text = (dataGridView1.SelectedRows.Count.ToString() + " / " + dataGridView1.Rows.Count.ToString() + "已选择");
+            this.Scaleshow.Text = (layer_show.SelectedFeatures.Count.ToString() + " / " + layer_show.Features.Count.ToString() + "已选择");
             //更新lable标签显示
         }
 
@@ -224,7 +225,7 @@ namespace GeoView
         public void Refresh_dataform_select()
         {
             int index = -1;
-            for (int i=0;i<layer_show.SelectedFeatures.Count;i++)
+            for (int i = 0; i < layer_show.SelectedFeatures.Count; i++)
             {
                 index = layer_show.Features.Find(layer_show.SelectedFeatures.GetItem(i));
                 dataGridView1.Rows[index].Selected = true;//将该序号设置为亮
@@ -319,7 +320,7 @@ namespace GeoView
         {
             if (Arributesave == true)
             {
-                List<MyMapObjects.moAttributes> newattributeslist=new List<MyMapObjects.moAttributes>();
+                List<MyMapObjects.moAttributes> newattributeslist = new List<MyMapObjects.moAttributes>();
                 for (int i = 0; i < this.father_form.moMap.Layers.GetItem(select_index).Features.Count; i++)
                     newattributeslist.Add(layer_show.Features.GetItem(i).Attributes);
                 this.father_form.mDbfFiles[select_index].UpdateAttributesList(newattributeslist);
@@ -332,7 +333,7 @@ namespace GeoView
         //单击添加字段
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            if(Show_select)
+            if (Show_select)
             {
                 MessageBox.Show("部分字段显示模式下不可添加字段");
                 return;
@@ -419,7 +420,7 @@ namespace GeoView
                 MessageBox.Show("部分字段显示模式下不可操作");
                 return;
             }
-            for (int i=0;i<dataGridView1.Rows.Count;i++)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 dataGridView1.Rows[i].Selected = true;
             }
