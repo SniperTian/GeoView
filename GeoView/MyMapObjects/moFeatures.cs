@@ -82,11 +82,23 @@ namespace MyMapObjects
         /// <returns></returns>
         public int Find(moFeature feature)
         {
-            string temp = feature.Attributes.ToString();
-            for(int i=0;i<this.Count;i++)
+            object[] temp = feature.Attributes.ToArray();
+            object[] temp1;
+            bool judge = true;
+            for(int i=0;i<this.Count; i++)
             {
-                if (this.GetItem(i).Attributes.ToString() == temp)
+                temp1 = this.GetItem(i).Attributes.ToArray();
+                for (int j=0;j<this.GetItem(i).Attributes.Count;j++)
+                {
+                    if (temp1[j] != temp[j])
+                    {
+                        judge = false;
+                        break;
+                    }
+                }
+                if(judge==true)
                     return i;
+                judge = true;
             }
             return -1;
         }

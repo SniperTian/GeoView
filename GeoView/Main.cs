@@ -149,7 +149,17 @@ namespace GeoView
             //(3)显示比例尺
             ShowMapScale();
         }
-
+        public void RedrawAttribute()
+        {
+            foreach (Form f in Application.OpenForms)
+            {
+                if (f.Name == "dataGridView1")
+                {
+                    //f.refresh();
+                    break;
+                }
+            }
+        }
         #region 控件
 
         //保存图片

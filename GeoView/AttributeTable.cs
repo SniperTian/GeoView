@@ -48,7 +48,7 @@ namespace GeoView
             this.father_form = temp;
             EnablechangeArribute = false;//默认开始不可编辑
             EnableaddField = false;//默认开始不可编辑
-            this.dataGridView1.ReadOnly = true;//一开始谁都不能动
+            dataGridView1.ReadOnly = true;//一开始谁都不能动
             Select_delete_able = false;//一开始不可删除字段
             Arributesave = false;
             Fieldaddsave = false;
@@ -104,7 +104,8 @@ namespace GeoView
             if (Show_select)
             {
                 dataTable_select = new DataTable();
-                this.dataGridView1.DataSource = dataTable_select;
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = dataTable_select;
                 for (Int32 i = 0; i < layer_show.AttributeFields.Count; i++)
                 {
                     if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
@@ -131,20 +132,21 @@ namespace GeoView
                     {
                         dataTable_select.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(string));
                     }
-                    this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
-                for (Int32 i = 0; i < layer_show.SelectedFeatures.Count; i++)
+                for (Int32 i = layer_show.SelectedFeatures.Count-1; i >=0; i--)
                 {
                     dataTable_select.Rows.Add(layer_show.SelectedFeatures.GetItem(i).Attributes.ToArray());
                 }
-                dataGridView1.DefaultCellStyle.BackColor = Color.BlueViolet;//所有的都设置成蓝的
+                dataGridView1.DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;//所有的都设置成蓝的
                 dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
                 //表示如果是仅仅展示选中字段
             }
             else
             {
                 dataTable = new DataTable();
-                this.dataGridView1.DataSource = dataTable;
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = dataTable;
                 for (Int32 i = 0; i < layer_show.AttributeFields.Count; i++)
                 {
                     if (layer_show.AttributeFields.GetItem(i).ValueType == MyMapObjects.moValueTypeConstant.dDouble)
@@ -171,7 +173,7 @@ namespace GeoView
                     {
                         dataTable.Columns.Add(layer_show.AttributeFields.GetItem(i).Name, typeof(string));
                     }
-                    this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
                 //读取字段数据,按行读取
                 for (Int32 i = 0; i < layer_show.Features.Count; i++)
@@ -180,6 +182,7 @@ namespace GeoView
                 }
                 dataGridView1.DefaultCellStyle.BackColor = Color.White;//所有的都设置成蓝的
                 dataGridView1.DefaultCellStyle.SelectionForeColor = Color.LightGoldenrodYellow;//设置前景色
+                Refresh_dataform_select();//在这里加一个
             }
         }
 
@@ -209,7 +212,7 @@ namespace GeoView
         /// </summary>
         public void Refresh_scaletext_select()
         {
-            this.Scaleshow.Text = (this.dataGridView1.SelectedRows.Count.ToString() + " / " + this.dataGridView1.Rows.Count.ToString() + "已选择");
+            this.Scaleshow.Text = (dataGridView1.SelectedRows.Count.ToString() + " / " + dataGridView1.Rows.Count.ToString() + "已选择");
             //更新lable标签显示
         }
 
@@ -223,7 +226,7 @@ namespace GeoView
             for (int i=0;i<layer_show.SelectedFeatures.Count;i++)
             {
                 index = layer_show.Features.Find(layer_show.SelectedFeatures.GetItem(i));
-                this.dataGridView1.Rows[index].Selected = true;//将该序号设置为亮
+                dataGridView1.Rows[index].Selected = true;//将该序号设置为亮
             }
             Refresh_scaletext_select();//更新一波标签
         }
@@ -234,9 +237,9 @@ namespace GeoView
         public void Refresh_mainform_select()
         {
             layer_show.SelectedFeatures.Clear();//清空
-            for (int i = 0; i < this.dataGridView1.SelectedRows.Count; i++)
+            for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
             {
-                layer_show.SelectedFeatures.Add(layer_show.Features.GetItem(this.dataGridView1.SelectedRows[i].HeaderCell.RowIndex));
+                layer_show.SelectedFeatures.Add(layer_show.Features.GetItem(dataGridView1.SelectedRows[i].HeaderCell.RowIndex));
             }
             this.father_form.moMap.RedrawTrackingShapes();
             Refresh_scaletext_select();//更新一波标签
@@ -259,7 +262,7 @@ namespace GeoView
             if (EnablechangeArribute == true)
                 return;
             EnablechangeArribute = true;//表示可以进行编辑
-            this.dataGridView1.ReadOnly = false;
+            dataGridView1.ReadOnly = false;
             MessageBox.Show("您已经可以开始编辑属性数据，单击选择需要修改的属性数据后，双击即可开始编辑");
         }
 
@@ -274,7 +277,7 @@ namespace GeoView
             if (EnablechangeArribute == false)
                 return;
             EnablechangeArribute = false;
-            this.dataGridView1.ReadOnly = true;//设为仅读
+            dataGridView1.ReadOnly = true;//设为仅读
             MessageBox.Show("编辑已停止，但是如果不进行保存则无法保存至文件");
         }
 
@@ -348,21 +351,21 @@ namespace GeoView
             if (EnablechangeArribute == true)
             {
                 if (field_delete_index >= 0)
-                    this.dataGridView1.Columns[field_delete_index].DefaultCellStyle.BackColor = Color.White;
-                this.dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
+                    dataGridView1.Columns[field_delete_index].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
                 field_delete_index = e.ColumnIndex;
                 return;
             }
             if (field_delete_index != e.ColumnIndex && field_delete_index >= 0)//第二次以及第多次选择
             {
-                this.dataGridView1.Columns[field_delete_index].DefaultCellStyle.BackColor = Color.White;
-                this.dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
+                dataGridView1.Columns[field_delete_index].DefaultCellStyle.BackColor = Color.White;
+                dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
                 field_delete_index = e.ColumnIndex;
                 Select_delete_able = true;//表示现在是可删状态
             }
             else if (field_delete_index < 0)//初次选择
             {
-                this.dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
+                dataGridView1.Columns[e.ColumnIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
                 field_delete_index = e.ColumnIndex;
                 Select_delete_able = true;//表示现在是可删状态
             }
@@ -387,7 +390,7 @@ namespace GeoView
             {
                 return;//就毫无反应
             }
-            this.dataGridView1.Rows[e.RowIndex].Selected = true;//表示选中了这一行
+            dataGridView1.Rows[e.RowIndex].Selected = true;//表示选中了这一行
             this.Refresh_mainform_select();
         }
         //用于操作鼠标点选或者拖动要素
@@ -407,12 +410,12 @@ namespace GeoView
         {
             if (Show_select)
             {
-                Show_select = false;//要是全部都显示的话，就不用再操作了，直接回归最初本味
-                refresh();
+                MessageBox.Show("部分字段显示模式下不可操作");
+                return;
             }
-            for (int i=0;i<this.dataGridView1.Rows.Count;i++)
+            for (int i=0;i<dataGridView1.Rows.Count;i++)
             {
-                this.dataGridView1.Rows[i].Selected = true;
+                dataGridView1.Rows[i].Selected = true;
             }
             this.Refresh_mainform_select();
         }
@@ -421,15 +424,14 @@ namespace GeoView
         {
             if (Show_select)
             {
-                layer_show.SelectedFeatures.Clear();
-                this.father_form.moMap.RedrawTrackingShapes();//重新绘制一下
-                refresh();//此时应该是没有要素了
+                MessageBox.Show("部分字段显示模式下不可操作");
+                return;
             }
             else
             {
-                for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-                    this.dataGridView1.Rows[i].Selected = false;
+                    dataGridView1.Rows[i].Selected = false;
                 }
                 this.Refresh_mainform_select();
             }
@@ -443,8 +445,6 @@ namespace GeoView
                 return;
             Show_select = false;
             refresh();
-            this.Refresh_dataform_select();
-
         }
         //显示选中记录
         private void toolStripButton9_Click(object sender, EventArgs e)
