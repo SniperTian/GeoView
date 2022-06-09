@@ -56,7 +56,6 @@ namespace GeoView
         {
             Int32 index = e.Node.Index;
             ShowTable(index);
-
         }
     }
 }
