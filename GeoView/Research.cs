@@ -267,7 +267,7 @@ namespace GeoView
             {
                 if(layer_temp.AttributeFields.GetItem(field_selectindex).ValueType==MyMapObjects.moValueTypeConstant.dText)
                 {
-                    UniqueValues.Items.Add("\"".ToString() + layer_temp.Features.GetItem(i).Attributes.GetItem(field_selectindex).ToString() + "\"");
+                    UniqueValues.Items.Add("\'".ToString() + layer_temp.Features.GetItem(i).Attributes.GetItem(field_selectindex).ToString() + "\'");
                 }
                 else 
                 {

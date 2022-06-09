@@ -182,3 +182,6 @@ D:\course\GIS\3-2\GIS设计\作业\小组作业\GeoView\GeoView\obj\Debug\GeoVie
 D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.Identify.resources
 D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.LayerAttributes.resources
 D:\OneDrive - pku.edu.cn\桌面\gis应用\项目一\project\GeoView\obj\Debug\GeoView.ShpToGvshp.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.Identify.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.LayerAttributes.resources
+F:\GeoView\GeoView\obj\Debug\GeoView.ShpToGvshp.resources

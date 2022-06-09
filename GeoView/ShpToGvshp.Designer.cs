@@ -95,7 +95,7 @@
             this.label2.Font = new System.Drawing.Font("宋体", 12F);
             this.label2.Location = new System.Drawing.Point(28, 145);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(127, 16);
+            this.label2.Size = new System.Drawing.Size(128, 16);
             this.label2.TabIndex = 9;
             this.label2.Text = "gvshp存储路径：";
             // 
@@ -112,7 +112,7 @@
             this.label1.Font = new System.Drawing.Font("宋体", 12F);
             this.label1.Location = new System.Drawing.Point(44, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 16);
+            this.label1.Size = new System.Drawing.Size(112, 16);
             this.label1.TabIndex = 14;
             this.label1.Text = "shp文件路径：";
             // 
@@ -156,6 +156,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnSavePath);
             this.Name = "ShpToGvshp";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ShpToGvshp";
             this.ResumeLayout(false);
             this.PerformLayout();

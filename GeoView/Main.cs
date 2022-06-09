@@ -3383,5 +3383,12 @@ namespace GeoView
                 显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
             }
         }
+
+        private void shpTogvshpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShpToGvshp sTransform = new ShpToGvshp();
+            sTransform.Owner = this;
+            sTransform.ShowDialog();
+        }
     }
 }

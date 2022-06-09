@@ -52,8 +52,24 @@ namespace GeoView
             {
                 MessageBox.Show("还没选择gvshp文件存储路径呢!");
             }
-            MessageBox.Show(shpPath);
-            MessageBox.Show(gvshpPath);
+            try
+            {
+                string dbfPath = shpPath.Substring(0, shpPath.IndexOf(".shp")) + ".dbf";
+                DataIOTools.shpFileReader sShpFileReader = new DataIOTools.shpFileReader(shpPath);
+                MyMapObjects.moGeometryTypeConstant sGeometryType = sShpFileReader.ShapeType;
+                List<MyMapObjects.moGeometry> sGeometries = sShpFileReader.Geometries;
+                DataIOTools.gvShpFileManager sGvShpFileManager = new DataIOTools.gvShpFileManager(sGeometryType);
+                sGvShpFileManager.UpdateGeometries(sGeometries);
+                DataIOTools.dbfFileManager sDbfFileManager = new DataIOTools.dbfFileManager(dbfPath);
+                string sGvDbfPath = gvshpPath.Substring(0, gvshpPath.IndexOf(".gvshp")) + ".gvdbf";
+                sGvShpFileManager.SaveToFile(gvshpPath);
+                sDbfFileManager.SaveToFile(sGvDbfPath);
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+            }
+            this.Close();
         }  
 
         private void btnCancel_Click(object sender, EventArgs e)

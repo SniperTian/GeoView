@@ -39,6 +39,8 @@
             this.打开地图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.显示地理坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.按属性选择ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.缩放至所选要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,8 +87,7 @@
             this.MovePointBtn = new System.Windows.Forms.ToolStripButton();
             this.AddPointBtn = new System.Windows.Forms.ToolStripButton();
             this.DeletePointBtn = new System.Windows.Forms.ToolStripButton();
-            this.视图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.显示地理坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shpTogvshpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolsBar.SuspendLayout();
@@ -147,6 +148,7 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新建图层ToolStripMenuItem,
             this.打开地图ToolStripMenuItem,
+            this.shpTogvshpToolStripMenuItem,
             this.另存为ToolStripMenuItem,
             this.退出ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
@@ -181,6 +183,21 @@
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
+            // 视图ToolStripMenuItem
+            // 
+            this.视图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.显示地理坐标ToolStripMenuItem});
+            this.视图ToolStripMenuItem.Name = "视图ToolStripMenuItem";
+            this.视图ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.视图ToolStripMenuItem.Text = "视图";
+            // 
+            // 显示地理坐标ToolStripMenuItem
+            // 
+            this.显示地理坐标ToolStripMenuItem.Name = "显示地理坐标ToolStripMenuItem";
+            this.显示地理坐标ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
+            this.显示地理坐标ToolStripMenuItem.Click += new System.EventHandler(this.显示地理坐标ToolStripMenuItem_Click);
+            // 
             // 选择ToolStripMenuItem
             // 
             this.选择ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -195,26 +212,26 @@
             // 按属性选择ToolStripMenuItem
             // 
             this.按属性选择ToolStripMenuItem.Name = "按属性选择ToolStripMenuItem";
-            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.按属性选择ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.按属性选择ToolStripMenuItem.Text = "按属性选择";
             this.按属性选择ToolStripMenuItem.Click += new System.EventHandler(this.按属性选择ToolStripMenuItem_Click);
             // 
             // 缩放至所选要素ToolStripMenuItem
             // 
             this.缩放至所选要素ToolStripMenuItem.Name = "缩放至所选要素ToolStripMenuItem";
-            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.缩放至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.缩放至所选要素ToolStripMenuItem.Text = "缩放至所选要素";
             // 
             // 平移至所选要素ToolStripMenuItem
             // 
             this.平移至所选要素ToolStripMenuItem.Name = "平移至所选要素ToolStripMenuItem";
-            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.平移至所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.平移至所选要素ToolStripMenuItem.Text = "平移至所选要素";
             // 
             // 清除所选要素ToolStripMenuItem
             // 
             this.清除所选要素ToolStripMenuItem.Name = "清除所选要素ToolStripMenuItem";
-            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除所选要素ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.清除所选要素ToolStripMenuItem.Text = "清除所选要素";
             // 
             // 帮助ToolStripMenuItem
@@ -626,20 +643,12 @@
             this.DeletePointBtn.Visible = false;
             this.DeletePointBtn.Click += new System.EventHandler(this.DeletePointBtn_Click);
             // 
-            // 视图ToolStripMenuItem
+            // shpTogvshpToolStripMenuItem
             // 
-            this.视图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.显示地理坐标ToolStripMenuItem});
-            this.视图ToolStripMenuItem.Name = "视图ToolStripMenuItem";
-            this.视图ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.视图ToolStripMenuItem.Text = "视图";
-            // 
-            // 显示地理坐标ToolStripMenuItem
-            // 
-            this.显示地理坐标ToolStripMenuItem.Name = "显示地理坐标ToolStripMenuItem";
-            this.显示地理坐标ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.显示地理坐标ToolStripMenuItem.Text = "显示地理坐标";
-            this.显示地理坐标ToolStripMenuItem.Click += new System.EventHandler(this.显示地理坐标ToolStripMenuItem_Click);
+            this.shpTogvshpToolStripMenuItem.Name = "shpTogvshpToolStripMenuItem";
+            this.shpTogvshpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shpTogvshpToolStripMenuItem.Text = "shp转gvshp";
+            this.shpTogvshpToolStripMenuItem.Click += new System.EventHandler(this.shpTogvshpToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -730,5 +739,6 @@
         private System.Windows.Forms.ToolStripButton ClearSelectionBtn;
         private System.Windows.Forms.ToolStripMenuItem 视图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 显示地理坐标ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shpTogvshpToolStripMenuItem;
     }
 }
