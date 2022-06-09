@@ -2237,7 +2237,11 @@ namespace GeoView
                 MyMapObjects.moPoint sLngLat = moMap.ProjectionCS.TransferToLngLat(sPoint);
                 double sX = Math.Round(sLngLat.X, 4);
                 double sY = Math.Round(sLngLat.Y, 4);
-                tssCoordinate.Text = "X:" + sX.ToString() + "° ,Y:" + sY.ToString() + "°";
+                string lng = "°E";
+                string lat = "°N";
+                if (sX < 0) lng = "°W";
+                if (sY < 0) lat = "°S";
+                tssCoordinate.Text = sX.ToString() + lng + "," + sY.ToString() + lat;
             }
         }
 
@@ -3410,8 +3414,8 @@ namespace GeoView
                 if (text != "")
                 {
                     string[] temp = text.Split(',');
-                    string posx = temp[0].Split(':')[1].Split('°')[0];
-                    string posy = temp[1].Split(':')[1].Split('°')[0];
+                    string posx = temp[0].Split('°')[0];
+                    string posy = temp[1].Split('°')[0];
                     MyMapObjects.moPoint sPoint = new MyMapObjects.moPoint(Convert.ToDouble(posx), Convert.ToDouble(posy));
                     MyMapObjects.moPoint mousePoint = moMap.ProjectionCS.TransferToProjCo(sPoint);
                     double sX = Math.Round(mousePoint.X);
