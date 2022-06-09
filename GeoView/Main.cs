@@ -430,6 +430,7 @@ namespace GeoView
             }
             mMapOpStyle = 7;
             //this.Cursor = new Cursor("ico/EditSelect.ico");
+            清除所选要素ToolStripMenuItem_Click(sender, e);
         }
 
         //放大
@@ -453,13 +454,13 @@ namespace GeoView
         //双击选择图层
         private void layersTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            mMapOpStyle = 0;
             foreach(TreeNode n in layersTree.Nodes)
             {
                 n.BackColor = Color.Empty;
             }
             mLastOpLayerIndex = e.Node.Index;
             e.Node.BackColor = Color.LightGray;
-            清除所选要素ToolStripMenuItem_Click(sender, e);
         }
 
         #endregion
