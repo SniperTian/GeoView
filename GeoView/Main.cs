@@ -2270,7 +2270,8 @@ namespace GeoView
             }
             layersTree.Refresh();
             mMapOpStyle = 0;
-            layersTree.Nodes[mOperatingLayerIndex].BackColor = Color.LightGray;
+            if(mOperatingLayerIndex != -1)
+                layersTree.Nodes[mOperatingLayerIndex].BackColor = Color.LightGray;
         }
 
         //刷新图层下拉框
@@ -2667,9 +2668,13 @@ namespace GeoView
                     if (pointsNum == 0)
                     {
                         if (partsNum == 2) InitializeSketchingShape();
-                        else mSketchingShape.RemoveAt(partsNum - 1);
+                        else mSketchingShape.RemoveAt(partsNum - 2);
                     }
-                    else mSketchingShape.RemoveAt(partsNum - 1);
+                    else
+                    {
+                        mSketchingShape.RemoveAt(partsNum - 1);
+                        mSketchingShape.Add(new MyMapObjects.moPoints());
+                    }
                 }
                 moMap.RedrawTrackingShapes();
             }
